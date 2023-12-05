@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.myhome</groupId>
 	<artifactId>project</artifactId>
-	<name>project</name>
+	<name>projcet</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
@@ -21,12 +21,13 @@
 			<version>21.5.0.0</version>
 		</dependency>
 		
-		<!-- Hikari CP -->
+		<!-- Hikari -->
 		<dependency>
-			<groupId>com.zaxxer</groupId>
-			<artifactId>HikariCP</artifactId>
-			<version>2.7.4</version>
-		</dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.6.2</version>
+            <scope>compile</scope>
+        </dependency>
 
 		<!-- mysql -->
 		<dependency>
@@ -209,7 +210,36 @@
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
 			<scope>test</scope>
-		</dependency>        
+		</dependency>       
+		
+		<!-- naver -->
+		<dependency>
+			<groupId>com.github.scribejava</groupId>
+			<artifactId>scribejava-core</artifactId>
+			<version>2.8.1</version>
+		</dependency>
+
+	<dependency>
+		<groupId>org.springframework.social</groupId>
+		<artifactId>spring-social-google</artifactId>
+		<version>1.0.0.RELEASE</version> <!-- 최신 버전으로 업데이트하세요 -->
+	</dependency>
+
+		<!-- lombok  -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.12</version>
+			<scope>provided</scope>
+		</dependency>
+		 
+		 <!-- EMail -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+			<version>1.5</version>
+		</dependency>
+		
 	</dependencies>
     <build>
         <plugins>

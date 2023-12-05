@@ -4,4 +4,16 @@
 
 <mapper namespace="com.myhome.project.dao.RecommendDao">
 
+<select id="getTotal" resultType="int">
+	select count(*) from recommend
+</select>
+
+<!-- 게시판 목록 (page번호를 전달받아서 startRow와 endRow를 구함) -->
+	<select id="getList" parameterType="recommend" resultType="java.util.Map">
+		select * from(select a.*, rowNum rn from(
+		select * from recommend
+		order by rec_no desc)a)
+		where rn between #{startRow} and #{endRow}	
+	</select>
+
 </mapper>

@@ -4,18 +4,78 @@
 
 <mapper namespace="com.myhome.project.dao.MemberDao">
 
-<insert id="insert" parameterType="member">
-	insert into member values(#{member_id},#{member_pw},#{member_name},#{member_jumin1},#{member_jumin2},
-	#{member_nickname},#{member_phone1},#{member_phone2},#{member_phone3},#{member_post},#{member_address1},
-	#{member_address2},#{member_email},#{member_domain},'Y')
-</insert>
+	<insert id="insert" parameterType="member">
+		insert into member values(#{member_id},#{member_pw, jdbcType=VARCHAR},
+		#{member_name},#{member_jumin1, jdbcType=VARCHAR},#{member_jumin2,
+		jdbcType=VARCHAR},
+		#{member_nickname},#{member_phone1},#{member_phone2},
+		#{member_phone3},#{member_post,jdbcType=VARCHAR},#{member_address1,jdbcType=VARCHAR},
+		#{member_address2,jdbcType=VARCHAR},#{member_email},#{member_domain},'Y')
+	</insert>
 
-<select id="idCheck" parameterType="String" resultType="member">
-	select * from member where member_id = #{member_id}
-</select>
+	<select id="idCheck" parameterType="String" resultType="member">
+		select * from member where member_id = #{member_id}
+	</select>
 
-<select id="nicknameCheck" parameterType="String" resultType="member">
-	select * from member where member_nickname = #{member_nickname}
-</select>
+	<select id="nicknameCheck" parameterType="String"
+		resultType="member">
+		select * from member where member_nickname = #{member_nickname}
+	</select>
+
+	<select id="userCheck" parameterType="String"
+		resultType="member">
+		select * from member where member_id = #{member_id} and member_state='Y'
+	</select>
+
+	<update id="memberUpdateOk" parameterType="member">
+		update member set member_pw=#{member_pw},
+		member_name=#{member_name}, member_nickname=#{member_nickname},
+		member_phone1=#{member_phone1},
+		member_phone2=#{member_phone2},member_phone3=#{member_phone3},
+		member_post=#{member_post}, member_address1=#{member_address1},
+		member_address2=#{member_address2},
+		member_email=#{member_email},member_domain=#{member_domain,jdbcType=VARCHAR}
+		where member_id=#{member_id}
+	</update>
+
+	<select id="getMember" parameterType="String"
+		resultType="member">
+		select * from member where member_id=#{member_id}
+	</select>
+
+	<select id="findId" parameterType="String" resultType="member">
+		select * from member where member_name=#{member_name}
+	</select>
+	
+	<!-- 비번 검색 -->
+    <select id="emailCheck" resultType="member" parameterType="member">
+     select *  from member where member_id=#{member_id} and member_email=#{member_email}
+     and member_domain=#{member_domain}
+    </select>
+    
+    <!--  임시 비번 수정 --> 
+    <update id="pwUpdate" parameterType="member">
+    	update member set member_pw=#{member_pw} where member_id=#{member_id}
+    </update>
+    
+    <!-- 회원삭제 -->
+    <update id="memberDelete" parameterType="String">
+        update member set member_state='n' where member_id=#{member_id}
+    </update>
+    
+	<!-- kakao -->
+	<select id="KakaoUserCheck" parameterType="String"
+		resultType="member">
+		select * from member where member_id = #{member_id} and member_state='Y'
+	</select>
+	
+	<insert id="insertKakao" parameterType="member">
+		insert into member
+		values(#{member_id},null,#{member_name},null,null,#{member_nickname},
+		#{member_phone1},#{member_phone2},#{member_phone3},
+		null,null,null,#{member_email},#{member_domain},'Y')
+	</insert>
+
+
 
 </mapper>
