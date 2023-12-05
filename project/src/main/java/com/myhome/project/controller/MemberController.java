@@ -56,7 +56,8 @@ public class MemberController {
 	@RequestMapping(value = "/member_login_ok", method = RequestMethod.POST)
 	public String memberLogins(Member member,
 								  HttpSession session,
-								  Model model) throws Exception {
+								  Model model,
+								  HttpServletRequest request) throws Exception {
 		
 		int result = 0;
 		System.out.println("폼에서 받아온 아이디 : " + member.getMember_id());
@@ -64,26 +65,25 @@ public class MemberController {
 		
 		if(m == null) {		// 등록되지 않은 회원
 			result = 1;
-			model.addAttribute("result", result);
-			
-			return "login/loginResult";
 			
 		}else {				// 등록된 회원
 			System.out.println("DB에서 꺼낸 아이디 : "+ m.getMember_id());
 			if(m.getMember_pw().equals(member.getMember_pw())) { 		// 비번이 같을 때
 				session.setAttribute("id", member.getMember_id());
+				String referer = request.getHeader("Referer");
+				referer = referer.substring(referer.lastIndexOf("/")+1);
 				
-				model.addAttribute("member_name", m.getMember_name());
 				
-				return "cafe/main";
 				
-			}else {
+				return "redirect:"+referer;
+				
+				
+			}else { // 비번 불일
 				result = 2;
-				model.addAttribute("result", result);
-				
-				return "login/loginResult";
 			}
 		}
+		model.addAttribute("result", result);
+		return "login/loginResult";
 	}
 	
 	// 로그아웃
@@ -104,6 +104,7 @@ public class MemberController {
 //		String email = member.getMember_email()+"@"+member.getMember_domain();
 //		
 //		model.addAttribute("email", email);
+		System.out.println("memeber:::::" + member);
 		model.addAttribute("phone", phone);
 		model.addAttribute("member", member);
 		

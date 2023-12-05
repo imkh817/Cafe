@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>아이디찾기</title>
+<title>아이디 찾기</title>
 <link
    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
    rel="stylesheet">
@@ -15,7 +15,7 @@
 <!-- 해당 CSS 파일이 존재하는지 확인 -->
 <link rel="stylesheet"
    href="https://cdn.jsdelivr.net/npm/nanum-brush-script@1.1.0/css/nanumbrushscript.css">
-
+<script src="./js/member.js"></script>
 <!-- header -->
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 
@@ -123,7 +123,7 @@ body {
       <div class="row">
          <!-- 아이디 찾기 폼 -->
          <div class="find_form col-md-6">
-            <form method="post" action="quitComp"
+            <form method="post" action="find_id_ok" name="f"
                style="margin: 2rem; margin-top: 1rem;">
                <div class="form-group row">
                   <!-- 성명 라벨과 입력 필드 -->
@@ -139,15 +139,18 @@ body {
                   <div class="col-sm-10">
                      <!-- 이메일 입력과 도메인 선택 -->
                      <div class="form-group email">
-                        <input type="text" class="form-control" id="info_email" name="member_email"
-                           placeholder="이메일을 입력하세요">@<input type="text"
-                           class="form-control" id="info_domain" placeholder="도메인을 입력하세요">
-                        <select class="form-select" aria-label="이메일 도메인 선택" name="member_domain">
-                           <option value="" selected>직접 입력</option>
+                        <input type="text" class="form-control" id="member_email" name="member_email" required
+                           >@<input type="text"
+                           class="form-control" id="member_domain" name="member_domain" readOnly>
+                           
+                        <select class="form-select" aria-label="이메일 도메인 선택" name="mail_list" id="mail_list"
+                        		onChange="domain_list()">
+                           <option value="">=이메일 선택=</option>
                            <option value="naver.com">네이버</option>
                            <option value="google.com">구글</option>
                            <option value="nate.com">네이트</option>
-                           <option value="kakao.com">카카오</option>
+                           <option value="daum.net">다음</option>
+                           <option value="0">직접 입력</option>
                         </select>
                      </div>
                   </div>
@@ -161,5 +164,7 @@ body {
          </div>
       </div>
    </div>
+   
+   
 </body>
 </html>

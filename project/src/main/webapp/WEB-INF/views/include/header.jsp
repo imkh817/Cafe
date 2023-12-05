@@ -1,14 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 	rel="stylesheet">
+	<script src="./js/member.js"></script>
 </head>
 <body class="bodyNav">
 	<!-- 네비게이션 바 -->
@@ -20,14 +23,13 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav">
-				<li class="nav-item ml-auto"><a href="mainlist"
+				<li class="nav-item ml-auto"><a href="main"
 					class="navbar-brand"> <img
 						src="<%=request.getContextPath()%>/images/home.png"
 						alt="Left Button" style="width: 60px; height: 60px; margin: 10px;">
 				</a></li>
 			</ul>
 		</div>
-
 		<!-- 임시 아이디 -->
 		<div class="ml-auto">
 			<!-- 로그인 버튼 -->
@@ -35,7 +37,7 @@
 				onClick="location.href='join'">회원가입</button>
 			<button type="button" class="btn btn-primary" data-toggle="modal"
 				data-target="#loginModal">로그인</button>
-			<button class="btn btn-primary">로그아웃</button>
+			<button class="btn btn-primary" onClick="location.href='member_logout'">로그아웃</button>
 			<button class="btn btn-primary" onClick="location.href='dibs'">마이페이지</button>
 
 
@@ -57,20 +59,25 @@
 				</div>
 
 				<!-- 로그인을 눌렀을 때 화면에 보이는 모달창 -->
-				<form action="main">
+				<form action="member_login_ok" method="post" onSubmit="return check()">
 					<!-- 로그인 버튼 눌렀을때 이동할 url적는 칸 -->
 					<div class="modal-body">
 						<h2 class="text-center mb-4">로그인</h2>
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="아이디" name="member_id">
+							<input type="text" class="form-control" placeholder="아이디" id="member_id" name="member_id">
 						</div>
 						<div class="form-group">
-							<input type="password" class="form-control" placeholder="비밀번호" name="member_pw">
+							<input type="password" class="form-control" placeholder="비밀번호" id="member_pw" name="member_pw">
 						</div>
 
-						<button class="btn btn-block" style="background-color: #FFEB00; color: black; border: none; padding: 10px 20px; border-radius: 5px;">카카오로 로그인</button>
-						
-						<button class="btn btn-block" style="background-color: #1EC800; color: white; border: none; padding: 10px 20px; border-radius: 5px;">네이버로 로그인</button>
+						<a
+							href="https://kauth.kakao.com/oauth/authorize?client_id=bdffe1412686d86c80754e7a2a386569&redirect_uri=http://localhost/project/callback2&response_type=code"><img
+							src="./images/kakao_login_large.png"></a>
+							
+						<div id="naver_id_login">
+						<a href="login">
+							<img width="223" src="${pageContext.request.contextPath}/resources/img/naver_Bn_Green.png" />
+						</a></div>
 
 						<div class="password-reset">
 							<a href="find_id">아이디 찾기</a> | <a href="find_pw">비밀번호 찾기</a>
@@ -84,6 +91,8 @@
 					</div>
 				</form>
 			</div>
+			
+			
 		</div>
 	</div>
 
