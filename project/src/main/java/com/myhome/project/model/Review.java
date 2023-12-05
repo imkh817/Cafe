@@ -10,6 +10,6 @@ public class Review {
 	int hash_no; /* 해시태그 번호 */
 	String review_content; /* 리뷰 내용 */
 	int cafe_star; /* 별점 */
-	Date review_reg; /* 리뷰 작성일 */
+	Date review_reg;  /* 리뷰 작성일 */
 
 }
