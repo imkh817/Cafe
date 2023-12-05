@@ -4,4 +4,50 @@
 
 <mapper namespace="com.myhome.project.dao.ReplyDao">
 
+	<select id="getReplyTotal" resultType="int" parameterType="String">
+		select count(*) from reply where rec_no = #{rec_no}
+	</select>
+
+	<!-- 추천게시판 댓글 목록 (page번호를 전달받아서 startRow와 endRow를 구함) -->
+	<select id="getReplyList" parameterType="reply" resultType="java.util.Map">
+		select * from(
+		select a.*,rowNum rn from
+		(SELECT *
+		FROM member m
+		JOIN reply r ON r.member_id = m.member_id 
+		JOIN recommend rec ON rec.rec_no = r.rec_no where rec.rec_no = #{rec_no} 
+		order by r.reply_reg desc)a)
+		where rn between #{startRow} and #{endRow}
+	</select>
+
+	<insert id="insert" parameterType="reply">
+		insert into reply values
+		(reply_num_seq.nextval, #{rec_no}, #{reply_content}, sysdate, 
+		reply_num_seq.nextval, 0, 0, #{member_id})
+	</insert>
+
+<!--  	<update id="reInsult" parameterType="reply">
+ 		update reply set reply_num_seq = reply_num_seq+1
+ 		where reply_ref=#{reply_ref} and reply_num_seq > #{reply_num_seq}
+ 	</update> -->
+ 	
+ 	<insert id="reInsert"> 
+		insert into reply values
+		(reply_num_seq.nextval, #{rec_no}, #{reply_content}, sysdate, 
+		#{reply_ref}, #{reply_step}, #{reply_level}, #{member_id}) 	
+ 	</insert>
+ 	
+ 	<!-- ref 체크 -->
+ 	<select id="replyCheck" parameterType="reply" resultType="reply">
+ 		select * from reply where reply_no = #{reply_no}
+ 	</select>
+ 	
+ 	<!--  댓글 삭제 -->
+ 	<delete id="deleteReply" parameterType="reply">
+ 		delete from reply
+		where reply_no = #{reply_no}
+ 	</delete>
 </mapper>
+
+
+

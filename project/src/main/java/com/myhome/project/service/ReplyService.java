@@ -1,14 +1,11 @@
-package com.myhome.project.dao;
+package com.myhome.project.service;
 
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Mapper;
-
 import com.myhome.project.model.Reply;
 
-@Mapper
-public interface ReplyDao {
+public interface ReplyService {
 
 
 	List<Map<String, Object>> getReplyList(Reply reply);
@@ -22,5 +19,6 @@ public interface ReplyDao {
 	Reply replyCheck(Reply reply);
 
 	int deleteReply(Reply reply);
+
 
 }

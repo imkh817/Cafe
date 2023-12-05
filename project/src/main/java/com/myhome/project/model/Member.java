@@ -2,20 +2,20 @@ package com.myhome.project.model;
 
 public class Member {
 
-	String member_id; /* 회원아이디 */
+	String member_id; /* 회원 아이디 */
 	String member_pw; /* 비밀번호 */
 	String member_name; /* 이름 */
 	String member_jumin1; /* 주민번호1 */
 	String member_jumin2; /* 주민번호2 */
 	String member_nickname; /* 닉네임 */
 	String member_phone1; /* 핸드폰번호1 */
-	String member_phone2;/* 핸드폰번호2 */
+	String member_phone2;/* 핸드폰번호2  */
 	String member_phone3; /* 핸드폰번호3 */
 	String member_post; /* 우편번호 */
 	String member_address1; /* 주소 */
 	String member_address2; /* 상세 주소 */
-	String member_email; /* 이메일 */
-	String member_domain; /* 도메인 */
+	String member_email; /* 이메일  */
+	String member_domain; /* 도메인  */
 	String member_state;/* 회원 상태(탈퇴유무) */
 	
 	
@@ -58,8 +58,8 @@ public class Member {
 	public String getMember_phone1() {
 		return member_phone1;
 	}
-	public void setMember_phone1(String member_phone1) {
-		this.member_phone1 = member_phone1;
+	public String setMember_phone1(String member_phone1) {
+		return this.member_phone1 = member_phone1;
 	}
 	public String getMember_phone2() {
 		return member_phone2;

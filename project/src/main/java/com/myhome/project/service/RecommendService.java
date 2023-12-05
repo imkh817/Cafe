@@ -1,18 +1,19 @@
-package com.myhome.project.dao;
+package com.myhome.project.service;
 
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Mapper;
-
 import com.myhome.project.model.Recommend;
+import com.myhome.project.model.Reply;
 
-@Mapper
-public interface RecommendDao {
+public interface RecommendService {
+
 
 	int getTotal();
 
 	List<Map<String, Object>> getList(Recommend recommend);
+
+
 
 
 }

@@ -1,14 +1,12 @@
-package com.myhome.project.dao;
+package com.myhome.project.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
-
 import com.myhome.project.model.Category;
 
-@Mapper
-public interface CategoryDao {
+public interface CategoryService {
 
+	
 	List<Category> selectList();
 
 	int selectNo(String category_name);
