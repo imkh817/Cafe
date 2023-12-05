@@ -1,0 +1,12 @@
+@charset "UTF-8";
+    .sidebar {
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        width: 15rem;
+        height: 42.5rem;
+        margin-left: -7rem;
+    }
+
+    .nav-pills1 .nav-item1+.nav-item1 {
+        border-top: 1px solid #e0e0e0;
+    }

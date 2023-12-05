@@ -1,0 +1,157 @@
+/*page.css*/
+
+@charset "UTF-8";
+
+/* 전체 설정 */
+body {
+	font-family: 'Arial', sans-serif;
+	background-color: #e9ecef;
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+	border: 1px solid #ced4da;
+	border-radius: 0.25rem;
+	width: 15rem;
+	height: 42.5rem;
+	margin-left: -7rem;
+}
+
+/* 사이드바의 메뉴 구분을 위한 가로선 */
+.nav-pills .nav-item+.nav-item {
+	border-top: 1px solid #e0e0e0;
+}
+
+/* member.jsp 스타일 */
+.member_container {
+	max-width: 70rem;
+	background-color: #fff;
+	padding: 2rem;
+	border-radius: 0.25rem;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	margin: 0 auto; /* member.jsp 입력 폼 오른쪽 그림자 */
+}
+
+/* 정보수정폼 컬럼명 글씨 진하게 */
+label {
+	font-weight: bold;
+	margin-bottom: 0.5rem;
+}
+
+/* 정보수정폼 컬럼 입력창 기본 설정 */
+input[type="text"], input[type="password"] {
+	width: 100%;
+	padding: 0.5rem;
+	margin-bottom: 1rem;
+	border: 1px solid #ced4da;
+	border-radius: 0.25rem;
+	border: 1px solid #ced4da;
+}
+
+/* 정보수정폼 컬럼 입력창 한 행에 2개씩 출력 */
+.row {
+	display: flex;
+	justify-content: space-between;
+}
+
+/* 2개씩 출력의 가로값 설정(?) */
+.row .col {
+	flex: 0 0 48%;
+}
+
+/* 정보 수정 버튼 */
+#member_submit {
+	margin-top: 1rem;
+	padding: 0.75rem 1.5rem;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 0.25rem;
+	cursor: pointer;
+	padding: 0.5rem 1.25rem;
+}
+
+/* ask.jsp 스타일 */
+.ask_container {
+	max-width: 70rem;
+	background-color: #fff;
+	padding: 2rem;
+	border-radius: 0.25rem;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	margin: 0 auto; /* member.jsp 입력 폼 오른쪽 그림자 */
+}
+
+#ask_content {
+	width: 49rem;
+	height: 20rem;
+}
+
+/* 문의하기 */
+#ask_submit {
+	margin-top: 1rem;
+	padding: 0.75rem 1.5rem;
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 0.25rem;
+	cursor: pointer;
+	padding: 0.5rem 1.25rem;
+}
+
+
+
+
+/* manage.jsp 스타일 */
+.manage_container {
+	max-width: 70rem;
+	background-color: #fff;
+	padding: 2rem;
+	border-radius: 0.25rem;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* member.jsp 입력 폼 오른쪽 그림자 */
+	margin: 0 auto; 
+}
+
+/* 회원목록폼 */
+.manage_list {
+	border-bottom: 1px solid #eaeaea;
+	padding: 1rem; 0;
+}
+
+.manage_detail {
+	display: inline-block;
+	width: 20rem;
+	border: 1px solid #000;
+	border-radius: 0.25rem;
+	padding: 0.2rem;
+	margin: 0.5rem;
+	
+}
+
+.manage_no {
+	font-size: 14px;
+	color: #666666;
+}
+
+.manage_id {
+	font-size: 18px;
+	font-weight: bold;
+	color: #333333;
+	margin-bottom: 5px;
+	border-bottom: 1px solid #ced4da;
+}
+
+.manage_state {
+	font-size: 12px;
+	color: #999999;
+	margin-bottom: 0.2rem;
+}
+
+.manage_delete_btn {
+	margin-left: 0.5rem;
+	
+}
+
+
+
+
+

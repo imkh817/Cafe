@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myhome.project.dao.MemberDao">
+
+<insert id="insert" parameterType="member">
+	insert into member values(#{member_id},#{member_pw},#{member_name},#{member_jumin1},#{member_jumin2},
+	#{member_nickname},#{member_phone1},#{member_phone2},#{member_phone3},#{member_post},#{member_address1},
+	#{member_address2},#{member_email},#{member_domain},'Y')
+</insert>
+
+<select id="idCheck" parameterType="String" resultType="member">
+	select * from member where member_id = #{member_id}
+</select>
+
+<select id="nicknameCheck" parameterType="String" resultType="member">
+	select * from member where member_nickname = #{member_nickname}
+</select>
+
+</mapper>
