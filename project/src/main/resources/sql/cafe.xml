@@ -3,5 +3,41 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.myhome.project.dao.CafeDao">
+	<!-- 카테고리별 카페 목록 -->
+	<select id="getCafeList" parameterType="cafe" resultType="cafe">
+		select * from (
+		select rownum rn, a.* from (
+		(select * from cafe
+		<where>
+			category_no =#{category_no}
+			<!-- 검색 조건이 있을경우 -->
+			<if test="keyword != null">
+				and cafe_address like '%'||#{keyword}||'%'
+			</if>
+		</where>
+		order by cafe_reg desc)a
+		)
+		)where rn between #{startRow} and #{endRow}
+	</select>
 
+	<!-- list페이징을 할 떄 필요한 카페 총 갯수 -->
+	<select id="countCafeList" parameterType="cafe" resultType="int">
+		select count(*) from cafe
+		<where>
+			category_no=#{category_no}
+			<!-- 검색 조건이 있을경우 -->
+			<if test="keyword != null">
+				and cafe_address like '%'||#{keyword}||'%'
+			</if>
+		</where>
+	</select>
+
+	<select id="getcafe" parameterType="int" resultType="Cafe">
+		select * from cafe where cafe_no=#{cafe_no}
+	</select>
+
+	<!-- cafe_avg_star 컬럼 update -->
+	<update id="update_avg_cafe_star" parameterType="cafe">
+		update cafe set avg_cafe_star = #{avg_cafe_star} where cafe_no = #{cafe_no}
+	</update>
 </mapper>

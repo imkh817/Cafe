@@ -17,4 +17,13 @@ public interface ReviewDao {
 
 	int deleteReview(String review_no);
 
+	// 리뷰 작성
+	int review_insert(Review review);
+
+	List<Map<String, Object>> review_list(Review review);
+
+	int review_total(Review review);
+
+	// cafe_avg 구해오기
+	double avg_star(int cafe_no);
 }
