@@ -1,26 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="path" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="en">
 
 <style>
-  .scroll-container {
-    overflow-x: auto;
-    white-space: nowrap;
-  }
+.btn input[type="radio"] {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	outline: none;
+	border: none;
+	padding: 0; /* 내부 간격 제거 */
+	font-size: inherit; /* 글자 크기를 상속받아 버튼 크기 조정 */
+}
 
-  .row-container {
-    display: flex;
-  }
+.btn input[type="radio"]::before {
+	content: none;
+}
 
-  .coffee-btn {
-    /* 원하는 스타일링 추가 */
-    margin-right: 15px; /* 각 버튼 사이의 간격 조절 */
-    font-size: 14px; /* 원하는 폰트 크기 설정 */
-    padding: 5px 10px; /* 원하는 안쪽 여백 설정 */
-  }
+.kakaobtn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid #2196F3;
+  color: #2196F3;
+  background-color: #fff;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.kakaobtn:hover {
+  background-color: #2196F3;
+  color: #fff;
+}
 </style>
+
 
 <head>
 <meta charset="UTF-8">
@@ -32,71 +52,48 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link rel="stylesheet" href="css/style.css">
 
-<!-- 리뷰작성 해시태그 스크립트 코드 -->
-<!-- 버튼 누르면 노란색으로 변경되고, 값들을 hidden의 totalValue의 저장 -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const buttons = document.querySelectorAll('.coffee-btn');
-    const form = document.querySelector('form[action="hashtag_result"]');
-    const totalValueInput = document.querySelector('input[name="totalValue"]');
-    const myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
-        backdrop: 'static',
-        keyboard: false
-    });
+<%@ include file="/WEB-INF/views/include/header.jsp"%>
 
-    buttons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            this.classList.toggle('selected');
-        });
-    });
+<script type="text/javascript">
 
-    myModal._element.addEventListener('hidden.bs.modal', function () {
-        buttons.forEach(btn => {
-            btn.classList.remove('selected');
-        });
-    });
-
-    form.addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevents default form submission
-
-        // Get the selected button values and concatenate into a single string
-        const selectedValues = Array.from(document.querySelectorAll('.coffee-btn.selected'))
-            .map(btn => btn.value)
-            .join(','); // Comma-separated values
-
-        // Update the hidden input with the concatenated values
-        totalValueInput.value = selectedValues;
-
-        // You can submit the form or perform additional actions here
-        form.submit();
-    });
+$(document).ready(function(){
+	$('#review_list').load('ReviewList?cafe_no=${cafe_no}&pageNum=${pageNum}');
 });
+
 
 </script>
 
-
+	<script src="js/review.js"></script>
 </head>
 
 <body class="detail-body">
-	<%@ include file="/WEB-INF/views/include/header.jsp"%>
+
+	<%-- 제이쿼리 불러와야해서 위쪽에서 include 해야합니다
+	<%@ include file="/WEB-INF/views/include/header.jsp"%> --%>
+	
 	<div class="container mt-4">
 		<div class="row">
 			<!-- 제목 -->
 			<div class="col-12 text-center map-title">스타벅스</div>
+			
 		</div>
 	</div>
 
 	<div class="container">
 		<div class="section-container">
 			<div class="section">
+			
+			<c:forEach var="cafelist" items="${cafelist }">
+			<input type="hidden" id="cafe_address" value=" ${cafelist.cafe_address}">
 				<h2 class="section-title">스타벅스</h2>
 				<p class="card-text">전화번호: 02-1234-5678</p>
 				<p class="card-text">영업시간: 09:00 AM - 10:00 PM</p>
-				<p class="card-text">위치: 서울특별시 강남구 신사동 123-456</p>
+				<p class="card-text">위치: ${cafelist.cafe_address}</p>
 				<h2 class="section-title">메뉴</h2>
 				<p class="card-text">아이스 아메리카노 02-1234-5678</p>
 				<p class="card-text">카라멜 마끼야또</p>
 				<p class="card-text">유자허니차</p>
+			</c:forEach>
 				<h2 class="section-title">
 					찜 <i id="heartIcon" class="far fa-heart" style="cursor: pointer;"></i>
 					<input type="hidden" name="like_state" value="0">
@@ -122,9 +119,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 					<!-- 별점 -->
 					<!-- 컨트롤러에서 넘어오는 값을 num 대신 넣어주면 됨 -->
-					<span style="font-size: 24px; color: gold;"> <c:set
-							var="num" value="3.8"></c:set> <c:set var="num2"
-							value="${num%1 }"></c:set> <c:set var="num3" value="${num/1}"></c:set>
+					<span style="font-size: 24px; color: gold;"> 
+					<c:set var="num" value="3.8"></c:set> 
+					<c:set var="num2" value="${num%1 }"></c:set> 
+					<c:set var="num3" value="${num/1}"></c:set>
 						<c:forEach begin="1" end="${num3}" var="star">
 							<i class="fas fa-star"></i>
 						</c:forEach> <c:if test="${num2>0 }">
@@ -147,6 +145,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				<!-- 지도 -->
 				<h2 class="section-title">지도</h2>
 				<div id="kakao-map"></div>
+				<br>
+				<!-- <button class="kakaobtn">길찾기 바로가기</button> -->
 			</div>
 		</div>
 
@@ -156,50 +156,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			<div class="d-flex justify-content-end mb-3">
 				<!-- "글 작성" 버튼을 리뷰 섹션 맨 오른쪽에 배치 -->
-
-				<button id="openModalButton" class="btn btn-primary" onClick="#">글
-					작성</button>
+				<button id="openModalButton" class="btn btn-primary" onClick="#">리뷰 작성</button>
 			</div>
-			
+
 			<!-- 리뷰 목록 -->
-			<form action="#">
-				<table class="table table-bordered table-striped">
+			<div id="review_list"></div>
 
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>이름</th>
-							<th>나이</th>
-							<th>도시</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="board" begin="1" end="4">
-							<tr>
-								<td>1</td>
-								<td>John Doe</td>
-								<td>25</td>
-								<td>New York</td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-			</form>
-
-			<!-- 페이징 버튼 -->
-			<nav aria-label="Page navigation example">
-				<ul class="pagination justify-content-center">
-					<li class="page-item"><a class="page-link" href="#"
-						aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item"><a class="page-link" href="#"
-						aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-				</ul>
-			</nav>
-
-			<!-- 모달 -->
+			<!-- 리뷰 작성 모달창 -->
 			<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
 				data-bs-keyboard="false" tabindex="-1"
 				aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -210,144 +173,32 @@ document.addEventListener("DOMContentLoaded", function () {
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
 								aria-label="Close"></button>
 						</div>
+
 						<div class="modal-body">
-							<!-- 리뷰 작성 폼 -->
-							<form action="hashtag_result" method="post">
-								<input type="hidden"> <img src="images/pin.png"
-									style="width: 1em; font-family: 'Tahoma', sans-serif; font-size: 20px;">
+							<form action="ReviewInsert" method="post">
+								<input type="hidden" name="member_id" value="test2">
+								<input type="hidden" name="cafe_no" value="${cafe_no }">
+								<img src="images/pin.png" style="width: 1em; font-family: 'Tahoma', sans-serif; font-size: 20px;">
 								<span
 									style="font-family: 'Tahoma', sans-serif; font-size: 20px;">카페에
-									어울리는 해시태그를 골라주세요</span> <input type="hidden" name="totalValue">
+									어울리는 하나의 해시태그를 골라주세요</span>
 
-								<!-- 가로 스크롤 -->
-								<div class="scroll-container" style="max-width: 600px;">
-									<!-- 원하는 최대 너비 설정 -->
-									<div class="row-container">
-										<div style="display: inline-block;">
-											<input type="button" name="tag1" class="coffee-btn"
-												value="커피가 맛있어요">
+								<!-- 해시태그 목록 출력 -->
+								<div class="btn-group-toggle" data-toggle="buttons">
+									<c:forEach var="hashtag" items="${tag}">
+										<!-- 각 해시태그를 순회하며 라디오 버튼 생성 -->
+										<div class="col-4" style="max-width: 600px;">
+											<label class="btn btn-outline-secondary"> <input
+												type="radio" name="hash_no" value="${hashtag.hash_no}" />
+												${hashtag.hash_name}
+											</label>
 										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag2" class="coffee-btn"
-												value="분위기가 좋아요">
-										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag3" class="coffee-btn"
-												value="직원들이 친절해요">
-										</div>
-									</div>
-
-									<div class="row-container">
-										<div style="display: inline-block;">
-											<input type="button" name="tag4" class="coffee-btn"
-												value="디저트가 맛있어요">
-										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag5" class="coffee-btn"
-												value="주차하기 좋아요">
-										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag5" class="coffee-btn"
-												value="주차하기 좋아요">
-										</div>
-									</div>
-
-									<div class="row-container">
-										<div style="display: inline-block;">
-											<input type="button" name="tag1" class="coffee-btn"
-												value="커피가 맛있어요">
-										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag2" class="coffee-btn"
-												value="분위기가 좋아요">
-										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag3" class="coffee-btn"
-												value="직원들이 친절해요">
-										</div>
-									</div>
-
-									<div class="row-container">
-										<div style="display: inline-block;">
-											<input type="button" name="tag1" class="coffee-btn"
-												value="커피가 맛있어요">
-										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag2" class="coffee-btn"
-												value="분위기가 좋아요">
-										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag3" class="coffee-btn"
-												value="직원들이 친절해요">
-										</div>
-									</div>
-
-									<div class="row-container">
-										<div style="display: inline-block;">
-											<input type="button" name="tag1" class="coffee-btn"
-												value="커피가 맛있어요">
-										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag2" class="coffee-btn"
-												value="분위기가 좋아요">
-										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag3" class="coffee-btn"
-												value="직원들이 친절해요">
-										</div>
-									</div>
-
-									<div class="row-container">
-										<div style="display: inline-block;">
-											<input type="button" name="tag1" class="coffee-btn"
-												value="커피가 맛있어요">
-										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag2" class="coffee-btn"
-												value="분위기가 좋아요">
-										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag3" class="coffee-btn"
-												value="직원들이 친절해요">
-										</div>
-									</div>
-
-									<div class="row-container">
-										<div style="display: inline-block;">
-											<input type="button" name="tag1" class="coffee-btn"
-												value="커피가 맛있어요">
-										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag2" class="coffee-btn"
-												value="분위기가 좋아요">
-										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag3" class="coffee-btn"
-												value="직원들이 친절해요">
-										</div>
-									</div>
-
-									<div class="row-container">
-										<div style="display: inline-block;">
-											<input type="button" name="tag1" class="coffee-btn"
-												value="커피가 맛있어요">
-										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag2" class="coffee-btn"
-												value="분위기가 좋아요">
-										</div>
-										<div style="display: inline-block;">
-											<input type="button" name="tag3" class="coffee-btn"
-												value="직원들이 친절해요">
-										</div>
-									</div>
+									</c:forEach>
 								</div>
-						</div>
 
-						<div class="mb-3">
-									<label for="reviewAge" class="form-label"><i
-										class="fas fa-star"></i>별점</label> <select class="form-select"
-										name="starRating" id="starRating" required>
+								<div class="mb-3">
+									<label for="reviewAge" class="form-label"> <i class="fas fa-star"></i>별점</label> 
+									<select class="form-select" name="cafe_star" id="cafe_star" required>
 										<option value="">별점 선택</option>
 										<option value="1">1점</option>
 										<option value="2">2점</option>
@@ -358,8 +209,8 @@ document.addEventListener("DOMContentLoaded", function () {
 								</div>
 								<div class="mb-3">
 									<label for="reviewCity" class="form-label">내용</label>
-									<textarea class="form-control" id="reviewCity"
-										name="review_content" rows="5" required></textarea>
+									<textarea class="form-control" id="review_content"
+										name="review_content" rows="5" maxlength="300" placeholder="100자 이내로 입력하세요." required></textarea>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"
@@ -367,17 +218,18 @@ document.addEventListener("DOMContentLoaded", function () {
 									<button type="submit" class="btn btn-primary">리뷰 작성</button>
 								</div>
 							</form>
-
-						</div>
+						</div><!-- end class="modal-body" -->
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<!-- 글작성버튼 누르면 모달나오는 스크립트 코드 -->
-			<!-- 임시 아이디 -->
-			<!-- id값이 없으면 리뷰작성 불가 로그인해주세요 alert창 뜨게 함 -->
-			<c:set var="id" value="a"></c:set>
-			<script>
+		<!-- 글작성버튼 누르면 모달나오는 스크립트 코드 -->
+		<!-- 임시 아이디 -->
+		<!-- id값이 없으면 리뷰작성 불가 로그인해주세요 alert창 뜨게 함 -->
+		<%-- <c:set var="id" value="${id}"></c:set> --%>
+		<c:set var="id" value="a"></c:set>
+		<script>
 			  document.addEventListener('DOMContentLoaded', function () {
 			    var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
 			      backdrop: 'static',
@@ -396,14 +248,11 @@ document.addEventListener("DOMContentLoaded", function () {
 			  });
 			</script>
 
-			
-		</div>
-	</div>
 
+	</div>
+	
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=37889ee25b1504a04dd9fe6a107f4654"></script>
 	<!-- 찜 하트 -->
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
@@ -434,13 +283,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 	<!-- 카카오 맵 -->
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=dc616f3f60dc0ec7cd19b89f1c6dc69a&libraries=services,clusterer,drawing"></script>
 	<script>
+		var cafe_address = document.getElementById('cafe_address').value;
+		console.log(cafe_address);
+
 		var container = document.getElementById('kakao-map');
-		var options = {
-			center : new kakao.maps.LatLng(37.5665, 126.9780),
-			level : 3
+		
+		// geocoder라이브러리 : 주소 정보에 해당하는 좌표값을 요청
+		var geocoder = new kakao.maps.services.Geocoder();
+		
+		var callback = function(result, status) {
+		    if (status === kakao.maps.services.Status.OK) {
+		        console.log(result);
+		        
+		    	var options = { // 지도를 생성할 때 필요한 기본 옵션
+		    			center : new kakao.maps.LatLng(result[0].y, result[0].x), // center -> 지도를 생성하는데 반드시 필요함
+		    			level : 3
+		    		};
+		    		
+		    	// 지도 생성
+		    	var map = new kakao.maps.Map(container, options);
+		        
+		     	// 마커가 표시될 위치 
+				var markerPosition  = new kakao.maps.LatLng(result[0].y, result[0].x); 
+				
+				// 마커 생성
+				var marker = new kakao.maps.Marker({
+				    position: markerPosition
+				});
+				
+				// 마커가 지도 위에 표시되도록 설정
+				marker.setMap(map);
+				
+				// 길찾기 버튼 클릭
+				/* click()
+				https://map.kakao.com/link/to/cafe_address,result[0].y, result[0].x */
+		    }else{
+		    	console.log("카카오 API 호출 실패")
+		    }
 		};
-		var map = new kakao.maps.Map(container, options);
+
+		geocoder.addressSearch(cafe_address, callback);
+		
+	
+		
+		
+		
 	</script>
 
 </body>

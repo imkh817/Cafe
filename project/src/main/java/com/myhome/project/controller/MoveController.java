@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.myhome.project.model.Cafe;
 import com.myhome.project.model.Category;
-import com.myhome.project.model.Member;
 import com.myhome.project.model.PagingPgm;
 import com.myhome.project.model.Recommend;
 import com.myhome.project.model.Reply;
@@ -23,6 +23,8 @@ import com.myhome.project.service.CategoryService;
 import com.myhome.project.service.MemberService;
 import com.myhome.project.service.RecommendService;
 import com.myhome.project.service.ReplyService;
+import com.myhome.project.service.listService;
+import com.myhome.project.service.reviewPaging;
 
 @Controller
 public class MoveController {
@@ -38,6 +40,9 @@ public class MoveController {
 	
 	@Autowired
 	CategoryService categoryService;
+	
+	@Autowired
+	private listService listService;
 	
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -66,7 +71,40 @@ public class MoveController {
 
 	// 목록 페이지로 이동
 	@RequestMapping("/list")
-	public String g2() {
+	public String g2(@RequestParam(name = "pageNum", defaultValue = "1") String pageNum, Cafe cafe, Model model) {
+
+		// 검색 버튼을 눌렀을 때 넘어온 keyword 저장
+		cafe.setKeyword(cafe.getKeyword());
+
+		// 페이징
+		final int rowPerPage = 6;
+
+		int currentPage = Integer.parseInt(pageNum);
+
+//		int category_no = cafe.getCategory_no();
+
+		int total = listService.countCafeList(cafe);
+
+		int startRow = (currentPage - 1) * rowPerPage + 1;
+		int endRow = startRow + rowPerPage - 1;
+
+		reviewPaging rp = new reviewPaging(total, rowPerPage, currentPage);
+		cafe.setStartRow(startRow);
+		cafe.setEndRow(endRow);
+
+		// 카페 목록 구해오기
+		List<Cafe> cafe_list = new ArrayList<Cafe>();
+		cafe_list = listService.getCafeList(cafe);
+
+		for (int i = 0; i < cafe_list.size(); i++) {
+			System.out.println(cafe_list.get(i).getCafe_name());
+		}
+
+		model.addAttribute("cafe_list", cafe_list);
+		model.addAttribute("category_no", cafe.getCategory_no());
+		model.addAttribute("keyword", cafe.getKeyword());
+		model.addAttribute("rp", rp);
+
 		return "cafe/list";
 	}
 
@@ -213,11 +251,13 @@ public class MoveController {
 	    if(check == null) {
 		int result = replyService.insert(reply);
 		
-		model.addAttribute("result", result);
 		model.addAttribute("reply", reply);
+		model.addAttribute("result", result);
 		
 	    }else if(check != null){
 	    	int result = replyService.reInsert(reply);
+	    	model.addAttribute("result", result);
+	    	
 	    	
 //	    // ref, level, step 처리
 //	    	reply.setReply_level(reply.getReply_level() + 1); // 부모보다 1증가된 값
