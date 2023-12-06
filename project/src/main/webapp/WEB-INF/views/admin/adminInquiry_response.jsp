@@ -20,7 +20,7 @@
 			<div class="col-md-10">
 				<div class="ask_container mt-5">
 					<div class="form-group">
-						<h3>1:1문의 내용</h3>
+						<h3>1:1문의 내용</h3> 
 						<br> <br> <label for="inquiryTitle">제목</label> <input
 							type="text" class="form-control" id="inquiryTitle"
 							name="inquiry_title" value="${inquiry.inquiry_title }">
