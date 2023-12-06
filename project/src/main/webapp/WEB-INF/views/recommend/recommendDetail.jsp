@@ -127,7 +127,9 @@
 					<tbody>
 						<c:forEach var="list" items="${list}">
 							<tr>
-								<td>${list['MEMBER_NICKNAME']}</td>
+								<td>
+								${list['MEMBER_NICKNAME']}
+								</td>
 								<td>
 									<div style="display: flex; justify-content: space-between; align-items: center;">
                             <span>${list['REPLY_CONTENT']}</span>
@@ -148,17 +150,17 @@
 					<ul class="pagination justify-content-center">
 						<c:if test="${page.startPage > page.pagePerBlk }">
 							<li class="page-item"><a class="page-link"
-								href="recommendDetail?page=${page.startPage-1 }">Previous</a></li>
+								href="recommendDetail?rec_no=${rec_no }&page=${page.startPage-1 }">Previous</a></li>
 						</c:if>
 						<c:forEach begin="${page.startPage }" end="${page.endPage }"
 							var="pageNum">
 							<li class="page-item"><a class="page-link"
-								href="recommendDetail?page=${pageNum}">${pageNum }</a></li>
+								href="recommendDetail?rec_no=${rec_no }&page=${pageNum}">${pageNum }</a></li>
 						</c:forEach>
 
 						<c:if test="${page.endPage < page.totalPage}">
 							<li class="page-item"><a class="page-link"
-								href="recommendDetail?page=${page.startPage-1 }">Next</a></li>
+								href="recommendDetail?rec_no=${rec_no }&page=${page.startPage-1 }">Next</a></li>
 						</c:if>
 					</ul>
 				</nav>

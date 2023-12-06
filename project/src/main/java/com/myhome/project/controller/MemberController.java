@@ -77,7 +77,6 @@ public class MemberController {
 				
 				return "redirect:"+referer;
 				
-				
 			}else { // 비번 불일
 				result = 2;
 			}

@@ -19,7 +19,7 @@
 
 <c:if test="${result == 4}">
 	<script>
-		alert("${name}님 환영합니다!");
+		alert("${name} 님 환영합니다!");
 		location.href="main";
 	</script>
 </c:if>  

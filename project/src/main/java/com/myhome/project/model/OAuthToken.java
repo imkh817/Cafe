@@ -10,6 +10,8 @@ public class OAuthToken {
 	private String scope;
 	private int refresh_token_expires_in;
 	
+	
+	
 	public String getAccess_token() {
 		return access_token;
 	}
