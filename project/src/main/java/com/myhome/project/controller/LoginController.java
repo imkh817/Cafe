@@ -129,7 +129,8 @@ public class LoginController {
         }else{					// 기존 회원
         	session.setAttribute("id", member.getMember_id());
         	int result = 2;
-        	model.addAttribute("name",member.getMember_nickname());
+        	model.addAttribute("name", member.getMember_nickname());
+        	System.out.println("닉네임 뭔데: " + member.getMember_nickname());
         	model.addAttribute("result",result);
         	
         	return "login/join_result";
@@ -141,8 +142,8 @@ public class LoginController {
     
     // 카카오
     @GetMapping("/callback2")
-	public String callback(String code, Member member, Model model, HttpSession session) { // @ResponseBody : 데이터를 리턴해주는
-																							// 함수
+	public String callback(String code, Member member, Model model, HttpSession session) { 
+    	// @ResponseBody : 데이터를 리턴해주는 함수
 		// code 로 데이터를 쿼리 스트링으로 넘겨주니까
 		// token 을 발급 받는 이유 : 카카오 리소스 서버에 등록된 (현재 로그인을 한 사람의 )개인정보를 응답 받기 위해서
 
@@ -285,10 +286,13 @@ public class LoginController {
 			model.addAttribute("result", result);
 		} else { // 기존 회원
 			session.setAttribute("id", member.getMember_id());
-			return "cafe/main";
+			int result = 2;
+			model.addAttribute("result", result);
+			model.addAttribute("name", member.getMember_nickname());
+			
 		}
 
-		return "cafe/main";
+		return "login/join_result";
 
 	}
 

@@ -73,12 +73,9 @@ public class MemberController {
 				String referer = request.getHeader("Referer");
 				referer = referer.substring(referer.lastIndexOf("/")+1);
 				
-				
-				
 				return "redirect:"+referer;
 				
-				
-			}else { // 비번 불일
+			}else { // 비번 불일치
 				result = 2;
 			}
 		}

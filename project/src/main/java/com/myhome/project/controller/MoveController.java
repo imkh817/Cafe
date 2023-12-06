@@ -219,11 +219,13 @@ public class MoveController {
 	    if(check == null) {
 		int result = replyService.insert(reply);
 		
-		model.addAttribute("result", result);
 		model.addAttribute("reply", reply);
+		model.addAttribute("result", result);
 		
 	    }else if(check != null){
 	    	int result = replyService.reInsert(reply);
+	    	model.addAttribute("result", result);
+	    	
 	    	
 //	    // ref, level, step 처리
 //	    	reply.setReply_level(reply.getReply_level() + 1); // 부모보다 1증가된 값
