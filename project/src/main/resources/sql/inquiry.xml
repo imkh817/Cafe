@@ -3,5 +3,34 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.myhome.project.dao.InquiryDao">
-
+	 <!-- 관리자 문의 페이지 폼 페이징 -->
+	<select id="getTotalInquiry" resultType="int">
+		select count(*) from inquiry
+	</select>
+ 	<!-- 관리자 문의 페이지 폼 페이징 -->	
+	<select id="getListInquiry" parameterType="inquiry" resultType="inquiry">
+		select * from(
+		select a.*,rowNum rn from(
+		select * from inquiry order by inquiry_reg desc)a)
+		where rn between #{startRow} and #{endRow}
+	</select>
+	
+	<!-- 관리자 페이지에서 고객이 쓴글 출력하기 -->
+	<select id="getOneInquiry" parameterType="String" resultType="inquiry">
+		select * from inquiry where inquiry_no=#{inquiry_no}
+	</select>
+	<!-- 관리자 페이지에서 고객이 쓴글 출력하기 -->
+	<select id="getResponse" parameterType="String" resultType="response">
+		select * from response where inquiry_no = #{inquiry_no}
+	</select>
+	
+	<!-- 관리자 문의 답변 작성 -->
+	<insert id="insertResponse" parameterType="response">
+		insert into response values(response_num_seq.nextval,#{inquiry_no},#{response_content},sysdate,#{response_title})
+	</insert>
+	
+	<!-- 관리자 문의답변 작성 후 답변상태 변경 -->
+	<update id="updateResponseState" parameterType="int">
+		update inquiry set response_state='Y' where inquiry_no = #{inquiry_no}
+	</update>
 </mapper>
