@@ -24,7 +24,7 @@
 					<div class="card" style="border-radius: 15px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
 						<div class="card-body" style="padding: 20px; background-color: #ffffff; color: #495057; text-align: center;">
 							<h5 class="card-title" style="font-size: 1.5rem; color: #495057; margin-bottom: 10px;">${item.category_name }</h5>
-							<a href="list?category=${item.category_name }" class="btn btn-primary" style="background-color: #007bff; color: #fff; padding: 10px 20px;">구경하기</a>
+							<a href="list?category=${item.category_no }" class="btn btn-primary" style="background-color: #007bff; color: #fff; padding: 10px 20px;">구경하기</a>
 						</div>
 					</div>
 				</div>
