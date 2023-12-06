@@ -45,7 +45,7 @@
 <!-- 카카 로그인 기존회원 -->
 <c:if test="${kakaoReesult!=1 }">
 	<script>
-	alert("${name}님 환영합니다!")	
+	alert("${name} 님 환영합니다!")	
 	location.href="main";
 	</script>
 </c:if>

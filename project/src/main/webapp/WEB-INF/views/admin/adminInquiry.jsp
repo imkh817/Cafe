@@ -6,7 +6,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>1:1 문의 목록</title>
+<title>1:1 문의 목록 </title>
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 	rel="stylesheet">

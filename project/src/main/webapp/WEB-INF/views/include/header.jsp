@@ -69,15 +69,16 @@
 						<div class="form-group">
 							<input type="password" class="form-control" placeholder="비밀번호" id="member_pw" name="member_pw">
 						</div>
-
-						<a
-							href="https://kauth.kakao.com/oauth/authorize?client_id=bdffe1412686d86c80754e7a2a386569&redirect_uri=http://localhost/project/callback2&response_type=code"><img
-							src="./images/kakao_login_large.png"></a>
-							
-						<div id="naver_id_login">
+						
+						<!-- 소셜 로그인 버튼 -->
+						<div style="text-align: center ">
+						<a href="https://kauth.kakao.com/oauth/authorize?client_id=bdffe1412686d86c80754e7a2a386569&redirect_uri=http://localhost/project/callback2&response_type=code" style="margin-right: 30px;">
+							<img width="70" src="images/kakaoLoginButton.png" />
+						</a>
+						
 						<a href="login">
-							<img width="223" src="${pageContext.request.contextPath}/resources/img/naver_Bn_Green.png" />
-						</a></div>
+							<img width="70" src="images/naverLoginButton.png" />
+						</a></div><br>
 
 						<div class="password-reset">
 							<a href="find_id">아이디 찾기</a> | <a href="find_pw">비밀번호 찾기</a>
@@ -97,7 +98,7 @@
 	</div>
 
 	<!-- Bootstrap JS 및 jQuery 추가 -->
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.9/dist/umd/popper.min.js"></script>
 	<script
