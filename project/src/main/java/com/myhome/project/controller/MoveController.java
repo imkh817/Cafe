@@ -100,12 +100,6 @@ public class MoveController {
 		return "mypage/dibs";
 	}
 
-	// 마이페이지 리뷰관리
-	@RequestMapping("/myReview")
-	public String g7() {
-		return "mypage/myReview";
-	}
-
 	// 마이페이지 정보수정
 	@RequestMapping("/memberupdate")
 	public String g8() {
@@ -281,15 +275,4 @@ public class MoveController {
 		return "mypage/inquiry_response";
 	}
 
-	// 관리자 1:1문의
-	@RequestMapping("/adminInquiry")
-	public String g17() {
-		return "admin/adminInquiry";
-	}
-
-	// 관리자 1:1문의 답변
-	@RequestMapping("/adminInquiry_response")
-	public String g18() {
-		return "admin/adminInquiry_response";
-	}
 }

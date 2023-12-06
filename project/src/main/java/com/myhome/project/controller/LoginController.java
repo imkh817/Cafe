@@ -53,6 +53,7 @@ public class LoginController {
     private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
         this.naverLoginBO = naverLoginBO;
     }
+    
     @Autowired
 	MemberService service;
  
@@ -96,12 +97,13 @@ public class LoginController {
         String naverId = responseNode.get("id").asText();
         String naverName = responseNode.get("name").asText();
         String naverNickname = responseNode.get("nickname").asText();
+        // 이메일 등록안되어 있는 사람도 있음 ㅜ
         String naverEmail = responseNode.get("email").asText();
         // 전화번호 파싱(2줄로)
         String phone = responseNode.get("mobile").asText();
         String phoneParsing[] = phone.split("-");
         // 이메일 파싱(1줄로)
-        String emailParsing[] = responseNode.get("email").asText().split("@");
+       String emailParsing[] = responseNode.get("email").asText().split("@");
         
         Member member = new Member();
         member.setMember_id(naverId);
@@ -114,27 +116,16 @@ public class LoginController {
         member.setMember_phone1(phoneParsing[0]);
         member.setMember_phone2(phoneParsing[1]);
         member.setMember_phone3(phoneParsing[2]);
-        System.out.println("비번 : "+member.getMember_pw());
         
         // 회원 확인
+        int result = 0;  // 카카오 로그인 성공여부 확인 -> 1:신규, 2:기존 회원
         Member userCheck = service.userCheck(naverId);
-        
         if(userCheck == null) {	// 신규 회원
-        
-        int result = service.insert(member);
-        System.out.println("naverId : " + naverId);
-        
-        model.addAttribute("result",result);
-        
-        }else{					// 기존 회원
-        	session.setAttribute("id", member.getMember_id());
-        	int result = 2;
-        	model.addAttribute("name", member.getMember_nickname());
-        	System.out.println("닉네임 뭔데: " + member.getMember_nickname());
-        	model.addAttribute("result",result);
-        	
-        	return "login/join_result";
+        	result = service.insert(member); // --> 신규 회원 DB등록
         }
+        model.addAttribute("naverResult",result);
+        model.addAttribute("name",member.getMember_nickname());
+        session.setAttribute("id", member.getMember_id());
         
         /* 네이버 로그인 성공 페이지 View 호출 */
         return "login/join_result";
@@ -142,8 +133,8 @@ public class LoginController {
     
     // 카카오
     @GetMapping("/callback2")
-	public String callback(String code, Member member, Model model, HttpSession session) { 
-    	// @ResponseBody : 데이터를 리턴해주는 함수
+	public String callback(String code, Member member, Model model, HttpSession session) { // @ResponseBody : 데이터를 리턴해주는
+																							// 함수
 		// code 로 데이터를 쿼리 스트링으로 넘겨주니까
 		// token 을 발급 받는 이유 : 카카오 리소스 서버에 등록된 (현재 로그인을 한 사람의 )개인정보를 응답 받기 위해서
 
@@ -153,24 +144,35 @@ public class LoginController {
 
 		// Http Header 데이터를 담을 Object 생성
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		// HTML 폼(form) 데이터를 서버로 전송할 때 사용되는 인코딩 타입(Content-Type) 중 하나이다.
+		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8"); 
+		
 		// 내가 지금 전송할 HTTP body데이터가 key-value 형태의 데이터임을 알려주는 것.
 
 		// Http body 데이터를 담을 Object 생성
+		// MultiValueMap -> Map의 상위 버전 (spring API 공식 문서에 있음)
+		// -> 여러 값을 저장하는 맵 인터페이스의 확장
+		// 그냥 Map을 사용하면 안되는 것 인가?
+		// --> MultiValueMap을 사용하는 이유는 하나의 키에 여러 값을 가질 수 있기 때문이다. 여러 값이 동일한 키를 공유할 때 유용하다.
+		// 일반적으로 HTTP 폼 데이터나 쿼리 매개변수와 같이 여러 값이 하나의 키에 매핑되는 경우에 많이 사용된다.
+
+		// 만약 여러 값을 가지는 데이터를 처리해야 할 때 Map 대신 MultiValueMap을 사용하는 것이 좋다.
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 
 		params.add("grant_type", "authorization_code");
 		params.add("client_id", "bdffe1412686d86c80754e7a2a386569");
 		params.add("redirect_uri", "http://localhost/project/callback2");
 		params.add("code", code);
-
+// ------------------------------------------
 		// Header 와 Body 데이터를 가지고 있는 하나의 Object Entity가 된다.
 		// 왜 Entity에 넣냐면, exchage 함수가 HttpEntity Object를 받기 때문이다.
 		HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
 
 		// Http 요청하기 - POST방식으로 - 그리고 response변수의 응답을 받음 .
+		// rt.exchange -> Http헤더를 새로 만들 수 있고, 어떤 HTTP 메소드 사용가능하다.
 		ResponseEntity<String> response = rt.exchange(
 
+				// 자원 , 행위, 표현
 				// 토큰 요청시 발급 주소
 				"https://kauth.kakao.com/oauth/token", HttpMethod.POST, kakaoTokenRequest, String.class
 
@@ -190,6 +192,7 @@ public class LoginController {
 
 		System.out.println("카카오 엑세스 토큰: " + oauthToken.getAccess_token());
 
+		
 		RestTemplate rt2 = new RestTemplate();
 
 		// Http Header 데이터를 담을 Object 생성
@@ -204,7 +207,6 @@ public class LoginController {
 
 		// Http 요청하기 - POST방식으로 - 그리고 response변수의 응답을 받음 .
 		ResponseEntity<String> response2 = rt2.exchange(
-
 				// 토큰 요청시 발급 주소
 				"https://kapi.kakao.com/v2/user/me", HttpMethod.POST, kakaoProfileRequest2, String.class
 
@@ -280,47 +282,18 @@ public class LoginController {
 
 		// 회원 확인
 		Member userCheck = service.KakaoUserCheck(member.getMember_id());
-
+		int result = 0;
 		if (userCheck == null) { // 신규 회원
-			int result = service.insertKakao(member);
-			model.addAttribute("result", result);
+			result = service.insertKakao(member);
 		} else { // 기존 회원
-			session.setAttribute("id", member.getMember_id());
-			int result = 2;
-			model.addAttribute("result", result);
-			model.addAttribute("name", member.getMember_nickname());
-			
 		}
+		session.setAttribute("id", member.getMember_id());
+		model.addAttribute("kakaoResult", result);
 
-		return "login/join_result";
+		return "cafe/join_result";
 
 	}
 
-//	@RequestMapping("/LoginHeaderChange")
-//	public String LoginHeaderChange(HttpServletRequest request, HttpServletResponse response) {
-//		String id = request.getParameter("member_id");
-//		String pw = request.getParameter("member_pw");
-//		int result = 0;
-//		Member member = service.isLogin(id, pw);
-//
-//		if (member != null) {
-//			HttpSession session = request.getSession();
-//
-//			// 세션에 적절한 속성 설정
-//			session.setAttribute("member_id", member.getMember_id());
-//			session.setAttribute("member_pw", member.getMember_pw());
-//			session.setAttribute("member_nickname", member.getMember_nickname());
-//			
-//			return "cafe/main";
-//			// 로그인 성공 시의 추가적인 로직 처리 가능
-//			// 예를 들어, 로그인 성공 시 다른 페이지로 리다이렉트하거나 추가적인 처리를 할 수 있습니다.
-//		} else {
-//			result = 3;
-//			// 로그인 실패 시의 처리
-//			// 로그인 실패 메시지를 보여주거나 다른 작업을 수행할 수 있습니다.
-//		}
-//		return "login/loginResult"; 
-//	}
 
 }
 

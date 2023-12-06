@@ -10,6 +10,7 @@ public interface MemberService {
 	
 	int nicknameCheck(String nickname);
 
+	// 자체 로그인
 	Member userCheck(String id);
 
 	int memberUpdateOk(Member member);

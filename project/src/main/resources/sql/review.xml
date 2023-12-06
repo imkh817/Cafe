@@ -4,4 +4,33 @@
 
 <mapper namespace="com.myhome.project.dao.ReviewDao">
 
+	<!-- 해당 id에 해당하는 전체 리뷰 갯수 구해오기 -->
+	<select id="getTotalReviewCount" parameterType="String"
+		resultType="int">
+		select count(*)
+		from review where member_id = #{member_id}
+	</select>
+
+	<!-- 리뷰를 페이징 처리한 리스트로 가져오기 -->
+	<select id="reviewPagingList" parameterType="review"
+		resultType="java.util.Map">
+		select * from(
+		select * from cafe c join (
+		select a.*, rowNum
+		rn from(
+		select r.* from member m join review r on m.member_id =
+		r.member_id where
+		r.member_id = #{member_id} order by r.review_reg
+		desc)a) j
+		on c.cafe_no = j.cafe_no
+		)
+		where rn between #{startRow} and
+		#{endRow} order by rn
+	</select>
+
+	<!-- 마이페이지에서 리뷰 지우기 -->
+	<delete id="deleteReview" parameterType="String">
+		delete from review where
+		review_no = #{review_no}
+	</delete>
 </mapper>

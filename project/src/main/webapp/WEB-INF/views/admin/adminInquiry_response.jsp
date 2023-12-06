@@ -23,31 +23,57 @@
 						<h3>1:1문의 내용</h3>
 						<br> <br> <label for="inquiryTitle">제목</label> <input
 							type="text" class="form-control" id="inquiryTitle"
-							name="inquiry_title" placeholder="회원이 쓴 문의 출력">
+							name="inquiry_title" value="${inquiry.inquiry_title }">
 					</div>
 					<div class="form-group">
 						<label for="inquiryContent">내용</label>
 						<textarea class="form-control" id="inquiryContent" rows="5"
-							name="inquiry_content" placeholder="회원이 쓴 문의 출력"></textarea>
+							name="inquiry_content" placeholder="회원이 쓴 문의 출력">${inquiry.inquiry_content }</textarea>
 					</div>
 				</div>
 				<br> <br>
-				<form action="#">
+				<c:if test="${response != null }">
+				<form action="writeResponse?inquiry_no=${inquiry.inquiry_no }" method="post">
 					<h3>1:1문의 답변</h3>
+					
 					<div class="ask_container mt-5">
 						<div class="form-group">
-							<label for="inquiryResponseTitle">제목</label> <input type="text"
-								class="form-control" id="inquiryResponseTitle"
-								name="inquiry_title" placeholder="제목을 입력하세요">
+						<input type="hidden" name="inquiry_no" value="${inquiry.inquiry_no }">
+							
+							<label for="inquiryResponseTitle"></label> 
+							<input type="text"class="form-control" id="inquiryResponseTitle"
+								name="response_title" value="${response.response_title }">
 						</div>
 						<div class="form-group">
 							<label for="inquiryResponseContent">내용</label>
 							<textarea class="form-control" id="inquiryResponseContent"
-								rows="5" name="inquiry_content" placeholder="문의답변 내용을 입력하세요"></textarea>
+								rows="5" name="response_content" placeholder="문의답변 내용을 입력하세요">${response.response_content }</textarea>
 						</div>
 						<button type="submit" class="btn btn-primary">답변하기</button>
 					</div>
 				</form>
+				</c:if>
+				<c:if test="${response == null }">
+				<form action="writeResponse?inquiry_no=${inquiry.inquiry_no }" method="post">
+					<h3>1:1문의 답변</h3>
+					
+					<div class="ask_container mt-5">
+						<div class="form-group">
+						<input type="hidden" name="inquiry_no" value="${inquiry.inquiry_no }">
+							
+							<label for="inquiryResponseTitle">제목</label> 
+							<input type="text"class="form-control" id="inquiryResponseTitle"
+								name="response_title" placeholder="제목을 입력하세요">
+						</div>
+						<div class="form-group">
+							<label for="inquiryResponseContent">내용</label>
+							<textarea class="form-control" id="inquiryResponseContent"
+								rows="5" name="response_content" placeholder="문의답변 내용을 입력하세요" ></textarea>
+						</div>
+						<button type="submit" class="btn btn-primary">답변하기</button>
+					</div>
+				</form>
+				</c:if>
 			</div>
 		</div>
 	</div>
