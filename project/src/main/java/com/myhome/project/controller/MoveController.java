@@ -132,22 +132,10 @@ public class MoveController {
 		return "login/join";
 	}
 
-	// 마이페이지 찜
-	@RequestMapping("/dibs")
-	public String g6() {
-		return "mypage/dibs";
-	}
-
 	// 마이페이지 정보수정
 	@RequestMapping("/memberupdate")
 	public String g8() {
 		return "mypage/memberupdate";
-	}
-
-	// 마이페이지 1대1문의
-	@RequestMapping("/inquiry")
-	public String g9() {
-		return "mypage/inquiry";
 	}
 
 	// 마이페이지 회원탈퇴

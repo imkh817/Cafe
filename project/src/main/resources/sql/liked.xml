@@ -4,4 +4,29 @@
 
 <mapper namespace="com.myhome.project.dao.LikedDao">
 
+	<!-- 찜목록 이동 -->
+	<select id="getLikedListByNo" parameterType="List"
+		resultType="java.util.Map">
+		SELECT c.cafe_no, cafe_name, cafe_image, cafe_address,
+		cafe_comment, avg_cafe_star FROM
+		cafe c JOIN liked l
+		ON c.cafe_no =
+		l.cafe_no
+		WHERE member_id = #{member_id}
+		ORDER BY cafe_no ASC
+	</select>
+
+	<!-- 찜 개수 -->
+	<select id="getTotal" parameterType="liked" resultType="int">
+		select
+		count(*) from liked
+	</select>
+
+
+	<!-- 지금 바로 확인하기 버튼 클릭 및 카페 이름 클릭 이동 -->
+	<select id="moveLikedToDetail" parameterType="int"
+		resultType="List">
+		select cafe_no from liked where cafe_no = #{cafe_no}
+	</select>
+
 </mapper>
