@@ -11,7 +11,7 @@
 		from review where member_id = #{member_id}
 	</select>
 
-	<!-- 리뷰를 페이징 처리한 리스트로 가져오기 -->
+	<!-- 마이페이지 리뷰를 페이징 처리한 리스트로 가져오기 -->
 	<select id="reviewPagingList" parameterType="review"
 		resultType="java.util.Map">
 		select * from(
@@ -33,4 +33,33 @@
 		delete from review where
 		review_no = #{review_no}
 	</delete>
+	
+	<!-- 카페 리뷰작성 -->
+	<insert id="review_insert" parameterType="Review">
+		insert into review values(review_num_seq.nextval, #{member_id}, #{cafe_no}, 
+		#{hash_no}, #{review_content}, #{cafe_star}, sysdate)
+	</insert>
+
+	<!-- 카페 리뷰 목록 -->
+    <select id="review_list" parameterType="Review" resultType="java.util.Map">
+		select * from (
+					   select rownum rn, a.* from(
+							     select r.*, h.HASH_NAME from review r join hashtag h
+								 on r.HASH_NO = h.HASH_NO where cafe_no=#{cafe_no} order by review_no desc) a
+					  )
+		where rn between #{startRow} and #{endRow}
+    </select>
+    
+    <!-- 리뷰 총 갯수 구하기 -->
+    <select id="review_total" parameterType="Review" resultType="int">
+    	select count(*) from review
+    	where cafe_no = #{cafe_no}
+    </select>
+    
+    <!-- cafe_avg 구하기 -->
+    <select id="avg_star" parameterType="int" resultType="double">
+		select trunc(avg(cafe_star),1) from review
+		group by cafe_no
+		having cafe_no=#{cafe_no}
+    </select>
 </mapper>

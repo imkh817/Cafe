@@ -81,8 +81,6 @@ public class MoveController {
 
 		int currentPage = Integer.parseInt(pageNum);
 
-//		int category_no = cafe.getCategory_no();
-
 		int total = listService.countCafeList(cafe);
 
 		int startRow = (currentPage - 1) * rowPerPage + 1;

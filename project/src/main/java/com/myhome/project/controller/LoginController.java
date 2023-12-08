@@ -290,7 +290,7 @@ public class LoginController {
 		session.setAttribute("id", member.getMember_id());
 		model.addAttribute("kakaoResult", result);
 
-		return "cafe/join_result";
+		return "login/join_result";
 
 	}
 
