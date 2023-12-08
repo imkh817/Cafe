@@ -5,20 +5,83 @@
 <head>
     <meta charset="UTF-8">
     <title>Insert title here</title>
-</head>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<link rel="stylesheet" href="style.css">
+<!-- <link rel="stylesheet" href="style.css"> -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+</head>
+
+
+
 <body>
+
     <%@ include file="/WEB-INF/views/include/header.jsp" %>
+    
     <!-- header -->
     <div class="container mt-4">
         <div class="row">
-            <div class="col-12 text-center map-title">목록페이지</div>
+             <!-- 주변 카페 추천받기 폼 -->
+            <!-- <form action="nearByCafe" method="post" style="display: inline-block;"> -->
+                <button class="btn btn-link" type="submit" id="location">주변 카페 추천받기</button>
+            <!-- </form> -->
         </div>
     </div>
+    
+     <script>
+        (function () {
+            if ('geolocation' in navigator) { // 해당 브라우저가 API를 지원하는지
+                // 위치정보 사용 가능
+            } else {
+                // 위치정보 사용 불가능 
+            }
+
+            const currentGeoLocation = document.getElementById("location");
+
+            currentGeoLocation.onclick = function () {
+                var startPos;
+                // 옵션
+                var geoOptions = {
+                    timeout: 10 * 1000
+                };
+
+                // 사용자의 위치를 출력할 함수
+                var geoSuccess = function (position) {
+
+                    startPos = position;
+                    // AJAX를 통해 서버로 위도, 경도 값을 전송
+                    $.ajax({
+                        url: "nearByCafe",
+                        type: 'POST',
+                        data: { "latitude": startPos.coords.latitude, "longitude": startPos.coords.longitude },
+                        success: function (data) {
+                           	alert(data);
+                        },
+                        error: function (e) {
+                            console.log(e);
+                        }
+                    });
+                   
+                };
+                // 에러 처리 함수
+                var geoError = function (error) {
+                    console.log('Error occurred. Error code: ' + error.code);
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            break;
+                        case error.TIMEOUT:
+                            break;
+                    };
+                };
+				// getCurrentPostion(위치를 출력할 함수, 에러 처리 함수, 옵션)
+                navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+            };
+        })();
+    </script>
 
     <div class="container mt-4">
         <div class="row justify-content-center">
@@ -30,11 +93,15 @@
                         <div class="input-group-append">
                             <button class="btn btn-outline-success" onclick="submit">검색</button>
                         </div>
-                    </div>
+					</div>
                 </form>
             </div>
+            
         </div>
     </div>
+    <!-- 사용자 현재 위치 정 -->
+
+    
 
     <div class="container mt-4">
         <div class="row">

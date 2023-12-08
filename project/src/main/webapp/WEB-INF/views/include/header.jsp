@@ -33,14 +33,16 @@
 		<!-- 임시 아이디 -->
 		<div class="ml-auto">
 			<!-- 로그인 버튼 -->
+			<c:if test="${id == null}">
 			<button type="button" class="btn btn-primary"
 				onClick="location.href='join'">회원가입</button>
 			<button type="button" class="btn btn-primary" data-toggle="modal"
 				data-target="#loginModal">로그인</button>
+			</c:if>
+			<c:if test="${id != null }">
 			<button class="btn btn-primary" onClick="location.href='member_logout'">로그아웃</button>
 			<button class="btn btn-primary" onClick="location.href='dibs'">마이페이지</button>
-
-
+			</c:if>
 		</div>
 	</nav>
 

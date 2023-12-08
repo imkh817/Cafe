@@ -8,12 +8,19 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myhome.project.model.Cafe;
 import com.myhome.project.model.Category;
 import com.myhome.project.model.PagingPgm;
@@ -67,6 +74,44 @@ public class MoveController {
 		model.addAttribute("list",list);
 		model.addAttribute("id",id);
 		return "cafe/main";
+	}
+	
+	// 사용자 위치 (list에서 누름)
+	@RequestMapping("nearByCafe")
+	public String nearByCafe(@RequestParam("latitude") String latitude ,@RequestParam("longitude")String longitude,Model model) 
+			throws JsonMappingException, JsonProcessingException {
+		
+		System.out.println("Latitude: " + latitude);
+		System.out.println("Longitude: " + longitude);
+		
+		String url = "https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+longitude+"&y="+latitude;
+	    
+	    org.springframework.http.HttpHeaders head = new org.springframework.http.HttpHeaders();
+	    head.add("Authorization", "KakaoAK 72a3c2462f8bf6a9fc2b9c2f3daffb33");
+	    
+	    HttpEntity<Object> entity = new HttpEntity<Object>(head);
+	    
+	    RestTemplate template = new RestTemplate();
+	    
+	    ResponseEntity<String> response = template.exchange(url, HttpMethod.GET, entity, String.class);
+	    
+	    String body = response.getBody();
+	    
+	    System.out.println(body);
+	    
+	    ObjectMapper mapper = new ObjectMapper();
+	    com.myhome.project.model.KaKaoLocationResponse result = mapper.readValue(body, com.myhome.project.model.KaKaoLocationResponse.class);
+	    
+	    if(result == null) {
+	    	System.out.println("null입니다.");
+	    }
+	    
+	    String address = result.getDocuments().get(0).getAddress().getRegion3depthName();
+	    System.out.println("주소 : " + address);
+	    
+		
+	    // 지연
+		return "";
 	}
 
 	// 목록 페이지로 이동
