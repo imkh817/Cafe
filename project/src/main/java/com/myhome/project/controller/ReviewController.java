@@ -37,7 +37,7 @@ public class ReviewController {
 	
 	
 	@RequestMapping("Detail")
-	public String gethashtag(@RequestParam("cafe_no") int cafe_no,String pageNum, Model model) {
+	public String gethashtag(@RequestParam("cafe_no") int cafe_no,String pageNum, Model model, HttpSession session) {
 		
 		if(pageNum == null || pageNum.equals("")) {
 			pageNum = "1";
@@ -57,31 +57,36 @@ public class ReviewController {
 		System.out.println("cafelist : " + cafelist.get(0).getCafe_name());
 		
 
+		// 로그인 되면 id가 세션에 저장된걸 가정
+		String id = (String) session.getAttribute("id"); 
+		
+
 		model.addAttribute("tag",hashtag);
 		model.addAttribute("pageNum",pageNum); 
 		model.addAttribute("cafelist",cafelist);
 		model.addAttribute("cafe_no",cafe_no);
+		model.addAttribute("id",id);
 		
 		return "cafe/detail";
 	}
 	
 	// 리뷰 작성
 	@RequestMapping("ReviewInsert")
-	public String review_insert(@RequestParam("cafe_no")int cafe_no, Review review, HttpSession session, Model model ) {
-		System.out.println("review_insert 메서드 호출");
+	public String review_insert(Review review, HttpSession session, Model model ) {
 		
-		review.setCafe_no(cafe_no);
+		review.setMember_id((String)session.getAttribute("id"));
+		
 		int result = reviewService.review_insert(review);
 		
 		// 리뷰 작성성공하면 cafe테이블 avg_cafe_star update
 		if(result > 0) {
 			// cafe_star 평균값 구해오기
-			double avg_star = reviewService.avg_star(cafe_no);
+			double avg_star = reviewService.avg_star(review.getCafe_no());
 			System.out.println("avg_star: "+avg_star);
 			
 			Cafe cafe =  new Cafe();
 			cafe.setAvg_cafe_star(avg_star);
-			cafe.setCafe_no(cafe_no);
+			cafe.setCafe_no(review.getCafe_no());
 			
 			// avg_cafe_star 컬럼 update
 			cafedao.update_avg_cafe_star(cafe);
@@ -90,12 +95,8 @@ public class ReviewController {
 		}
 		System.out.println("if문 끗 ~");
 		
-		// 로그인 되면 id가 세션에 저장된걸 가정
-		String id = (String) session.getAttribute("id"); 
-		
 		model.addAttribute("result",result);
-		model.addAttribute("cafe_no",cafe_no);
-//		model.addAttribute("id",id);
+		model.addAttribute("cafe_no",review.getCafe_no());
 		
 		return "cafe/insert_result";
 	}

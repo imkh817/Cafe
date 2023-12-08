@@ -176,7 +176,6 @@ $(document).ready(function(){
 
 						<div class="modal-body">
 							<form action="ReviewInsert" method="post">
-								<input type="hidden" name="member_id" value="test2">
 								<input type="hidden" name="cafe_no" value="${cafe_no }">
 								<img src="images/pin.png" style="width: 1em; font-family: 'Tahoma', sans-serif; font-size: 20px;">
 								<span
@@ -225,10 +224,7 @@ $(document).ready(function(){
 		</div>
 
 		<!-- 글작성버튼 누르면 모달나오는 스크립트 코드 -->
-		<!-- 임시 아이디 -->
-		<!-- id값이 없으면 리뷰작성 불가 로그인해주세요 alert창 뜨게 함 -->
-		<%-- <c:set var="id" value="${id}"></c:set> --%>
-		<c:set var="id" value="a"></c:set>
+		<c:set var="id" value="${id}"></c:set>
 		<script>
 			  document.addEventListener('DOMContentLoaded', function () {
 			    var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
