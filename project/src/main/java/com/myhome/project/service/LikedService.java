@@ -1,14 +1,11 @@
-package com.myhome.project.dao;
+package com.myhome.project.service;
 
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Mapper;
-
 import com.myhome.project.model.Liked;
 
-@Mapper
-public interface LikedDao {
+public interface LikedService {
 
 //	찜목록 이동
 	public List<Map<String, Object>> getLikedListByNo(Liked liked);

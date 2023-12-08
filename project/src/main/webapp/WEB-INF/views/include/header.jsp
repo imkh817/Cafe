@@ -41,7 +41,7 @@
 			<button type="button" class="btn btn-primary" data-toggle="modal"
 				data-target="#loginModal">로그인</button>
 			<button class="btn btn-primary" onClick="location.href='member_logout'">로그아웃</button>
-			<button class="btn btn-primary" onClick="location.href='dibs'">마이페이지</button>
+			<button class="btn btn-primary" onClick="location.href='liked'">마이페이지</button>
 
 
 		</div>

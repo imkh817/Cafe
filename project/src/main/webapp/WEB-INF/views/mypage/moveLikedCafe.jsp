@@ -7,7 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<input type="hidden" name="member_id" value="${member.member_id }"> 
 
-
+	<script>
+		location.href="likedCafe?member_id=${member_id}";
+	</script>
 </body>
 </html>

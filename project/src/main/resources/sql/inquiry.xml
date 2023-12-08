@@ -3,34 +3,108 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.myhome.project.dao.InquiryDao">
-	 <!-- 관리자 문의 페이지 폼 페이징 -->
+
+	<!-- 문의목록 조회 -->
+	<select id="inquiryList" parameterType="String"
+		resultType="inquiry">
+		select * from inquiry where member_id = #{member_id} order
+		by inquiry_no ASC
+	</select>
+
+	<!-- 문의글 수 -->
+	<select id="getTotal" parameterType="inquiry" resultType="int">
+		select
+		count(*) from inquiry
+	</select>
+
+	<!-- 문의 제출 -->
+	<insert id="submitInquiry" parameterType="inquiry">
+		insert into inquiry
+		values(inquiry_num_seq.nextval,#{member_id},#{inquiry_title},#{inquiry_content},#{inquiry_image,
+		jdbcType=VARCHAR},SYSDATE,'N')
+	</insert>
+
+	<!-- 문의 상세페이지로 이동 -->
+	<select id="detailInquiry" parameterType="List"
+		resultType="java.util.Map">
+		SELECT i.inquiry_no, member_id, inquiry_title,
+		inquiry_content, inquiry_image, response_state,
+		CASE WHEN
+		response_state = 'Y' THEN
+		r.response_title
+		ELSE NULL END AS
+		response_title,
+		CASE WHEN
+		response_state = 'Y' THEN r.response_content
+		ELSE NULL END AS
+		response_content
+		FROM inquiry i
+		LEFT JOIN response r ON
+		i.inquiry_no = r.inquiry_no
+		WHERE i.inquiry_no =
+		#{inquiry_no}
+	</select>
+
+	<!-- 문의 수정 -->
+	<update id="updateInquiry" parameterType="inquiry">
+		UPDATE inquiry SET
+		inquiry_title = #{inquiry_title},
+		inquiry_content =
+		#{inquiry_content}
+		<if test="inquiry_image != null">
+			, inquiry_image = #{inquiry_image, jdbcType=VARCHAR}
+		</if>
+		WHERE inquiry_no = #{inquiry_no}
+	</update>
+
+	<!-- 게시글 확인 (첨부파일 수정에 필요함) -->
+	<select id="noCheck" parameterType="int" resultType="inquiry">
+		select *
+		from inquiry where inquiry_no = #{inquiry_no}
+	</select>
+
+	<!-- 문의 삭제 -->
+	<delete id="deleteInquiry" parameterType="inquiry">
+		delete from inquiry
+		where inquiry_no = #{inquiry_no}
+	</delete>
+
+	<!-- 관리자 문의 페이지 폼 페이징 -->
 	<select id="getTotalInquiry" resultType="int">
 		select count(*) from inquiry
 	</select>
- 	<!-- 관리자 문의 페이지 폼 페이징 -->	
-	<select id="getListInquiry" parameterType="inquiry" resultType="inquiry">
+	<!-- 관리자 문의 페이지 폼 페이징 -->
+	<select id="getListInquiry" parameterType="inquiry"
+		resultType="inquiry">
 		select * from(
 		select a.*,rowNum rn from(
 		select * from inquiry order by inquiry_reg desc)a)
 		where rn between #{startRow} and #{endRow}
 	</select>
-	
+
 	<!-- 관리자 페이지에서 고객이 쓴글 출력하기 -->
-	<select id="getOneInquiry" parameterType="String" resultType="inquiry">
+	<select id="getOneInquiry" parameterType="String"
+		resultType="inquiry">
 		select * from inquiry where inquiry_no=#{inquiry_no}
 	</select>
 	<!-- 관리자 페이지에서 고객이 쓴글 출력하기 -->
-	<select id="getResponse" parameterType="String" resultType="response">
+	<select id="getResponse" parameterType="String"
+		resultType="response">
 		select * from response where inquiry_no = #{inquiry_no}
 	</select>
-	
+
 	<!-- 관리자 문의 답변 작성 -->
 	<insert id="insertResponse" parameterType="response">
-		insert into response values(response_num_seq.nextval,#{inquiry_no},#{response_content},sysdate,#{response_title})
+		insert into response
+		values(response_num_seq.nextval,#{inquiry_no},#{response_content},sysdate,#{response_title})
 	</insert>
-	
+
 	<!-- 관리자 문의답변 작성 후 답변상태 변경 -->
 	<update id="updateResponseState" parameterType="int">
 		update inquiry set response_state='Y' where inquiry_no = #{inquiry_no}
 	</update>
+
+
+
+
 </mapper>
