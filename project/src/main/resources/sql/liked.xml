@@ -13,13 +13,13 @@
 		ON c.cafe_no =
 		l.cafe_no
 		WHERE member_id = #{member_id}
-		ORDER BY cafe_no ASC
+		ORDER BY cafe_reg DESC
 	</select>
 
 	<!-- 찜 개수 -->
 	<select id="getTotal" parameterType="liked" resultType="int">
 		select
-		count(*) from liked
+		count(*) from liked where member_id = #{member_id}
 	</select>
 
 

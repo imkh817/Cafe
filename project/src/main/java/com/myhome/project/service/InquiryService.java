@@ -12,7 +12,7 @@ public interface InquiryService {
 	public List<Inquiry> inquiryList(Inquiry inquiry);
 
 //	문의글 수
-	public int getTotal(Inquiry inquiry);
+	public int getTotal(String id);
 
 //	문의 제출
 	public int submitInquiry(Inquiry inquiry);
