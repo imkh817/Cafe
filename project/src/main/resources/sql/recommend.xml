@@ -4,16 +4,65 @@
 
 <mapper namespace="com.myhome.project.dao.RecommendDao">
 
-<select id="getTotal" resultType="int">
-	select count(*) from recommend
-</select>
-
-<!-- 게시판 목록 (page번호를 전달받아서 startRow와 endRow를 구함) -->
-	<select id="getList" parameterType="recommend" resultType="java.util.Map">
-		select * from(select a.*, rowNum rn from(
-		select * from recommend
-		order by rec_no desc)a)
-		where rn between #{startRow} and #{endRow}	
+	<select id="getTotal" resultType="int">
+		select count(*) from recommend
 	</select>
 
+	<!-- 글작성 -->
+	<insert id="insert" parameterType="recommend">
+		insert into recommend values(rec_no_seq.nextval,#{member_id},0,
+		#{rec_name},#{rec_image},#{rec_time1},#{rec_time2},
+		#{rec_address},#{rec_menu1},#{rec_menu2},#{rec_menu3},
+		#{rec_number},#{rec_content},sysdate)
+	</insert>
+
+
+
+	<!-- 게시판 목록 (page번호를 전달받아서 startRow와 endRow를 구함) -->
+	<select id="getList" parameterType="recommend"
+		resultType="java.util.Map">
+		select * from(select a.*, rowNum rn from(
+		select * from
+		recommend
+		order by rec_no desc)a)
+		where rn between #{startRow} and
+		#{endRow}
+	</select>
+
+	<!-- 조회수 증가 -->
+	<update id="updatecount" parameterType="int">
+		update recommend set rec_readcount = rec_readcount+1
+		where rec_no = #{rec_no}
+	</update>
+
+	<!-- 상세정보 구하기 -->
+	<select id="getBoard" parameterType="int" resultType="recommend">
+		select * from recommend where rec_no = #{rec_no}
+	</select>
+
+	<!-- 글수정 -->
+	<update id="update" parameterType="recommend">
+		update recommend
+		set
+		rec_name=#{rec_name},
+		rec_image=#{rec_image},
+		rec_time1=#{rec_time1},
+		rec_time2=#{rec_time2},
+		rec_address=#{rec_address},
+		rec_menu1=#{rec_menu1},
+		rec_menu2=#{rec_menu2},
+		rec_menu3=#{rec_menu3},
+		rec_number=#{rec_number},
+		rec_content=#{rec_content},
+		rec_reg= sysdate
+		where rec_no=#{rec_no}
+	</update>
+
+	<!-- 글삭제 -->
+	<delete id="delete" parameterType="int">
+		delete from recommend where rec_no = #{rec_no}
+	</delete>
+
+
 </mapper>
+

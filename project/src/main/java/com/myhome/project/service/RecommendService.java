@@ -13,7 +13,25 @@ public interface RecommendService {
 
 	List<Map<String, Object>> getList(Recommend recommend);
 
+	int insert(Recommend board);
+
+	int getCount();
+
+	List<Recommend> getBoardList(String page);
+	
+	void updatecount(int rec_no);
+
+	Recommend getBoard(int rec_no);
+
+	int update(Recommend board);
+
+	int delete(int rec_no) ;
 
 
 
+
+	
 }
+
+
+

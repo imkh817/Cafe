@@ -31,6 +31,9 @@
 			</ul>
 		</div>
 		<!-- 임시 아이디 -->
+		
+		
+		
 		<div class="ml-auto">
 			<!-- 로그인 버튼 -->
 			<button type="button" class="btn btn-primary"

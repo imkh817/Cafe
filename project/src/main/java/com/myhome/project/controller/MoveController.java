@@ -207,41 +207,59 @@ public class MoveController {
 
 	// 추천 게시판 상세 페이지로 이동
 	@RequestMapping("/recommendDetail")
-	public String recommendDetail(String page, Model model, HttpSession session,String rec_no) {
+	public String recommendDetail(
+	    @RequestParam("rec_no") int rec_no,
+	    @RequestParam(value = "page", defaultValue = "1") String page,
+	    Model model,
+	    HttpSession session
+	) {
+	    // 조회수 업데이트
+		recService.updatecount(rec_no);
 
-		if (page == null || page.equals("")) {
-			page = "1";
-		}
-		int currentPage = Integer.parseInt(page);
-		int rowPerPage = 5;
-		int startRow = (currentPage - 1) * rowPerPage + 1; // 1, 6, 11...
-		int endRow = startRow + rowPerPage - 1; // 5, 10, 15...
+	    // 추천 상세 정보 가져오기
+	    Recommend recommend = recService.getBoard(rec_no);
 
-		int total = replyService.getReplyTotal(rec_no);
 
-		System.out.println("total : " + total);
-		PagingPgm pp = new PagingPgm(total, rowPerPage, currentPage);
+	    String content = recommend.getRec_content().replace("\n", "<br>");
 
-		Reply reply = new Reply();
-		reply.setStartRow(startRow);
-		reply.setEndRow(endRow);
-		reply.setRec_no(Integer.parseInt(rec_no));
+	    System.out.println(content);
+	    
+	    // 페이징 설정
+	    int currentPage = 1;
+	    if (page != null && !page.equals("")) {
+	        currentPage = Integer.parseInt(page);
+	    }
+	    int rowPerPage = 5;
+	    int startRow = (currentPage - 1) * rowPerPage + 1;
+	    int endRow = startRow + rowPerPage - 1;
 
-		System.out.println("rec_no : " + rec_no);
-		System.out.println("reply 1: " + reply.getStartRow());
-		System.out.println("reply 2: " + reply.getEndRow());
+	    // 해당 추천에 대한 댓글 총 개수 가져오기
+	    int total = replyService.getReplyTotal(String.valueOf(rec_no));
 
-		// 조인 안 했을 때는 Map없이 list로만 쓸 수 있다.		
-		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
-		list = replyService.getReplyList(reply);		
-		
-		model.addAttribute("id", session.getAttribute("id"));
-		model.addAttribute("list", list);
-		model.addAttribute("page", pp);
-		model.addAttribute("rec_no", rec_no);
+	    // 페이징 정보 계산
+	    PagingPgm pp = new PagingPgm(total, rowPerPage, currentPage);
 
-		return "recommend/recommendDetail";
+	    // 댓글 가져오기 위한 파라미터 설정
+	    Reply reply = new Reply();
+	    reply.setStartRow(startRow);
+	    reply.setEndRow(endRow);
+	    reply.setRec_no(rec_no);
+
+	    // 댓글 목록 가져오기
+	    List<Map<String, Object>> list = replyService.getReplyList(reply);
+
+	    // 모델에 속성 추가
+	    model.addAttribute("recommend", recommend);
+	    model.addAttribute("content", content);
+	    model.addAttribute("id", session.getAttribute("id"));
+	    model.addAttribute("list", list);
+	    model.addAttribute("page", pp);
+	    model.addAttribute("rec_no",rec_no);
+	    
+	    return "recommend/recommendDetail";
 	}
+
+
 	
 	// 추천 게시판 댓글 작성
 	@RequestMapping("recommendReplyWrite")
@@ -284,16 +302,16 @@ public class MoveController {
 
 	
 	// 클라이언트 추천 게시판 작성
-	@RequestMapping("/recommendWrite")
-	public String g12() {
-		return "recommend/recommendWrite";
-	}
+//	@RequestMapping("/recommendWrite")
+//	public String g12() {
+//		return "recommend/recommendWrite";
+//	}
 
 	// 클라이언트 추천 게시판 목록
-	@RequestMapping("/recommendContent")
-	public String g13() {
-		return "recommend/recommendContent";
-	}
+//	@RequestMapping("/recommendContent")
+//	public String g13() {
+//		return "recommend/recommendContent";
+//	}
 
 	// 아이디 찾기
 	@RequestMapping("/find_id")

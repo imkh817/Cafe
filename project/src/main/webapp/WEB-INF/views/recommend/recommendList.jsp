@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>스타일 있는 게시판</title>
+<title>추천페이지 목록</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -31,13 +31,13 @@
 			</div>
 		</div>
 
-		<!-- forEach 알아서 뽑으세요 게시물 목록 -->
+	
 		<div class="post-list">
 			<ul class="list-group">
 				<c:forEach var="list" items="${list}">
 					<li class="list-group-item"><a href="recommendDetail?rec_no=${list['REC_NO']}"><h3
 								style="text-align: left;">제목 : ${list['REC_NAME']}</h3></a>
-						<p style="text-align: left;">ID : ${list['MEMBER_ID']}</p>
+						
 						<p style="text-align: left;">조회수 : ${list['REC_READCOUNT']}</p></li>
 				</c:forEach>
 			</ul>

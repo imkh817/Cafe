@@ -14,5 +14,18 @@ public interface RecommendDao {
 
 	List<Map<String, Object>> getList(Recommend recommend);
 
+	public int insert(Recommend board);
+
+	public int getCount();
+
+	public List<Recommend> getBoardList(String page);
+
+	public void updatecount(int rec_no);
+
+	public Recommend getBoard(int rec_no);
+
+	public int update(Recommend board);
+
+	public int delete(int rec_no);
 
 }

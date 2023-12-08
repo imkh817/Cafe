@@ -252,6 +252,10 @@ public class LoginController {
 		System.out.println("pashingLength : " + phonePashing.length());
 		
 		
+		
+	
+		
+		
 		if (phonePashing != null && !phonePashing.isEmpty()) {
 			// 숫자만 추출하여 전화번호 설정
 			String pp = phonePashing.substring(4);
@@ -289,8 +293,9 @@ public class LoginController {
 		}
 		session.setAttribute("id", member.getMember_id());
 		model.addAttribute("kakaoResult", result);
+		model.addAttribute("name",member.getMember_nickname());
 
-		return "cafe/join_result";
+		return "login/join_result";
 
 	}
 

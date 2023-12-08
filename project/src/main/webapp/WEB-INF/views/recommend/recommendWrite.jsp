@@ -19,24 +19,19 @@
 			</div>
 			<div class="col-md-10">
 				<div class="ask_container mt-5">
+				
 					<h2>장소 등록</h2>
-					<form enctype="multipart/form-data">
-						<div class="form-group">
-							<label for="placeCategory">카테고리 설정</label> <select
-								class="form-control" id="placeCategory" name="category_name">
-								<option value="restaurant">음식점</option>
-								<option value="cafe">카페</option>
-								<option value="park">공원</option>
-								<!-- 다른 카테고리도 추가 -->
-							</select>
-						</div>
+					<form enctype="multipart/form-data" action="${pageContext.request.contextPath}/fileupload" method="post">
+						<input type="hidden" value="${board.member_id}" name="member_id">
+						
 						<div class="form-group">
 							<label for="placeName">장소명</label> <input type="text"
-								class="form-control" id="placeName" placeholder="장소명을 입력하세요" name="rec_name">
+								class="form-control" id="placeName" placeholder="장소명을 입력하세요" name="rec_name" >
 						</div>
 						<div class="form-group">
 							<label for="placeAddress">전화번호</label> <input type="text"
-								class="form-control" id="phoneNumber" placeholder="전화번호를 입력하세요" name="rec_number">
+								class="form-control" id="phoneNumber" placeholder="전화번호를 입력하세요"
+								name="rec_number" pattern="[0-9]*" inputmode="numeric">
 						</div>
 						<div class="form-group">
 							<label for="placeAddress">주소</label> <input type="text"
@@ -46,12 +41,27 @@
 							<div class="form-group">
 								<label for="mondayOpeningTime">영업 시간</label> <select
 									class="form-control d-inline w-auto" id="OpeningTime" name="rec_time1"> 
+							<option>시작 시간</option>
 									<option value="09:00">09:00</option>
 									<option value="10:00">10:00</option>
+									<option value="11:00">11:00</option>
+									<option value="12:00">12:00</option>
+									<option value="13:00">13:00</option>
+									<option value="14:00">14:00</option>
+									<option value="15:00">15:00</option>
+									<option value="16:00">16:00</option>
 								</select> <span class="d-inline">부터</span> <select
-									class="form-control d-inline w-auto" id="ClosingTime" name="rec_time2">
+									class="form-control d-inline w-auto" id="ClosingTime"
+									name="rec_time2">
+									<option>마감 시간</option>
 									<option value="17:00">17:00</option>
 									<option value="18:00">18:00</option>
+									<option value="19:00">19:00</option>
+									<option value="20:00">20:00</option>
+									<option value="21:00">21:00</option>
+									<option value="22:00">22:00</option>
+									<option value="23:00">23:00</option>
+									<option value="24:00">24:00</option>
 								</select> <span class="d-inline">까지</span>
 							</div>
 						</div>
@@ -70,7 +80,7 @@
 						</div>
 						<div class="form-group">
 							<label for="placeImage">이미지 업로드</label> <input type="file"
-								class="form-control-file" id="placeImage" name="rec_image">
+								class="form-control-file" id="placeImage" name="rec_image1">
 						</div>
 						<button type="submit" class="btn btn-primary">등록</button>
 					</form>
