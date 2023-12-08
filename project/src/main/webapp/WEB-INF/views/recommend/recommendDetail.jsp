@@ -25,22 +25,7 @@
 	width: 25%; /* 이름 칼럼의 너비를 25%로 조절 */
 }
 </style>
- <script>
-        // 댓글 버튼 클릭 시 호출되는 함수
-        function toggleTextInput() {
-            var textInputDiv = document.getElementById("textInputDiv");
-            var uploadButton = document.getElementById("uploadButton");
 
-            // 현재 상태에 따라 텍스트 입력 부분과 버튼을 토글
-            if (textInputDiv.style.display === "none") {
-                textInputDiv.style.display = "block";
-                uploadButton.innerText = "취소"; // "취소"로 변경
-            } else {
-                textInputDiv.style.display = "none";
-                uploadButton.innerText = "업로드"; // "업로드"로 변경
-            }
-        }
-    </script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,15 +37,8 @@
 <link rel="stylesheet" href="css/style.css">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
+<script type="text/javascript"></script>
 
-<script type="text/javascript">
-
-
-
-
-</script>
-
-<script src="js/review.js"></script>
 </head>
 
 <body class="detail-body">
@@ -135,7 +113,9 @@
                             <span>${list['REPLY_CONTENT']}</span>
                             <span>
                                 <button id="openModalButton2" class="btn btn-primary" onClick="*">댓글 달기</button>
-                                <button class="btn btn-primary" onclick="changeHrefAndNavigate()">삭제</button>
+                                <c:if test="${id == list['MEMBER_ID']}"> 
+                                <button class="btn btn-primary" onclick="location.href='deleteReply?reply_no=${list['REPLY_NO']}&rec_no=${list['REC_NO'] }&member_id=${list['MEMBER_ID'] }'">삭제</button>
+                                </c:if>
                             </span>
                         </div>
 								</td>
@@ -274,12 +254,6 @@
 	            }
 	        });
 	    });
-
-	    function changeHrefAndNavigate() {
-            // URL 변경
-            window.location.href = 'deleteReply';
-        }
-           
           
          </script>
 	</div>

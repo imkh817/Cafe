@@ -118,7 +118,7 @@ public class LoginController {
         member.setMember_phone3(phoneParsing[2]);
         
         // 회원 확인
-        int result = 0;  // 카카오 로그인 성공여부 확인 -> 1:신규, 2:기존 회원
+        int result = 0;  // 네이버 로그인 성공여부 확인 -> 1:신규, 2:기존 회원
         Member userCheck = service.userCheck(naverId);
         if(userCheck == null) {	// 신규 회원
         	result = service.insert(member); // --> 신규 회원 DB등록
@@ -136,7 +136,7 @@ public class LoginController {
 	public String callback(String code, Member member, Model model, HttpSession session) { // @ResponseBody : 데이터를 리턴해주는
 																							// 함수
 		// code 로 데이터를 쿼리 스트링으로 넘겨주니까
-		// token 을 발급 받는 이유 : 카카오 리소스 서버에 등록된 (현재 로그인을 한 사람의 )개인정보를 응답 받기 위해서
+		// token 을 발급 받는 이유 : 카카오 리소스 서버에 등록된 (현재 로그인을 한 사람의)개인정보를 응답 받기 위해서
 
 		// POST방식으로 key-value 데이터를 카카오 쪽으로 요청
 		// HttpsURLConnection url = new HttpsURLConnection(); --> 예전에 사용하던 코드
@@ -147,12 +147,12 @@ public class LoginController {
 		// HTML 폼(form) 데이터를 서버로 전송할 때 사용되는 인코딩 타입(Content-Type) 중 하나이다.
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8"); 
 		
-		// 내가 지금 전송할 HTTP body데이터가 key-value 형태의 데이터임을 알려주는 것.
+		// 내가 지금 전송할 HTTP body 데이터가 key-value 형태의 데이터임을 알려주는 것.
 
 		// Http body 데이터를 담을 Object 생성
 		// MultiValueMap -> Map의 상위 버전 (spring API 공식 문서에 있음)
 		// -> 여러 값을 저장하는 맵 인터페이스의 확장
-		// 그냥 Map을 사용하면 안되는 것 인가?
+		// 그냥 Map을 사용하면 안되는 것인가?
 		// --> MultiValueMap을 사용하는 이유는 하나의 키에 여러 값을 가질 수 있기 때문이다. 여러 값이 동일한 키를 공유할 때 유용하다.
 		// 일반적으로 HTTP 폼 데이터나 쿼리 매개변수와 같이 여러 값이 하나의 키에 매핑되는 경우에 많이 사용된다.
 
@@ -164,7 +164,7 @@ public class LoginController {
 		params.add("redirect_uri", "http://localhost/project/callback2");
 		params.add("code", code);
 // ------------------------------------------
-		// Header 와 Body 데이터를 가지고 있는 하나의 Object Entity가 된다.
+		// Header와 Body 데이터를 가지고 있는 하나의 Object Entity가 된다.
 		// 왜 Entity에 넣냐면, exchage 함수가 HttpEntity Object를 받기 때문이다.
 		HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
 
@@ -175,7 +175,6 @@ public class LoginController {
 				// 자원 , 행위, 표현
 				// 토큰 요청시 발급 주소
 				"https://kauth.kakao.com/oauth/token", HttpMethod.POST, kakaoTokenRequest, String.class
-
 		);
 
 		// Gson, Json Simple, ObjectMapper 라이브러리 추가해야함.
@@ -255,8 +254,8 @@ public class LoginController {
 		if (phonePashing != null && !phonePashing.isEmpty()) {
 			// 숫자만 추출하여 전화번호 설정
 			String pp = phonePashing.substring(4);
-			
 			System.out.println("pp : " + pp);
+			
 			String pashing[] = pp.split("-");
 			pashing[0] = "0"+pashing[0];
 			
@@ -285,12 +284,11 @@ public class LoginController {
 		int result = 0;
 		if (userCheck == null) { // 신규 회원
 			result = service.insertKakao(member);
-		} else { // 기존 회원
-		}
+		} 
 		session.setAttribute("id", member.getMember_id());
 		model.addAttribute("kakaoResult", result);
 
-		return "cafe/join_result";
+		return "login/join_result";
 
 	}
 

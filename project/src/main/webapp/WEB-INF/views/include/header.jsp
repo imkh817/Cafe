@@ -71,8 +71,8 @@
 						</div>
 						
 						<!-- 소셜 로그인 버튼 -->
-						<div style="text-align: center ">
-						<a href="https://kauth.kakao.com/oauth/authorize?client_id=bdffe1412686d86c80754e7a2a386569&redirect_uri=http://localhost/project/callback2&response_type=code" style="margin-right: 30px;">
+						<div style="text-align: center">
+						<a href="https://kauth.kakao.com/oauth/authorize?client_id=bdffe1412686d86c80754e7a2a386569&redirect_uri=http://localhost/project/callback2&response_type=code" style="margin-right: 40px;">
 							<img width="70" src="images/kakaoLoginButton.png" />
 						</a>
 						

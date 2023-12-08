@@ -21,7 +21,7 @@
 <!-- 네이버 로그인 신규회원 -->
 <c:if test="${naverResult==1 }">
 	<script>
-		alert("${name}님 회원가입을 축하합니다.");
+		alert("${name} 님 회원가입을 축하합니다.");
 		location.href="main";
 	</script>
 </c:if>
@@ -29,7 +29,7 @@
 <!-- 네이버 로그인 기존회원 -->
 <c:if test="${naverReesult!=1 }">
 	<script>
-	alert("${name}님 환영합니다!")	
+	alert("${name} 님 환영합니다!")	
 	location.href="main";
 	</script>
 </c:if>
@@ -37,12 +37,12 @@
 <!-- 카카오 로그인 신규회원 -->
 <c:if test="${kakaoResult==1 }">
 	<script>
-		alert("${name}님 회원가입을 축하합니다.");
+		alert("${name} 님 회원가입을 축하합니다.");
 		location.href="main";
 	</script>
 </c:if>
 
-<!-- 카카 로그인 기존회원 -->
+<!-- 카카오 로그인 기존회원 -->
 <c:if test="${kakaoReesult!=1 }">
 	<script>
 	alert("${name} 님 환영합니다!")	

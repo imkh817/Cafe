@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.myhome.project.model.Cafe;
 import com.myhome.project.model.Category;
+import com.myhome.project.model.Member;
 import com.myhome.project.model.PagingPgm;
 import com.myhome.project.model.Recommend;
 import com.myhome.project.model.Reply;
@@ -272,13 +273,18 @@ public class MoveController {
 	// 추천 게시판 댓글 삭제
 	@RequestMapping("deleteReply")
 	public String deleteReply(Reply reply, Model model, HttpSession session) {
-		// session.getAttribute("id");
+		
+		int result = 0;
+	    
 	    if(session.getAttribute("id").equals(reply.getMember_id())) {
 	    	System.out.println("아이디 일치");
-	    	int result = replyService.deleteReply(reply);
-	    	System.out.println("result:" + result);
-	    	model.addAttribute("result", result);
+	    	result = replyService.deleteReply(reply.getReply_no());
 	    }
+	    System.out.println("result:" + result);
+	    System.out.println("reply_no:" + reply.getReply_no());
+	    
+	    model.addAttribute("result", result);
+	    model.addAttribute("rec_no", reply.getRec_no());	// result에서 디테일로 넘어갈 때 필요
 		return "recommend/deleteReplyResult";
 	}
 
