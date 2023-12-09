@@ -293,7 +293,8 @@ public class LoginController {
 		}
 		session.setAttribute("id", member.getMember_id());
 		model.addAttribute("kakaoResult", result);
-		model.addAttribute("name",member.getMember_nickname());
+		model.addAttribute("name",member.getMember_name());
+		session.setAttribute("member", member);
 
 		return "login/join_result";
 
