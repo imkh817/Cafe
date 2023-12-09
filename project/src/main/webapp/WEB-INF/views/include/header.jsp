@@ -70,7 +70,7 @@
 
 				<!-- 로그인을 눌렀을 때 화면에 보이는 모달창 -->
 				<form action="member_login_ok" method="post"
-					onSubmit="return check()">
+					onSubmit="return check()" >
 					<!-- 로그인 버튼 눌렀을때 이동할 url적는 칸 -->
 					<div class="modal-body">
 						<h2 class="text-center mb-4">로그인</h2>
