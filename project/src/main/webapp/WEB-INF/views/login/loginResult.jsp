@@ -24,11 +24,4 @@
 	</script>
 </c:if>  
 
-<!-- 소셜회원 가입 -->
-<c:if test="${result == 3}">
-	<script>
-		alert("로그인 실패!");
-		history.go(-1);
-	</script>
-</c:if>  
- 
+
