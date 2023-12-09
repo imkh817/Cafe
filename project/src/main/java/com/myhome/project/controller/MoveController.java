@@ -62,11 +62,7 @@ public class MoveController {
 		List<Category> list = new ArrayList<Category>();
 		list = categoryService.selectList();
 		
-		String id = (String)session.getAttribute("id");
-		System.out.println("session에 저장된 id : " + id);
-		
 		model.addAttribute("list",list);
-		model.addAttribute("id",id);
 		return "cafe/main";
 	}
 

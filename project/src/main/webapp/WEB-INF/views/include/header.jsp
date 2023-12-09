@@ -1,3 +1,4 @@
+<%@page import="com.myhome.project.model.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -13,6 +14,7 @@
 	rel="stylesheet">
 	<script src="./js/member.js"></script>
 </head>
+
 <body class="bodyNav">
 	<!-- 네비게이션 바 -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -29,6 +31,10 @@
 						alt="Left Button" style="width: 60px; height: 60px; margin: 10px;">
 				</a></li>
 			</ul>
+			 <c:if test="${id != null}"> 
+			 	<img width="25" src="images/person.png" />&nbsp;&nbsp;
+			 	<span> ${member.member_nickname} 님</span>
+             </c:if>
 		</div>
 		<!-- 임시 아이디 -->
 		<div class="ml-auto">
