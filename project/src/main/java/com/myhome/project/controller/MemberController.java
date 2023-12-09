@@ -237,6 +237,12 @@ public class MemberController {
 		}
 		return "mypage/memberDeleteResult";
 	}
+	
+	@RequestMapping("socialMemberDelete")
+	public String socialMemberDelete() {
+		return "";
+	}
+	
 }
 
 
