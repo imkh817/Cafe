@@ -35,7 +35,7 @@
 			 	<img width="25" src="images/person.png" />&nbsp;&nbsp;
 			 	<span> ${member.member_nickname} 님</span>
              </c:if>
-		</div>
+		</div>  
 		<!-- 임시 아이디 -->
 		<div class="ml-auto">
 			<!-- 로그인 버튼 -->
