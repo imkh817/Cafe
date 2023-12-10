@@ -261,28 +261,50 @@ $(document).ready(function(){
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- 찜 하트 -->
 	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-    	var heartIcon = document.getElementById('heartIcon');
-    	var heartValue = document.querySelector('input[name="heart"]');
+document.addEventListener('DOMContentLoaded', function() {
+    var heartIcon = document.getElementById('heartIcon');
+    // name 값이 like_state인 첫번 째 input을 구해옴
+    var heartValue = document.querySelector('input[name="like_state"]');
+    alert("heartValue.value 값은 " + heartValue.value + " 입니다.");
+    alert("cafe_no 값은 " + ${cafe.cafe_no} + " 입니다.");
+    
+    if (heartValue.value == '1') {
+        heartIcon.classList.add('fas', 'text-danger');
+    } else {
+        heartIcon.classList.add('far');
+    }
 
-    	heartIcon.addEventListener('click', function() {
-        heartIcon.classList.toggle('far');
-        heartIcon.classList.toggle('fas');
-        heartIcon.classList.toggle('text-danger');
-
-        // Update the hidden field value
-        if (heartIcon.classList.contains('fas')) {
-            heartValue.value = '1'; // Set heart value to 1 when filled
-            
+    heartIcon.addEventListener('click', function() {
+        alert("찜 버튼 클릭");
+        var id = "<c:out value='${id}'/>";	
+        alert("ID 값은 " + id + " 입니다.");
+        alert("cafe_no 값은 " + ${cafe.cafe_no} + " 입니다.");
+        if (!id || id === "null" || id === "undefined") {
+            alert("로그인 후 이용해주세요.");
         } else {
-            heartValue.value = '0'; // Set heart value to 0 when outline
-        }
+        	// 클래스를 모두 제거
+            heartIcon.classList.remove('far', 'fas', 'text-danger');
+            
+            if (heartValue.value == '1') {
+                heartValue.value = '0'; 
+                heartIcon.classList.add('far');
+            } else {
+                heartValue.value = '1'; 
+                heartIcon.classList.add('fas', 'text-danger');
+            }
         
-        location.href = 'heart_result?heart=' + heartValue.value;
-			});
-		});
+            // 서버에 하트 클릭 이벤트를 전달하는 Ajax 요청
+            $.ajax({
+                type: "POST",
+                url: "heartClick",
+                data: { cafe_no: '<c:out value="${cafe.cafe_no}" />', like_state: heartValue.value },
+                success: function(response) {
+                }
+            });
+        }
+    });
+});
 
 </script>
 
