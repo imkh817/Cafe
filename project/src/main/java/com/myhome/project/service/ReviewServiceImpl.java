@@ -52,5 +52,13 @@ public class ReviewServiceImpl implements ReviewService{
 		return dao.avg_star(cafe_no);
 
 	}
+	// 해쉬태그 평균 구해오기
+	public List<Map<String, Object>> hash_avg(Review review) {
+	   return dao.hash_avg(review);
+	}
+	// 별점 평균 구해오기
+	public double starAvg(int cafe_no) {
+		return dao.starAvg(cafe_no);
+	}
 
 }

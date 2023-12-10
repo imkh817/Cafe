@@ -33,4 +33,38 @@
 		delete from review where
 		review_no = #{review_no}
 	</delete>
+	
+		<!-- 해시태그 구해오기 -->
+	<select id="hash_avg" parameterType="Review" resultType="map">
+		<![CDATA[
+        SELECT hash_no, hash_name, hash_count, total_hash_count 
+			FROM ( 
+                SELECT h.hash_no, h.hash_name, COUNT(r.hash_no) AS hash_count 
+                FROM hashtag h 
+                LEFT OUTER JOIN review r ON r.hash_no = h.hash_no 
+                WHERE cafe_no = #{cafe_no} 
+                GROUP BY h.hash_no, h.hash_name 
+                ORDER BY COUNT(r.hash_no) DESC 
+                ) 
+            subquery JOIN ( 
+                SELECT SUM(hash_count) AS total_hash_count 
+                FROM(  
+                    SELECT h.hash_no, h.hash_name, COUNT(r.hash_no) AS hash_count 
+                    FROM hashtag h LEFT 
+                    OUTER JOIN review r ON r.hash_no = h.hash_no WHERE cafe_no = #{cafe_no} GROUP 
+                    BY h.hash_no, h.hash_name ORDER BY COUNT(r.hash_no) DESC ) 
+                    where rownum <=4 
+                    )
+                ON 1=1 
+                WHERE ROWNUM <= 4
+         ]]>
+	</select>
+	<select id="starAvg" parameterType="Review" resultType="double">
+	
+	<!-- select trunc(avg(cafe_star),1) as staravg from review where cafe_no = #{cafe_no} -->
+	 select nvl(trunc(avg(cafe_star),1),0) as staravg from review where cafe_no = #{cafe_no}
+	</select>
+	
+	
+	
 </mapper>

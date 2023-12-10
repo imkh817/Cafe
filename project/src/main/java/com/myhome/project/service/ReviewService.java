@@ -22,4 +22,14 @@ public interface ReviewService {
 
 	// 카페 별점 평균값 구해오기
 	double avg_star(int cafe_no);
+
+	// 해쉬태그 구해오기   
+    List<Map<String, Object>> hash_avg(Review review);
+    
+    // 별점 평균 값 구해오기
+    double starAvg(int cafe_no);
+	
+    
+	
+	
 }

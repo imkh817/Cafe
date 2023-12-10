@@ -4,4 +4,24 @@
 
 <mapper namespace="com.myhome.project.dao.LikedDao">
 
+
+
+<!-- 찜 확인 -->
+<select id="selectLike" parameterType="Liked" resultType="Liked">
+	select * from liked where member_id =#{member_id} and cafe_no=#{cafe_no}
+</select>
+
+
+<!-- 찜 저장 -->
+<insert id="insertLike" parameterType="Liked">
+	insert into liked values(#{member_id},#{cafe_no})
+</insert>
+
+<!-- 찜 삭제 -->
+<delete id="deleteLike" >
+	delete from liked where member_id=#{member_id} and cafe_no = #{cafe_no}
+</delete>
+
+
 </mapper>
+
