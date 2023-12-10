@@ -21,8 +21,10 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.myhome.project.dao.HashtagDao;
 import com.myhome.project.model.Cafe;
 import com.myhome.project.model.Category;
+import com.myhome.project.model.Hashtag;
 import com.myhome.project.model.Member;
 import com.myhome.project.model.Liked;
 import com.myhome.project.model.PagingPgm;
@@ -65,6 +67,11 @@ public class MoveController {
 	
 	@Autowired
 	LikedService likedService;
+	
+	@Autowired
+	HashtagDao hashdao;
+	
+	
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
@@ -167,9 +174,26 @@ public class MoveController {
 		public String cafe_detail(int cafe_no, 
 									Review review, 
 									HttpSession session,
-									Model model) { 
+									Model model,
+									String pageNum) {
+			
+			if(pageNum == null || pageNum.equals("")) {
+				pageNum = "1";
+			}
+			
+			// 리뷰
+
+			// 해시 태그 목록 가져오기
+			List<Hashtag> hashtag = new ArrayList<Hashtag>();
+			hashtag = hashdao.gethashtag();
+			
+			
+			
+			
+			
 		// update
 		// 조회수 증가
+			System.out.println("detail컨트롤러 cafe_no : " + cafe_no);
 		cafeService.cafe_readcount(cafe_no);
 		
 		// select
@@ -188,7 +212,6 @@ public class MoveController {
 		
 		// 하트
 		// liked테이블에서 해당 값을 구해오려면 cafe_no와 member_id값이 필요하다.
-		session.setAttribute("id", "test1");
 		String id = (String) session.getAttribute("id");
 		System.out.println("session에 저장된 값:" + id);
 		System.out.println("cafe_no: " + cafe_no);
@@ -209,6 +232,7 @@ public class MoveController {
 		// 뷰 파일로 값 넘기기
 			// 카페 정보
 		model.addAttribute("cafe", cafe);
+		System.out.println("Cafe :::::" + cafe.getCafe_name());
 			// 해시 태그 평균 값
 		model.addAttribute("hashAvg", hashAvg);
 			// 별점 가져오기
@@ -216,6 +240,10 @@ public class MoveController {
 			// 찜 상태 가져오기
 		model.addAttribute("liked",result);
 		
+		model.addAttribute("tag",hashtag);
+		
+		model.addAttribute("pageNum",pageNum);
+		model.addAttribute("id",id);
 		
 		return "cafe/detail";
 		}

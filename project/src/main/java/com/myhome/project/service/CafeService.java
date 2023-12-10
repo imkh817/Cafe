@@ -3,6 +3,7 @@ package com.myhome.project.service;
 import java.util.List;
 
 import com.myhome.project.model.Cafe;
+import com.myhome.project.model.Hashtag;
 
 public interface CafeService {
 	
@@ -13,6 +14,7 @@ public interface CafeService {
 	Cafe select(int cafe_no);
 
 	public void cafe_update(Cafe cafe);
+
 
 
 

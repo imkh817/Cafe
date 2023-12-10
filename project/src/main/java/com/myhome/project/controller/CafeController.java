@@ -132,9 +132,6 @@ public class CafeController {
 								Model model) throws Exception {
 
 			
-			// 관리자 ID session에서 가져오기
-			String adminID = (String)session.getAttribute("adminID");
-			
 			// 첨부파일명
 			String filename = mf.getOriginalFilename();
 			// 첨부파일 크기
@@ -226,7 +223,6 @@ public class CafeController {
 			
 			// 하트
 			// liked테이블에서 해당 값을 구해오려면 cafe_no와 member_id값이 필요하다.
-			session.setAttribute("id", "test1");
 			String id = (String) session.getAttribute("id");
 			System.out.println("session에 저장된 값:" + id);
 			System.out.println("cafe_no: " + cafe_no);

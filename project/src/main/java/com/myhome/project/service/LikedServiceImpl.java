@@ -33,4 +33,19 @@ public class LikedServiceImpl implements LikedService {
 		return dao.moveLikedToDetail(cafe_no);
 	}
 
+	// 찜 검색
+	public Liked selectLike(Liked ldto) {
+		return dao.selectLike(ldto);
+	}
+
+	// 찜 저장
+	public int insertLike(Liked liked) {
+		return dao.insertLike(liked);
+	}
+
+	// 찜 삭제
+	public int deleteLike(Liked liked) {
+		return dao.deleteLike(liked);
+	}	
+	
 }

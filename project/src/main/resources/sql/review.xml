@@ -63,7 +63,7 @@
 		having cafe_no=#{cafe_no}
     </select>
 		<!-- 해시태그 구해오기 -->
-	<select id="hash_avg" parameterType="Review" resultType="map">
+	<select id="hash_avg" parameterType="Review" resultType="java.util.Map">
 		<![CDATA[
         SELECT hash_no, hash_name, hash_count, total_hash_count 
 			FROM ( 
