@@ -82,7 +82,6 @@ public class ReviewController {
 		if(result > 0) {
 			// cafe_star 평균값 구해오기
 			double avg_star = reviewService.avg_star(review.getCafe_no());
-			System.out.println("avg_star: "+avg_star);
 			
 			Cafe cafe =  new Cafe();
 			cafe.setAvg_cafe_star(avg_star);
@@ -90,10 +89,7 @@ public class ReviewController {
 			
 			// avg_cafe_star 컬럼 update
 			cafedao.update_avg_cafe_star(cafe);
-			
-			System.out.println("평균 컬럼 업뎃 끗 ~");
 		}
-		System.out.println("if문 끗 ~");
 		
 		model.addAttribute("result",result);
 		model.addAttribute("cafe_no",review.getCafe_no());
@@ -104,7 +100,7 @@ public class ReviewController {
 	// 리뷰 목록
 	@RequestMapping("ReviewList")
 	public String review_list(@RequestParam("cafe_no")int cafe_no, String pageNum, Review review, Model model) {
-		System.out.println("리뷰 목록 cafe_no: "+cafe_no);
+
 		// 페이징
 		final int rowPerPage = 5;
 		

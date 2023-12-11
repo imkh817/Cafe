@@ -65,6 +65,10 @@ public class MoveController {
 	// 메인 페이지로 이동
 	@RequestMapping("/main")
 	public String main(Model model, HttpSession session) {
+		
+		 // 세션에서 nearByCafe 값을 삭제
+        session.removeAttribute("nearByCafe");
+		
 		List<Category> list = new ArrayList<Category>();
 		list = categoryService.selectList();
 		
@@ -76,9 +80,9 @@ public class MoveController {
 		return "cafe/main";
 	}
 	
-	// 사용자 위치 (list에서 누름)
+	// list 페이지에서 사용자 위치받아오는 메서드
 	@RequestMapping("nearByCafe")
-	public String nearByCafe(@RequestParam("latitude") String latitude ,@RequestParam("longitude")String longitude,Model model) 
+	public String nearByCafe(@RequestParam("latitude") String latitude ,@RequestParam("longitude")String longitude, Model model, HttpSession session) 
 			throws JsonMappingException, JsonProcessingException {
 		
 		System.out.println("Latitude: " + latitude);
@@ -109,21 +113,34 @@ public class MoveController {
 	    String address = result.getDocuments().get(0).getAddress().getRegion3depthName();
 	    System.out.println("주소 : " + address);
 	    
+	    address = address.substring(0, address.length() - 1);
+	    System.out.println("자른 주소: " + address);
+	    
+	    // API로 받아온 사용자 주소값을 sesion에 저장
+	    session.setAttribute("nearByCafe", address);
+	    System.out.println("session에 저장된 주소: "+ session.getAttribute("nearByCafe"));
+	    
+	    return "cafe/list";
 		
-	    // 지연
-		return "";
 	}
 
 	// 목록 페이지로 이동
 	@RequestMapping("/list")
-	public String g2(@RequestParam(name = "pageNum", defaultValue = "1") String pageNum, Cafe cafe, Model model) {
+	public String g2(@RequestParam(name = "pageNum", defaultValue = "1") String pageNum, Cafe cafe, Model model, HttpSession session) {
 
+		System.out.println("카테고리 번호: "+ cafe.getCategory_no());
+		
 		// 검색 버튼을 눌렀을 때 넘어온 keyword 저장
 		cafe.setKeyword(cafe.getKeyword());
 
+		// 받아온 주소값 저장
+		System.out.println("cafe 세션에서 받아온 주소: "+session.getAttribute("nearByCafe"));
+		cafe.setNearByCafe((String)session.getAttribute("nearByCafe"));
+		System.out.println("cafe에 저장된 nearByCafe: " + cafe.getNearByCafe());
+		
 		// 페이징
 		final int rowPerPage = 6;
-
+		
 		int currentPage = Integer.parseInt(pageNum);
 
 		int total = listService.countCafeList(cafe);
@@ -144,8 +161,7 @@ public class MoveController {
 		}
 
 		model.addAttribute("cafe_list", cafe_list);
-		model.addAttribute("category_no", cafe.getCategory_no());
-		model.addAttribute("keyword", cafe.getKeyword());
+		model.addAttribute("cafe", cafe);
 		model.addAttribute("rp", rp);
 
 		return "cafe/list";

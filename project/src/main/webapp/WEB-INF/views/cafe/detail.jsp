@@ -146,7 +146,7 @@ $(document).ready(function(){
 				<h2 class="section-title">지도</h2>
 				<div id="kakao-map"></div>
 				<br>
-				<!-- <button class="kakaobtn">길찾기 바로가기</button> -->
+				<button class="kakaobtn" id="kakaobtn" style="display:none;">길찾기 바로가기</button>
 			</div>
 		</div>
 
@@ -175,7 +175,7 @@ $(document).ready(function(){
 						</div>
 
 						<div class="modal-body">
-							<form action="ReviewInsert" method="post">
+							<form id="reviewSubmit" action="ReviewInsert" method="post">
 								<input type="hidden" name="cafe_no" value="${cafe_no }">
 								<img src="images/pin.png" style="width: 1em; font-family: 'Tahoma', sans-serif; font-size: 20px;">
 								<span
@@ -214,7 +214,7 @@ $(document).ready(function(){
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"
 										data-bs-dismiss="modal">Close</button>
-									<button type="submit" class="btn btn-primary">리뷰 작성</button>
+									<button id="reviewSubmit" type="submit" class="btn btn-primary">리뷰 작성</button>
 								</div>
 							</form>
 						</div><!-- end class="modal-body" -->
@@ -275,9 +275,6 @@ $(document).ready(function(){
 </script>
 
 
-
-
-
 	<!-- 카카오 맵 -->
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=dc616f3f60dc0ec7cd19b89f1c6dc69a&libraries=services,clusterer,drawing"></script>
@@ -313,20 +310,24 @@ $(document).ready(function(){
 				// 마커가 지도 위에 표시되도록 설정
 				marker.setMap(map);
 				
-				// 길찾기 버튼 클릭
-				/* click()
-				https://map.kakao.com/link/to/cafe_address,result[0].y, result[0].x */
+				// 지도가 생성되면 길찾기 버튼 나타나게
+				var kakaobtn = document.getElementById("kakaobtn");
+				kakaobtn.style.display = "block";
+				
+				// 클릭 이벤트에 URL 이동 추가
+	            kakaobtn.addEventListener("click", function() {
+	                // 클릭 시 카카오 지도 길찾기 링크로 이동
+	                var linkUrl = "https://map.kakao.com/link/to/" + cafe_address + "," + result[0].y + "," + result[0].x;
+	                window.open(linkUrl, '_blank');
+	            });
+				 
 		    }else{
 		    	console.log("카카오 API 호출 실패")
 		    }
 		};
 
 		geocoder.addressSearch(cafe_address, callback);
-		
-	
-		
-		
-		
+
 	</script>
 
 </body>
