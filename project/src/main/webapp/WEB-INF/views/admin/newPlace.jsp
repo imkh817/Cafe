@@ -56,6 +56,12 @@ function check(){
 }
 </script>
 
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
 
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -130,7 +136,7 @@ function check(){
 							<label for="placeImage">이미지 업로드</label> 
 						<input type="file" class="form-control-file" id="cafe_image" name="cafe_image1">
 						<input type="submit" value="등록" class="btn btn-primary" />
-						<input type="reset" value="취소" class="btn btn-primary" />
+						<input type="button" value="취소" class="btn btn-primary" onclick="goBack()"/>
 						</div>
 						<!-- <button type="submit" class="btn btn-primary">등록</button> -->
 					</form>
