@@ -164,21 +164,28 @@
 					</tbody>
 				</table>
 
-				<!-- 페이징 버튼 -->
-				<nav aria-label="Page navigation example">
-					<ul class="pagination justify-content-center">
-						<li class="page-item"><a class="page-link"
-							href="inquiry?member_id=${inquiry.member_id }&pageNum=${pp.startPage }"
-							aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-						<c:forEach var="i" begin="${pp.startPage }" end="${pp.totalPage }">
+				<c:if test="${!empty likedResult}">
+					<!-- 페이징 버튼 -->
+					<nav aria-label="Page navigation example">
+						<ul class="pagination justify-content-center">
 							<li class="page-item"><a class="page-link"
-								href="inquiry?member_id=${inquiry.member_id }&pageNum=${i}">${i}</a></li>
-						</c:forEach>
-						<li class="page-item"><a class="page-link"
-							href="inquiry?member_id=${inquiry.member_id }&pageNum=${pp.totalPage }"
-							aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-					</ul>
-				</nav>
+								href="inquiry?member_id=${inquiry.member_id }&pageNum=${pp.startPage }"
+								aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+							<c:forEach var="i" begin="${pp.startPage }"
+								end="${pp.totalPage }">
+								<li class="page-item"><a class="page-link"
+									href="inquiry?member_id=${inquiry.member_id }&pageNum=${i}">${i}</a></li>
+							</c:forEach>
+							<li class="page-item"><a class="page-link"
+								href="inquiry?member_id=${inquiry.member_id }&pageNum=${pp.totalPage }"
+								aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+						</ul>
+					</nav>
+				</c:if>
+				<c:if test="${empty likedResult}">
+					<h3>문의가 없어요!</h3>
+				</c:if>
+
 
 			</div>
 		</div>

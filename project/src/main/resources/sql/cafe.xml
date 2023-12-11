@@ -73,7 +73,7 @@
 	</update>
 	
 	<!-- 조회수 증가 -->
-	<update id="updateCaferead" parameterType="int">
+	<update id="cafe_readcount" parameterType="int">
 		update cafe set cafe_readcount = cafe_readcount+1 where cafe_no=#{cafe_no}
 	</update>
 

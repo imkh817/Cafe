@@ -28,7 +28,7 @@ public interface CafeDao {
 	public void updateBoard(Cafe cafe);
 
 	// 카페 조회수
-	public void updateCaferead(int cafe_no);
+	public void cafe_readcount(int cafe_no);
 	
 	// 카페 데이터 조회
 	public Cafe select(int cafe_no);

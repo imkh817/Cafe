@@ -24,11 +24,11 @@
 
 			<input type="hidden" name="member_id" value="${member.member_id }">
 
-			<!-- 목록페이지 카페 이름, 주소, 소개글, 별점순 -->
+			<!-- 목록페이지 카페 이름, 소개글, 영업시간, 주소, 별점순 -->
 			<div class="col-md-10">
 				<div class="row">
 					<c:forEach var="l" items="${likedResult }"
-						begin="${liked.startRow }" end="${liked.endRow }" varStatus="num">
+						begin="${liked.startRow }" end="${liked.endRow }">
 						<input type="hidden" name="cafe_no" value="${l['CAFE_NO'] }">
 						<div class="col-sm-4 mb-5">
 							<div class="card" style="width: 18rem;">
@@ -38,21 +38,14 @@
 									<h5 class="card-title">
 										<a href="Detail?cafe_no=${l['CAFE_NO']}">${l['CAFE_NAME'] }</a>
 									</h5>
-									<p class="card-text"></p>
+									<p class="card-text">${l['CAFE_COMMENT'] }</p>
+
 								</div>
-								<ul class="list-group list-group-flush">
+								<ul
+									class="list-group list-group                                                                                                                                                                                                                                                                                                                                                                                     -flush">
+									<li class="list-group-item">${l['CAFE_TIME1'] }~
+										${l['CAFE_TIME2'] }</li>
 									<li class="list-group-item">${l['CAFE_ADDRESS'] }</li>
-
-									<!-- 카페 소개글이 10자 이상일 경우 10자만 출력 -->
-									<c:choose>
-										<c:when test="${fn:length(cafe.cafe_content ) <= 10}">
-											<li class="list-group-item">${l['CAFE_COMMENT'] }</li>
-										</c:when>
-										<c:otherwise>
-											<li class="list-group-item">${fn:substring(cafe.cafe_content, 0, 10)}...</li>
-										</c:otherwise>
-									</c:choose>
-
 
 									<!-- 평균 별점 -->
 									<li class="list-group-item"><span
@@ -81,23 +74,29 @@
 						</div>
 					</c:forEach>
 
-					<!-- 페이징 버튼 -->
-					<nav aria-label="Page navigation example">
-						<ul class="pagination justify-content-center">
-							<li class="page-item"><a class="page-link"
-								href="liked?member_id=${member_id }&pageNum=${pp.startPage }"
-								aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-
-							<c:forEach var="i" begin="${pp.startPage }"
-								end="${pp.totalPage }">
+					<c:if test="${!empty likedResult}">
+						<!-- 페이징 버튼 -->
+						<nav aria-label="Page navigation example">
+							<ul class="pagination justify-content-center">
 								<li class="page-item"><a class="page-link"
-									href="liked?member_id=${member_id }&pageNum=${i}">${i}</a></li>
-							</c:forEach>
-							<li class="page-item"><a class="page-link"
-								href="liked?member_id=${member_id }&pageNum=${pp.totalPage }"
-								aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-						</ul>
-					</nav>
+									href="liked?member_id=${member_id }&pageNum=${pp.startPage }"
+									aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+
+								<c:forEach var="i" begin="${pp.startPage }"
+									end="${pp.totalPage }">
+									<li class="page-item"><a class="page-link"
+										href="liked?member_id=${member_id }&pageNum=${i}">${i}</a></li>
+								</c:forEach>
+								<li class="page-item"><a class="page-link"
+									href="liked?member_id=${member_id }&pageNum=${pp.totalPage }"
+									aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+							</ul>
+						</nav>
+					</c:if>
+
+					<c:if test="${empty likedResult}">
+						<h3>찜한 카페가 없어요!</h3>
+					</c:if>
 
 				</div>
 			</div>

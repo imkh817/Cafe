@@ -25,7 +25,7 @@ public class CafeServiceImpl implements CafeService {
 
 	// 조회수 증가
 	public void cafe_readcount(int cafe_no) {
-		dao.updateCaferead(cafe_no);
+		dao.cafe_readcount(cafe_no);
 	}
 
 	// 카페 정보

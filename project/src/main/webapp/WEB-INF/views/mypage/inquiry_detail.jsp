@@ -6,9 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>1:1 문의 상세페이지</title>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 	rel="stylesheet">
+</head>
 
 <script>
 	// 이미지 미리보기
@@ -90,7 +93,7 @@
 								<!-- 답변 -->
 								<div class="form-group">
 									<br>
-									<h3>1:1 문의 상세페이지</h3>
+									<h3>1:1 문의 답변</h3>
 									<br> <label for="responseTitle">제목</label> <input
 										type="text" class="form-control" id="response_title"
 										name="response_title" placeholder="답변 제목 출력"
