@@ -8,7 +8,7 @@
     <c:if test="${result > 0 }">
     <script type="text/javascript">
     	alert("리뷰작성에 성공하였습니다.");
-    	location.href="Detail?cafe_no=${cafe_no}";
+    	location.href="detail?cafe_no=${cafe_no}";
     </script>
     </c:if>
     

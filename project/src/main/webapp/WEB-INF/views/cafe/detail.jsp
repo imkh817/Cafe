@@ -21,23 +21,23 @@
 }
 
 .kakaobtn {
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  border: 2px solid #2196F3;
-  color: #2196F3;
-  background-color: #fff;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
+	display: inline-block;
+	padding: 10px 20px;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	border: 2px solid #2196F3;
+	color: #2196F3;
+	background-color: #fff;
+	border-radius: 5px;
+	transition: background-color 0.3s, color 0.3s;
 }
 
 .kakaobtn:hover {
-  background-color: #2196F3;
-  color: #fff;
+	background-color: #2196F3;
+	color: #fff;
 }
 </style>
 
@@ -57,79 +57,116 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-	$('#review_list').load('ReviewList?cafe_no=${cafe_no}&pageNum=${pageNum}');
+	$('#review_list').load('ReviewList?cafe_no=${cafe.cafe_no}&pageNum=${pageNum}');
 });
 
 
 </script>
 
-	<script src="js/review.js"></script>
+<div class="container mt-4">
+		<div class="row">
+
+			<!-- 제목 -->
+			<!-- 제목 -->
+			<div class="col-12 text-center map-title" style="font-weight: bold;">${recommend.rec_name}</div>
+
+
+
+
+		</div>
+	</div>
+
+
+<script src="js/review.js"></script>
 </head>
 
 <body class="detail-body">
 
 	<%-- 제이쿼리 불러와야해서 위쪽에서 include 해야합니다
 	<%@ include file="/WEB-INF/views/include/header.jsp"%> --%>
-	
+
 	<div class="container mt-4">
 		<div class="row">
 			<!-- 제목 -->
-			<div class="col-12 text-center map-title">스타벅스</div>
-			
+			<div class="section-title col-12 text-center map-title">${cafe.cafe_name }</div>
 		</div>
+
+		<!-- 수정 버튼 -->
+		<c:if test="${id != null}">
+			<c:if test="${id eq 'master' }">
+				<div class="col-12 d-flex justify-content-end">
+					<div style="display: inline-block; margin-right: 10px;">
+						<button type="button" class="btn btn-primary"
+							onClick="location.href='modifyPlace?cafe_no=${cafe.cafe_no}'">글수정</button>
+					</div>
+				</div>
+			</c:if>
+		</c:if>
+
 	</div>
+	
+
 
 	<div class="container">
 		<div class="section-container">
 			<div class="section">
-			
-			<c:forEach var="cafelist" items="${cafelist }">
-			<input type="hidden" id="cafe_address" value=" ${cafelist.cafe_address}">
-				<h2 class="section-title">스타벅스</h2>
-				<p class="card-text">전화번호: 02-1234-5678</p>
-				<p class="card-text">영업시간: 09:00 AM - 10:00 PM</p>
-				<p class="card-text">위치: ${cafelist.cafe_address}</p>
+				<input type="hidden" id="cafe_address" value=" ${cafe.cafe_address}">
+				<h2 class="section-title">${cafe.cafe_name }</h2>
+				<p class="card-text">연락처 : ${cafe.cafe_number }</p>
+				<p class="card-text">영업시간: ${cafe.cafe_time1 } AM -
+					${cafe.cafe_time2 } PM</p>
+				<p class="card-text">위치: ${cafe.cafe_address }</p>
+				<br>
+				
 				<h2 class="section-title">메뉴</h2>
-				<p class="card-text">아이스 아메리카노 02-1234-5678</p>
-				<p class="card-text">카라멜 마끼야또</p>
-				<p class="card-text">유자허니차</p>
-			</c:forEach>
+				<p class="card-text">추천메뉴 : ${cafe.cafe_menu1 }</p>
+				<p class="card-text">추천메뉴 : ${cafe.cafe_menu2 }</p>
+				<p class="card-text">추천메뉴 : ${cafe.cafe_menu3 }</p>
 				<h2 class="section-title">
+				<br>				
+				
 					찜 <i id="heartIcon" class="far fa-heart" style="cursor: pointer;"></i>
-					<input type="hidden" name="like_state" value="0">
+					<input type="hidden" name="like_state" value="${liked }">
+
+
 				</h2>
 			</div>
+
+			<!-- 해시태그 -->
 			<div class="section">
-				<!-- 영업 시간 -->
-				<h2 class="section-title">#해시태그</h2>
-				<!-- 알아서 받아오세용 -->
-				<c:forEach var="hashtag" begin="1" end="4">
-					<p class="card-text">직원들이 친절해요!!</p>
+				<h2 class="section-title text-center">#해시태그</h2>
+				<c:forEach var="hashAvg" items="${hashAvg}">
+					<p class="card-text">${hashAvg['HASH_NAME']}</p>
 					<div class="progress" role="progressbar"
 						aria-label="Animated striped example" aria-valuenow="75"
 						aria-valuemin="0" aria-valuemax="100">
-						<div
-							class="progress-bar progress-bar-striped progress-bar-animated"
-							style="width: <%=65%>%"></div>
-						<!-- 수치 입력, 게이지로 나옴 -->
+						<script>
+           				 var totalHashCount = parseInt('${hashAvg['TOTAL_HASH_COUNT']}');
+           				 var hashCount = parseInt('${hashAvg['HASH_COUNT']}');
+           				 var percentage = (hashCount/totalHashCount)*100;
+
+          				 document.write('<div class="progress-bar progress-bar-striped progress-bar-animated" style="width: ' + percentage + '%"></div>');
+       					 </script>
 					</div>
 					<br>
 				</c:forEach>
-				<div class="text-start mt-3">
 
-					<!-- 별점 -->
-					<!-- 컨트롤러에서 넘어오는 값을 num 대신 넣어주면 됨 -->
-					<span style="font-size: 24px; color: gold;"> 
-					<c:set var="num" value="3.8"></c:set> 
-					<c:set var="num2" value="${num%1 }"></c:set> 
-					<c:set var="num3" value="${num/1}"></c:set>
-						<c:forEach begin="1" end="${num3}" var="star">
-							<i class="fas fa-star"></i>
-						</c:forEach> <c:if test="${num2>0 }">
-							<i class="fas fa-star-half-alt"></i>
-						</c:if> <span style="color: black; margin-left: 10px; font-size: 20px">${num}</span>
-					</span>
-				</div>
+
+				<c:if test="${star != 0}">
+					<div class="text-start mt-3">
+						<!-- 별점 -->
+						<!-- 컨트롤러에서 넘어오는 값을 num 대신 넣어주면 됨 -->
+						<span style="font-size: 24px; color: gold;"> <c:set
+								var="num2" value="${star%1 }" /> <c:set var="num3"
+								value="${star/1}" /> <c:forEach begin="1" end="${num3}"
+								var="star">
+								<i class="fas fa-star"></i>
+							</c:forEach> <c:if test="${num2>=0.5 }">
+								<i class="fas fa-star-half-alt"></i>
+							</c:if> <span style="color: black; margin-left: 10px; font-size: 20px">${star}</span>
+						</span>
+					</div>
+				</c:if>
 				<br>
 			</div>
 		</div>
@@ -137,11 +174,11 @@ $(document).ready(function(){
 		<div class="section-container">
 			<div class="section image-section">
 				<!-- 사진 -->
-				<h2 class="section-title">사진</h2>
-				<img src="images/cafe.jpeg" class="img-thumbnail" alt="..."
+				<h2 class="section-title text-center">사진</h2>
+				<img src="upload/${cafe.cafe_image }" class="img-thumbnail" alt="카페 사진"
 					style="width: 100%; height: auto;">
 			</div>
-			<div class="section map-section">
+			<div class="section map-section text-center">
 				<!-- 지도 -->
 				<h2 class="section-title">지도</h2>
 				<div id="kakao-map"></div>
@@ -156,7 +193,8 @@ $(document).ready(function(){
 
 			<div class="d-flex justify-content-end mb-3">
 				<!-- "글 작성" 버튼을 리뷰 섹션 맨 오른쪽에 배치 -->
-				<button id="openModalButton" class="btn btn-primary" onClick="#">리뷰 작성</button>
+				<button id="openModalButton" class="btn btn-primary" onClick="#">리뷰
+					작성</button>
 			</div>
 
 			<!-- 리뷰 목록 -->
@@ -176,8 +214,9 @@ $(document).ready(function(){
 
 						<div class="modal-body">
 							<form action="ReviewInsert" method="post">
-								<input type="hidden" name="cafe_no" value="${cafe_no }">
-								<img src="images/pin.png" style="width: 1em; font-family: 'Tahoma', sans-serif; font-size: 20px;">
+								<input type="hidden" name="cafe_no" value="${cafe.cafe_no }">
+								<img src="images/pin.png"
+									style="width: 1em; font-family: 'Tahoma', sans-serif; font-size: 20px;">
 								<span
 									style="font-family: 'Tahoma', sans-serif; font-size: 20px;">카페에
 									어울리는 하나의 해시태그를 골라주세요</span>
@@ -196,8 +235,10 @@ $(document).ready(function(){
 								</div>
 
 								<div class="mb-3">
-									<label for="reviewAge" class="form-label"> <i class="fas fa-star"></i>별점</label> 
-									<select class="form-select" name="cafe_star" id="cafe_star" required>
+									<label for="reviewAge" class="form-label"> <i
+										class="fas fa-star"></i>별점
+									</label> <select class="form-select" name="cafe_star" id="cafe_star"
+										required>
 										<option value="">별점 선택</option>
 										<option value="1">1점</option>
 										<option value="2">2점</option>
@@ -209,7 +250,8 @@ $(document).ready(function(){
 								<div class="mb-3">
 									<label for="reviewCity" class="form-label">내용</label>
 									<textarea class="form-control" id="review_content"
-										name="review_content" rows="5" maxlength="300" placeholder="100자 이내로 입력하세요." required></textarea>
+										name="review_content" rows="5" maxlength="300"
+										placeholder="100자 이내로 입력하세요." required></textarea>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"
@@ -217,7 +259,8 @@ $(document).ready(function(){
 									<button type="submit" class="btn btn-primary">리뷰 작성</button>
 								</div>
 							</form>
-						</div><!-- end class="modal-body" -->
+						</div>
+						<!-- end class="modal-body" -->
 					</div>
 				</div>
 			</div>
@@ -246,31 +289,48 @@ $(document).ready(function(){
 
 
 	</div>
-	
+
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- 찜 하트 -->
 	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-    	var heartIcon = document.getElementById('heartIcon');
-    	var heartValue = document.querySelector('input[name="heart"]');
+document.addEventListener('DOMContentLoaded', function() {
+    var heartIcon = document.getElementById('heartIcon');
+    // name 값이 like_state인 첫번 째 input을 구해옴
+    var heartValue = document.querySelector('input[name="like_state"]');
+    
+    if (heartValue.value == '1') {
+        heartIcon.classList.add('fas', 'text-danger');
+    } else {
+        heartIcon.classList.add('far');
+    }
 
-    	heartIcon.addEventListener('click', function() {
-        heartIcon.classList.toggle('far');
-        heartIcon.classList.toggle('fas');
-        heartIcon.classList.toggle('text-danger');
-
-        // Update the hidden field value
-        if (heartIcon.classList.contains('fas')) {
-            heartValue.value = '1'; // Set heart value to 1 when filled
-            
+    heartIcon.addEventListener('click', function() {
+        var id = "<c:out value='${id}'/>";	
+        if (!id || id === "null" || id === "undefined") {
+            alert("로그인 후 이용해주세요.");
         } else {
-            heartValue.value = '0'; // Set heart value to 0 when outline
-        }
+        	// 클래스를 모두 제거
+            heartIcon.classList.remove('far', 'fas', 'text-danger');
+            
+            if (heartValue.value == '1') {
+                heartValue.value = '0'; 
+                heartIcon.classList.add('far');
+            } else {
+                heartValue.value = '1'; 
+                heartIcon.classList.add('fas', 'text-danger');
+            }
         
-        location.href = 'heart_result?heart=' + heartValue.value;
-			});
-		});
+            // 서버에 하트 클릭 이벤트를 전달하는 Ajax 요청
+            $.ajax({
+                type: "POST",
+                url: "heartClick",
+                data: { cafe_no: '<c:out value="${cafe.cafe_no}" />', like_state: heartValue.value },
+                success: function(response) {
+                }
+            });
+        }
+    });
+});
 
 </script>
 
