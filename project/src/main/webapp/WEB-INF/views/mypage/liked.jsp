@@ -24,7 +24,7 @@
 
 			<input type="hidden" name="member_id" value="${member.member_id }">
 
-			<!-- 목록페이지 -->
+			<!-- 목록페이지 카페 이름, 주소, 소개글, 별점순 -->
 			<div class="col-md-10">
 				<div class="row">
 					<c:forEach var="l" items="${likedResult }"
@@ -42,6 +42,8 @@
 								</div>
 								<ul class="list-group list-group-flush">
 									<li class="list-group-item">${l['CAFE_ADDRESS'] }</li>
+
+									<!-- 카페 소개글이 10자 이상일 경우 10자만 출력 -->
 									<c:choose>
 										<c:when test="${fn:length(cafe.cafe_content ) <= 10}">
 											<li class="list-group-item">${l['CAFE_COMMENT'] }</li>
@@ -51,7 +53,23 @@
 										</c:otherwise>
 									</c:choose>
 
-									<li class="list-group-item">별점 : ${l['AVG_CAFE_STAR'] }</li>
+
+									<!-- 평균 별점 -->
+									<li class="list-group-item"><span
+										style="font-size: 24px; color: gold;"> <c:set
+												var="cafe_star" value="${l['AVG_CAFE_STAR'] }" /> <c:set
+												var="num2" value="${cafe_star%1}" /> <c:set var="num3"
+												value="${cafe_star/1}" /> <c:forEach begin="1"
+												end="${num3}" var="star">
+												<i class="fas fa-star"></i>
+											</c:forEach> <c:if test="${cafe_star == 0}">
+												<i class="far fa-star"></i>
+											</c:if> <c:if test="${num2>0.5}">
+												<i class="fas fa-star-half-alt"></i>
+											</c:if> <span
+											style="color: black; margin-left: 10px; font-size: 16px">
+												${l['AVG_CAFE_STAR'] }</span>
+									</span></li>
 								</ul>
 								<div class="card-body">
 									<button class="btn btn-primary"
@@ -62,7 +80,6 @@
 							</div>
 						</div>
 					</c:forEach>
-
 
 					<!-- 페이징 버튼 -->
 					<nav aria-label="Page navigation example">
@@ -81,9 +98,6 @@
 								aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 						</ul>
 					</nav>
-
-
-
 
 				</div>
 			</div>

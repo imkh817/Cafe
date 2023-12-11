@@ -8,7 +8,7 @@
 	<select id="getLikedListByNo" parameterType="List"
 		resultType="java.util.Map">
 		SELECT c.cafe_no, cafe_name, cafe_image, cafe_address,
-		cafe_comment, avg_cafe_star FROM
+		cafe_comment, COALESCE(avg_cafe_star, 0) as avg_cafe_star FROM
 		cafe c JOIN liked l
 		ON c.cafe_no =
 		l.cafe_no
