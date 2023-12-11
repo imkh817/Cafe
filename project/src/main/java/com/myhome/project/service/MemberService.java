@@ -17,7 +17,7 @@ public interface MemberService {
 
 	Member getMember(String id);
 
-	Member findId(String name);
+	Member findId(Member member);
 
 	Member findpw(Member member);
 

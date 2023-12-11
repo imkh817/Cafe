@@ -60,8 +60,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public Member findId(String name) {
-		return dao.findId(name);
+	public Member findId(Member member) {
+		return dao.findId(member);
 	}
 	
 	public Member findpw(Member member) {

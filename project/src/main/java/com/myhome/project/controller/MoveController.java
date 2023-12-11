@@ -103,6 +103,7 @@ public class MoveController {
 	    	System.out.println("null입니다.");
 	    }
 	    
+	    
 	    String address = result.getDocuments().get(0).getAddress().getRegion3depthName();
 	    System.out.println("주소 : " + address);
 	    
@@ -238,25 +239,22 @@ public class MoveController {
 	public String recommendDetail(
 	    @RequestParam("rec_no") int rec_no,
 	    @RequestParam(value = "page", defaultValue = "1") String page,
-	    Model model,
-	    HttpSession session
-	) {
+	    												  Model model,
+	    												  HttpSession session) {
 	    // 조회수 업데이트
 		recService.updatecount(rec_no);
 
 	    // 추천 상세 정보 가져오기
 	    Recommend recommend = recService.getBoard(rec_no);
 
-
 	    String content = recommend.getRec_content().replace("\n", "<br>");
-
 	    System.out.println(content);
 	    
 	    // 페이징 설정
-	    int currentPage = 1;
-	    if (page != null && !page.equals("")) {
-	        currentPage = Integer.parseInt(page);
+	    if (page == null || page.equals("")) {
+	    	page = "1";
 	    }
+	    int currentPage = Integer.parseInt(page);
 	    int rowPerPage = 5;
 	    int startRow = (currentPage - 1) * rowPerPage + 1;
 	    int endRow = startRow + rowPerPage - 1;
@@ -304,13 +302,6 @@ public class MoveController {
 	    	int result = replyService.reInsert(reply);
 	    	model.addAttribute("result", result);
 	    	
-	    	
-//	    // ref, level, step 처리
-//	    	reply.setReply_level(reply.getReply_level() + 1); // 부모보다 1증가된 값
-//	    	reply.setReply_step(reply.getReply_step() + 1); 
-//	    	
-//			model.addAttribute("reply", reply);
-//			model.addAttribute("result", result);
 	    }
 		return "recommend/replyInsertResult";
 	}

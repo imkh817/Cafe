@@ -129,7 +129,7 @@ public class MemberController {
 						   HttpSession session) throws Exception{
 				
 		System.out.println("받아온 member 이름 : " + member.getMember_name());
-		Member db = service.findId(member.getMember_name());
+		Member db = service.findId(member);
 		int result = -1;
 		if(db != null && db.getMember_email().equals(member.getMember_email())
 				      && db.getMember_domain().equals(member.getMember_domain())) {
