@@ -95,9 +95,12 @@ $(document).ready(function(){
 					찜 <i id="heartIcon" class="far fa-heart" style="cursor: pointer;"></i>
 					<input type="hidden" name="like_state" value="${liked }">
 
-
-					<button type="button" class="btn btn-primary"
-						onClick="location.href='modifyPlace?cafe_no=${cafe.cafe_no}'">수정</button>
+					<c:if test = "${id != null}">
+						<c:if test = "${id eq 'master' }">
+							<button type="button" class="btn btn-primary"
+							onClick="location.href='modifyPlace?cafe_no=${cafe.cafe_no}'">수정</button>
+						</c:if>
+					</c:if>
 				</h2>
 			</div>
 

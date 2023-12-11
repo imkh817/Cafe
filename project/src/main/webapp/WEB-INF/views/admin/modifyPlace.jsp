@@ -111,14 +111,35 @@ function check(){
 							id="cafe_time2" name="cafe_time2" placeholder="종료 시간" value="${cafe.cafe_time2 }">
 							<span class="d-inline">까지</span>
 						</div>
-							
-						<c:forEach var="i" begin="1" end="3">
+
+						<div class="form-group d-flex align-items-center">
+							<input type="text" class="form-control d-inline w-auto mx-2"
+								id="cafe_menu1" name="cafe_menu1"
+								value="${cafe.cafe_menu1}">
+						</div>
+
+						<div class="form-group d-flex align-items-center">
+							<input type="text" class="form-control d-inline w-auto mx-2"
+								id="cafe_menu2" name="cafe_menu2"
+								value="${cafe.cafe_menu2}">
+						</div>
+
+						<div class="form-group d-flex align-items-center">
+							<input type="text" class="form-control d-inline w-auto mx-2"
+								id="cafe_menu3" name="cafe_menu3"
+								value="${cafe.cafe_menu3}">
+						</div>
+
+
+						<%-- <c:forEach var="i" begin="1" end="3">
 							<div class="form-group d-flex align-items-center">
-								<label for="recommendedMenu">추천 메뉴${i }</label> 
+								<label for="recommendedMenu">추천 메뉴${i }</label>
+								<c:set var="menuKey" value="${String.valueOf(i)}" />
 								<input type="text" class="form-control d-inline w-auto mx-2"
-									id="cafe_menu${i}" name="cafe_menu${i}">
+									id="cafe_menu${i}" name="cafe_menu${i}"
+									value="${cafe[CAFE_MENU + i]}">
 							</div>
-						</c:forEach>
+						</c:forEach> --%>
 
 						<div class="form-group">
 							<label for="placeDescription">설명</label>
