@@ -96,24 +96,26 @@ function deleterecommend(rec_no) {
 	<div class="container mt-4">
 		<div class="row">
 
-			<!-- 제목 -->
-			<!-- 제목 -->
+		
 			<div class="col-12 text-center map-title" style="font-weight: bold;">${recommend.rec_name}</div>
 
 
 			<div class="col-12 d-flex justify-content-end">
 
+				<c:if test="${id == recommend.member_id}">
 				<div style="display: inline-block; margin-right: 10px;">
 					<input type="button" class="btn btn-primary"
 						onclick="location.href='recommendUpdateForm?rec_no=${rec_no}&page=${page.currentPage}'"
 						value="글수정">
 				</div>
+				</c:if>
 
+				<c:if test="${id == recommend.member_id}">
 				<div style="display: inline-block;">
 					<input type="button" class="btn btn-primary"
 						onclick="deleterecommend(${rec_no})" value="글삭제">
 				</div>
-
+				</c:if>
 
 			</div>
 
@@ -123,7 +125,7 @@ function deleterecommend(rec_no) {
 	<div class="container">
 		<div class="section-container">
 			<div class="section">
-				<div class="d-flex justify-content-center">
+				<div class="d-flex ">
 					<h2 class="section-title">${recommend.rec_name}</h2>
 				</div>
 				<p class="card-text">연락처: ${recommend.rec_number}</p>
@@ -131,7 +133,7 @@ function deleterecommend(rec_no) {
 					${recommend.rec_time2} PM</p>
 				<p class="card-text">위치: ${recommend.rec_address}</p>
 
-				<h2 class="section-title text-center">메뉴</h2>
+				<h2 class="section-title">메뉴</h2>
 				<p class="card-text">${recommend.rec_menu1}</p>
 				<p class="card-text">${recommend.rec_menu2}</p>
 				<p class="card-text">${recommend.rec_menu3}</p>
