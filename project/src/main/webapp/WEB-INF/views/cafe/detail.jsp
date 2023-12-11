@@ -63,6 +63,20 @@ $(document).ready(function(){
 
 </script>
 
+<div class="container mt-4">
+		<div class="row">
+
+			<!-- 제목 -->
+			<!-- 제목 -->
+			<div class="col-12 text-center map-title" style="font-weight: bold;">${recommend.rec_name}</div>
+
+
+
+
+		</div>
+	</div>
+
+
 <script src="js/review.js"></script>
 </head>
 
@@ -74,40 +88,52 @@ $(document).ready(function(){
 	<div class="container mt-4">
 		<div class="row">
 			<!-- 제목 -->
-			<div class="col-12 text-center map-title">${cafe.cafe_name }</div>
-
+			<div class="section-title col-12 text-center map-title">${cafe.cafe_name }</div>
 		</div>
+
+		<!-- 수정 버튼 -->
+		<c:if test="${id != null}">
+			<c:if test="${id eq 'master' }">
+				<div class="col-12 d-flex justify-content-end">
+					<div style="display: inline-block; margin-right: 10px;">
+						<button type="button" class="btn btn-primary"
+							onClick="location.href='modifyPlace?cafe_no=${cafe.cafe_no}'">글수정</button>
+					</div>
+				</div>
+			</c:if>
+		</c:if>
+
 	</div>
+	
+
 
 	<div class="container">
 		<div class="section-container">
 			<div class="section">
-				<input type="hidden" id="cafe_address" value=" ${cafe.cafe_address}">
 				<h2 class="section-title">${cafe.cafe_name }</h2>
 				<p class="card-text">연락처 : ${cafe.cafe_number }</p>
 				<p class="card-text">영업시간: ${cafe.cafe_time1 } AM -
 					${cafe.cafe_time2 } PM</p>
 				<p class="card-text">위치: ${cafe.cafe_address }</p>
+				<br>
+				
 				<h2 class="section-title">메뉴</h2>
 				<p class="card-text">추천메뉴 : ${cafe.cafe_menu1 }</p>
 				<p class="card-text">추천메뉴 : ${cafe.cafe_menu2 }</p>
 				<p class="card-text">추천메뉴 : ${cafe.cafe_menu3 }</p>
 				<h2 class="section-title">
+				<br>				
+				
 					찜 <i id="heartIcon" class="far fa-heart" style="cursor: pointer;"></i>
 					<input type="hidden" name="like_state" value="${liked }">
 
-					<c:if test = "${id != null}">
-						<c:if test = "${id eq 'master' }">
-							<button type="button" class="btn btn-primary"
-							onClick="location.href='modifyPlace?cafe_no=${cafe.cafe_no}'">수정</button>
-						</c:if>
-					</c:if>
+
 				</h2>
 			</div>
 
 			<!-- 해시태그 -->
 			<div class="section">
-				<h2 class="section-title">#해시태그</h2>
+				<h2 class="section-title text-center">#해시태그</h2>
 				<c:forEach var="hashAvg" items="${hashAvg}">
 					<p class="card-text">${hashAvg['HASH_NAME']}</p>
 					<div class="progress" role="progressbar"
@@ -147,16 +173,16 @@ $(document).ready(function(){
 		<div class="section-container">
 			<div class="section image-section">
 				<!-- 사진 -->
-				<h2 class="section-title">사진</h2>
+				<h2 class="section-title text-center">사진</h2>
 				<img src="upload/${cafe.cafe_image }" class="img-thumbnail" alt="카페 사진"
 					style="width: 100%; height: auto;">
 			</div>
-			<div class="section map-section">
+			<div class="section map-section text-center">
 				<!-- 지도 -->
 				<h2 class="section-title">지도</h2>
 				<div id="kakao-map"></div>
 				<br>
-				<button class="kakaobtn" id="kakaobtn" style="display:none;">길찾기 바로가기</button>
+				<!-- <button class="kakaobtn">길찾기 바로가기</button> -->
 			</div>
 		</div>
 
@@ -186,10 +212,10 @@ $(document).ready(function(){
 						</div>
 
 						<div class="modal-body">
-							<form id="reviewSubmit" action="ReviewInsert" method="post">
+							<form action="ReviewInsert" method="post">
 								<input type="hidden" name="cafe_no" value="${cafe.cafe_no }">
-								<img src="images/pin.png" style="width: 1em; font-family: 'Tahoma', sans-serif; font-size: 20px;">
-
+								<img src="images/pin.png"
+									style="width: 1em; font-family: 'Tahoma', sans-serif; font-size: 20px;">
 								<span
 									style="font-family: 'Tahoma', sans-serif; font-size: 20px;">카페에
 									어울리는 하나의 해시태그를 골라주세요</span>
@@ -229,7 +255,7 @@ $(document).ready(function(){
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"
 										data-bs-dismiss="modal">Close</button>
-									<button id="reviewSubmit" type="submit" class="btn btn-primary">리뷰 작성</button>
+									<button type="submit" class="btn btn-primary">리뷰 작성</button>
 								</div>
 							</form>
 						</div>
@@ -308,6 +334,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 
+
+
+
 	<!-- 카카오 맵 -->
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=dc616f3f60dc0ec7cd19b89f1c6dc69a&libraries=services,clusterer,drawing"></script>
@@ -343,24 +372,20 @@ document.addEventListener('DOMContentLoaded', function() {
 				// 마커가 지도 위에 표시되도록 설정
 				marker.setMap(map);
 				
-				// 지도가 생성되면 길찾기 버튼 나타나게
-				var kakaobtn = document.getElementById("kakaobtn");
-				kakaobtn.style.display = "block";
-				
-				// 클릭 이벤트에 URL 이동 추가
-	            kakaobtn.addEventListener("click", function() {
-	                // 클릭 시 카카오 지도 길찾기 링크로 이동
-	                var linkUrl = "https://map.kakao.com/link/to/" + cafe_address + "," + result[0].y + "," + result[0].x;
-	                window.open(linkUrl, '_blank');
-	            });
-				 
+				// 길찾기 버튼 클릭
+				/* click()
+				https://map.kakao.com/link/to/cafe_address,result[0].y, result[0].x */
 		    }else{
 		    	console.log("카카오 API 호출 실패")
 		    }
 		};
 
 		geocoder.addressSearch(cafe_address, callback);
-
+		
+	
+		
+		
+		
 	</script>
 
 </body>

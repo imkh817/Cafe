@@ -56,6 +56,13 @@ function check(){
 }
 </script>
 
+<!-- 이전 페이지로 이동 -->
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
 
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -104,27 +111,30 @@ function check(){
 							<label for="mondayOpeningTime">영업 시간</label> 
 							
 							<input type="text" class="form-control d-inline w-auto" 
-							id="cafe_time1" name="cafe_time1" placeholder="시작 시간" value="${cafe.cafe_time1 }">
+							id="cafe_time1" name="cafe_time1" placeholder="ex)09:00" value="${cafe.cafe_time1 }">
 							<span class="d-inline">부터</span>
 							
 							<input type="text" class="form-control d-inline w-auto" 
-							id="cafe_time2" name="cafe_time2" placeholder="종료 시간" value="${cafe.cafe_time2 }">
+							id="cafe_time2" name="cafe_time2" placeholder="ex)18:00" value="${cafe.cafe_time2 }">
 							<span class="d-inline">까지</span>
 						</div>
 
 						<div class="form-group d-flex align-items-center">
+							<label for="recommendedMenu">추천 메뉴 1</label> 
 							<input type="text" class="form-control d-inline w-auto mx-2"
 								id="cafe_menu1" name="cafe_menu1"
 								value="${cafe.cafe_menu1}">
 						</div>
 
 						<div class="form-group d-flex align-items-center">
+							<label for="recommendedMenu">추천 메뉴 2</label> 
 							<input type="text" class="form-control d-inline w-auto mx-2"
 								id="cafe_menu2" name="cafe_menu2"
 								value="${cafe.cafe_menu2}">
 						</div>
 
 						<div class="form-group d-flex align-items-center">
+							<label for="recommendedMenu">추천 메뉴 3</label> 
 							<input type="text" class="form-control d-inline w-auto mx-2"
 								id="cafe_menu3" name="cafe_menu3"
 								value="${cafe.cafe_menu3}">
@@ -153,7 +163,7 @@ function check(){
 						 <!-- cafe_no를 숨겨진 필드로 추가 -->
     					<input type="hidden" name="cafe_no" value="${cafe.cafe_no}">
 						<input type="submit" value="수정" class="btn btn-primary" id="submitBtn"/>
-						<input type="reset" value="취소" class="btn btn-primary" />
+						<input type="button" value="취소" class="btn btn-primary" onclick="goBack()"/>
 						</div>
 					</form>
 				</div>
