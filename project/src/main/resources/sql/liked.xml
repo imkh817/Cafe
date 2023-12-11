@@ -28,5 +28,21 @@
 		resultType="List">
 		select cafe_no from liked where cafe_no = #{cafe_no}
 	</select>
+	<select id="selectLike" parameterType="Liked" resultType="Liked">
+		select * from liked where member_id =#{member_id} and cafe_no=#{cafe_no}
+	</select>
 
+
+	<!-- 찜 저장 -->
+	<insert id="insertLike" parameterType="Liked">
+		insert into liked values(#{member_id},#{cafe_no})
+	</insert>
+
+	<!-- 찜 삭제 -->
+	<delete id="deleteLike">
+		delete from liked where member_id=#{member_id} and cafe_no = #{cafe_no}
+	</delete>
 </mapper>
+
+
+

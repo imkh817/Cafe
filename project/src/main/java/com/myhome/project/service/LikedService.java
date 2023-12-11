@@ -16,4 +16,14 @@ public interface LikedService {
 //	지금 바로 확인하기 버튼 클릭 및 카페 이름 클릭 이동
 	public List<Liked> moveLikedToDetail(int cafe_no);
 
+
+	public Liked selectLike(Liked ldto);
+
+	public int insertLike(Liked liked);
+
+	public int deleteLike(Liked liked);
+
+	
+	
+	
 }

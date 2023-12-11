@@ -5,7 +5,7 @@
 <c:if test="${result == 1 }">
 	<script>
 	alert("댓글 삭제 성공!");
-	location.href="recommend/deleteReplyResult";
+	location.href="recommendDetail?rec_no=${rec_no}";
 	</script>
 </c:if>
 <c:if test="${result != 1 }">

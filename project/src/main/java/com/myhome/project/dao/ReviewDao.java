@@ -26,4 +26,14 @@ public interface ReviewDao {
 
 	// cafe_avg 구해오기
 	double avg_star(int cafe_no);
+	
+	// 해시태그 평균 값
+    List<Map<String, Object>> hash_avg(Review review);
+    
+    // 별점 평균 값
+    double starAvg(int cafe_no);
+	
+	
+	
+	
 }
