@@ -41,8 +41,9 @@
 		select * from member where member_id=#{member_id}
 	</select>
 
-	<select id="findId" parameterType="String" resultType="member">
-		select * from member where member_name=#{member_name}
+	<select id="findId" parameterType="member" resultType="member">
+		select * from member where member_name=#{member_name} and member_email=#{member_email}
+		and member_domain=#{member_domain}
 	</select>
 	
 	<!-- 비번 검색 -->

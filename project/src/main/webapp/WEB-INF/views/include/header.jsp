@@ -35,7 +35,7 @@
 			 	<img width="25" src="images/person.png" />&nbsp;&nbsp;
 			 	<span> ${member.member_nickname} 님</span>
              </c:if>
-		</div>
+		</div>  
 		<!-- 임시 아이디 -->
 		<div class="ml-auto">
 			<!-- 로그인 버튼 -->
@@ -79,10 +79,10 @@
 					<div class="modal-body">
 						<h2 class="text-center mb-4">로그인</h2>
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="아이디" id="member_id" name="member_id">
+							<input type="text" class="form-control" placeholder="아이디" id="member_id" name="member_id" required>
 						</div>
 						<div class="form-group">
-							<input type="password" class="form-control" placeholder="비밀번호" id="member_pw" name="member_pw">
+							<input type="password" class="form-control" placeholder="비밀번호" id="member_pw" name="member_pw" required>
 						</div>
 						
 						<!-- 소셜 로그인 버튼 -->

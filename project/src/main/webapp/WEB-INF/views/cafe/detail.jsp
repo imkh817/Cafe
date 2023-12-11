@@ -55,13 +55,24 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 
 <script type="text/javascript">
-
 $(document).ready(function(){
 	$('#review_list').load('ReviewList?cafe_no=${cafe.cafe_no}&pageNum=${pageNum}');
 });
-
-
 </script>
+
+<div class="container mt-4">
+		<div class="row">
+
+			<!-- 제목 -->
+			<!-- 제목 -->
+			<div class="col-12 text-center map-title" style="font-weight: bold;">${recommend.rec_name}</div>
+
+
+
+
+		</div>
+	</div>
+
 
 <script src="js/review.js"></script>
 </head>
@@ -74,36 +85,53 @@ $(document).ready(function(){
 	<div class="container mt-4">
 		<div class="row">
 			<!-- 제목 -->
-			<div class="col-12 text-center map-title">스타벅스</div>
-
+			<div class="section-title col-12 text-center map-title">${cafe.cafe_name }</div>
 		</div>
+
+		<!-- 수정 버튼 -->
+		<c:if test="${id != null}">
+			<c:if test="${id eq 'master' }">
+				<div class="col-12 d-flex justify-content-end">
+					<div style="display: inline-block; margin-right: 10px;">
+						<button type="button" class="btn btn-primary"
+							onClick="location.href='modifyPlace?cafe_no=${cafe.cafe_no}'">글수정</button>
+					</div>
+				</div>
+			</c:if>
+		</c:if>
+
 	</div>
+	
+
 
 	<div class="container">
 		<div class="section-container">
 			<div class="section">
+				<input type="hidden" id="cafe_address" value=" ${cafe.cafe_address}">
 				<h2 class="section-title">${cafe.cafe_name }</h2>
 				<p class="card-text">연락처 : ${cafe.cafe_number }</p>
 				<p class="card-text">영업시간: ${cafe.cafe_time1 } AM -
 					${cafe.cafe_time2 } PM</p>
 				<p class="card-text">위치: ${cafe.cafe_address }</p>
+				<br>
+				
 				<h2 class="section-title">메뉴</h2>
 				<p class="card-text">추천메뉴 : ${cafe.cafe_menu1 }</p>
 				<p class="card-text">추천메뉴 : ${cafe.cafe_menu2 }</p>
 				<p class="card-text">추천메뉴 : ${cafe.cafe_menu3 }</p>
 				<h2 class="section-title">
+				<br>				
+				
 					찜 <i id="heartIcon" class="far fa-heart" style="cursor: pointer;"></i>
 					<input type="hidden" name="like_state" value="${liked }">
 
 
-					<button type="button" class="btn btn-primary"
-						onClick="location.href='modifyPlace?cafe_no=${cafe.cafe_no}'">수정</button>
 				</h2>
 			</div>
 
 			<!-- 해시태그 -->
 			<div class="section">
-				<h2 class="section-title">#해시태그</h2>
+				<h2 class="section-title text-center">#해시태그</h2>
 				<c:forEach var="hashAvg" items="${hashAvg}">
 					<p class="card-text">${hashAvg['HASH_NAME']}</p>
 					<div class="progress" role="progressbar"
@@ -143,16 +171,16 @@ $(document).ready(function(){
 		<div class="section-container">
 			<div class="section image-section">
 				<!-- 사진 -->
-				<h2 class="section-title">사진</h2>
+				<h2 class="section-title text-center">사진</h2>
 				<img src="upload/${cafe.cafe_image }" class="img-thumbnail" alt="카페 사진"
 					style="width: 100%; height: auto;">
 			</div>
-			<div class="section map-section">
+			<div class="section map-section text-center">
 				<!-- 지도 -->
 				<h2 class="section-title">지도</h2>
 				<div id="kakao-map"></div>
 				<br>
-				<!-- <button class="kakaobtn">길찾기 바로가기</button> -->
+				<button class="kakaobtn" id="kakaobtn" style="display:none;">길찾기 바로가기</button>
 			</div>
 		</div>
 
@@ -266,8 +294,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var heartIcon = document.getElementById('heartIcon');
     // name 값이 like_state인 첫번 째 input을 구해옴
     var heartValue = document.querySelector('input[name="like_state"]');
-    alert("heartValue.value 값은 " + heartValue.value + " 입니다.");
-    alert("cafe_no 값은 " + ${cafe.cafe_no} + " 입니다.");
     
     if (heartValue.value == '1') {
         heartIcon.classList.add('fas', 'text-danger');
@@ -276,10 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     heartIcon.addEventListener('click', function() {
-        alert("찜 버튼 클릭");
         var id = "<c:out value='${id}'/>";	
-        alert("ID 값은 " + id + " 입니다.");
-        alert("cafe_no 값은 " + ${cafe.cafe_no} + " 입니다.");
         if (!id || id === "null" || id === "undefined") {
             alert("로그인 후 이용해주세요.");
         } else {
@@ -347,9 +370,16 @@ document.addEventListener('DOMContentLoaded', function() {
 				// 마커가 지도 위에 표시되도록 설정
 				marker.setMap(map);
 				
-				// 길찾기 버튼 클릭
-				/* click()
-				https://map.kakao.com/link/to/cafe_address,result[0].y, result[0].x */
+				// 지도가 생성되면 길찾기 버튼 나타나게
+	            var kakaobtn = document.getElementById("kakaobtn");
+	            kakaobtn.style.display = "block";
+	            
+	            // 클릭 이벤트에 URL 이동 추가
+	               kakaobtn.addEventListener("click", function() {
+	                   // 클릭 시 카카오 지도 길찾기 링크로 이동
+	                   var linkUrl = "https://map.kakao.com/link/to/" + cafe_address + "," + result[0].y + "," + result[0].x;
+	                   window.open(linkUrl, '_blank');
+	               });
 		    }else{
 		    	console.log("카카오 API 호출 실패")
 		    }

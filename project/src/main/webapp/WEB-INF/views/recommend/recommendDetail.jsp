@@ -112,7 +112,6 @@
 									<div style="display: flex; justify-content: space-between; align-items: center;">
                             <span>${list['REPLY_CONTENT']}</span>
                             <span>
-                                <button id="openModalButton2" class="btn btn-primary" onClick="*">댓글 달기</button>
                                 <c:if test="${id == list['MEMBER_ID']}"> 
                                 <button class="btn btn-primary" onclick="location.href='deleteReply?reply_no=${list['REPLY_NO']}&rec_no=${list['REC_NO'] }&member_id=${list['MEMBER_ID'] }'">삭제</button>
                                 </c:if>
@@ -182,39 +181,7 @@
 			</div>
 			
 			
-			<!-- 대댓글 작성 모달창 -->
-			<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-				data-bs-keyboard="false" tabindex="-1"
-				aria-labelledby="staticBackdropLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h1 class="modal-title fs-5" id="staticBackdropLabel">댓글 작성</h1>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close"></button>
-						</div>
-
-						<div class="modal-body">
-							<form action="recommendReplyWrite" method="post">
-								<input type="hidden" name="member_id" value="${id}"> 
-								<input type="hidden" name="rec_no" value="${rec_no}">
-
-								<div class="mb-3">
-									<label for="reviewCity" class="form-label">내용</label>
-									<textarea class="form-control" id="reply_content"
-										name="reply_content" rows="5" required></textarea>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary"
-										data-bs-dismiss="modal">Close</button>
-									<button type="submit" class="btn btn-primary">댓글 작성</button>
-								</div>
-							</form>
-						</div>
-						<!-- end class="modal-body" -->
-					</div>
-				</div>
-			</div>
+	
 			
 			
 		</div>

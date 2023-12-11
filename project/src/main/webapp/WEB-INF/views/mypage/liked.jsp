@@ -67,7 +67,7 @@
 								<div class="card-body">
 									<button class="btn btn-primary"
 										style="margin-left: 30px; vertical-align: middle;"
-										onClick="location.href='Detail?cafe_no=${l['CAFE_NO']}'">지금
+										onClick="location.href='detail?cafe_no=${l['CAFE_NO']}'">지금
 										바로 확인하기</button>
 								</div>
 							</div>
