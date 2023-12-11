@@ -128,7 +128,7 @@ public class MoveController {
 	    }
 	    
 	    
-	    String address = result.getDocuments().get(0).getAddress().getRegion3depthName();
+	    String address = result.getDocuments().get(0).getAddress().getRegion2depthName();
 	    System.out.println("주소 : " + address);
 	    
 	    address = address.substring(0, address.length() - 1);
