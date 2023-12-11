@@ -82,6 +82,7 @@ $(document).ready(function(){
 	<div class="container">
 		<div class="section-container">
 			<div class="section">
+				<input type="hidden" id="cafe_address" value=" ${cafe.cafe_address}">
 				<h2 class="section-title">${cafe.cafe_name }</h2>
 				<p class="card-text">연락처 : ${cafe.cafe_number }</p>
 				<p class="card-text">영업시간: ${cafe.cafe_time1 } AM -
