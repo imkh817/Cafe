@@ -183,7 +183,7 @@ $(document).ready(function(){
 
 						<div class="modal-body">
 							<form id="reviewSubmit" action="ReviewInsert" method="post">
-								<input type="hidden" name="cafe_no" value="${cafe_no }">
+								<input type="hidden" name="cafe_no" value="${cafe.cafe_no }">
 								<img src="images/pin.png" style="width: 1em; font-family: 'Tahoma', sans-serif; font-size: 20px;">
 
 								<span
