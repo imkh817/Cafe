@@ -123,9 +123,11 @@ public class LoginController {
         if(userCheck == null) {	// 신규 회원
         	result = service.insert(member); // --> 신규 회원 DB등록
         }
+       
         model.addAttribute("naverResult",result);
         model.addAttribute("name",member.getMember_nickname());
         session.setAttribute("id", member.getMember_id());
+        session.setAttribute("member", member);
         
         /* 네이버 로그인 성공 페이지 View 호출 */
         return "login/join_result";
@@ -293,7 +295,8 @@ public class LoginController {
 		}
 		session.setAttribute("id", member.getMember_id());
 		model.addAttribute("kakaoResult", result);
-		model.addAttribute("name",member.getMember_nickname());
+		model.addAttribute("name",member.getMember_name());
+		session.setAttribute("member", member);
 
 		return "login/join_result";
 

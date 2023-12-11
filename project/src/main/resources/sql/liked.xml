@@ -7,11 +7,10 @@
 	<!-- 찜목록 이동 -->
 	<select id="getLikedListByNo" parameterType="List"
 		resultType="java.util.Map">
-		SELECT c.cafe_no, cafe_name, cafe_image, cafe_address,
-		cafe_comment, avg_cafe_star FROM
+		SELECT c.cafe_no, cafe_name, cafe_image, cafe_time1, cafe_time2, cafe_address,
+		cafe_comment, COALESCE(avg_cafe_star, 0) as avg_cafe_star FROM
 		cafe c JOIN liked l
-		ON c.cafe_no =
-		l.cafe_no
+		ON c.cafe_no = l.cafe_no
 		WHERE member_id = #{member_id}
 		ORDER BY cafe_reg DESC
 	</select>
@@ -28,5 +27,21 @@
 		resultType="List">
 		select cafe_no from liked where cafe_no = #{cafe_no}
 	</select>
+	<select id="selectLike" parameterType="Liked" resultType="Liked">
+		select * from liked where member_id =#{member_id} and cafe_no=#{cafe_no}
+	</select>
 
+
+	<!-- 찜 저장 -->
+	<insert id="insertLike" parameterType="Liked">
+		insert into liked values(#{member_id},#{cafe_no})
+	</insert>
+
+	<!-- 찜 삭제 -->
+	<delete id="deleteLike">
+		delete from liked where member_id=#{member_id} and cafe_no = #{cafe_no}
+	</delete>
 </mapper>
+
+
+

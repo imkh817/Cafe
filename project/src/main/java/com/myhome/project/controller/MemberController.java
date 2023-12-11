@@ -73,15 +73,14 @@ public class MemberController {
 		}else {				// 등록된 회원
 			System.out.println("DB에서 꺼낸 아이디 : "+ m.getMember_id());
 			if(m.getMember_pw().equals(member.getMember_pw())) { 		// 비번이 같을 때
-				session.setAttribute("id", member.getMember_id());
+				session.setAttribute("id", m.getMember_id());
+				session.setAttribute("member", m);
 				String referer = request.getHeader("Referer");
 				referer = referer.substring(referer.lastIndexOf("/")+1);
 				
-				
-				
 				return "redirect:"+referer;
 				
-			}else { // 비번 불일
+			}else { // 비번 불일치
 				result = 2;
 			}
 		}
@@ -134,7 +133,7 @@ public class MemberController {
 						   HttpSession session) throws Exception{
 				
 		System.out.println("받아온 member 이름 : " + member.getMember_name());
-		Member db = service.findId(member.getMember_name());
+		Member db = service.findId(member);
 		int result = -1;
 		if(db != null && db.getMember_email().equals(member.getMember_email())
 				      && db.getMember_domain().equals(member.getMember_domain())) {
@@ -242,6 +241,12 @@ public class MemberController {
 		}
 		return "mypage/memberDeleteResult";
 	}
+	
+	@RequestMapping("socialMemberDelete")
+	public String socialMemberDelete() {
+		return "";
+	}
+	
 }
 
 

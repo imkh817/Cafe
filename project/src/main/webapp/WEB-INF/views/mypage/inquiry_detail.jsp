@@ -6,9 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>1:1 문의 상세페이지</title>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 	rel="stylesheet">
+</head>
 
 <script>
 	// 이미지 미리보기
@@ -29,6 +32,8 @@
 	}
 
 </script>
+
+<!-- 사진 크기 조절 -->
 <style>
 #preview {
 	max-width: 10rem;
@@ -59,6 +64,7 @@
 							<!-- 답변 여부가 Y일 때 -->
 							<c:if test="${list['RESPONSE_STATE'] eq 'Y' }">
 
+								<!-- 회원의 문의 작성 -->
 								<div class="form-group">
 									<h3>1:1 문의 상세페이지</h3>
 									<br> <label for="inquiryTitle">제목</label> <input
@@ -70,7 +76,7 @@
 									<label for="inquiryContent">내용</label>
 									<textarea class="form-control" id="inquiry_content" rows="5"
 										name="inquiry_content" placeholder="회원이 쓴 문의 출력"
-										readonly="readonly">${list['INQUIRY_CONTENT'] }</textarea>
+										readonly="readonly" style="resize: none;">${list['INQUIRY_CONTENT'] }</textarea>
 								</div>
 
 								<div class="form-group">
@@ -78,28 +84,30 @@
 									<!-- 이미지 미리보기 -->
 									<c:if test="${!empty list['INQUIRY_IMAGE'] }">
 
-s										<img id="preview"
+										<img id="preview"
 											src="<%=request.getContextPath() %>/upload/${list['INQUIRY_IMAGE'] }"
 											height="100" width="100" alt="미리보기" />
 									</c:if>
 								</div>
 
+								<!-- 답변 -->
 								<div class="form-group">
 									<br>
-									<h3>1:1 문의 상세페이지</h3>
+									<h3>1:1 문의 답변</h3>
 									<br> <label for="responseTitle">제목</label> <input
 										type="text" class="form-control" id="response_title"
-										name="response_title" placeholder="회원이 쓴 문의 출력"
+										name="response_title" placeholder="답변 제목 출력"
 										value="${list['RESPONSE_TITLE'] }" readonly="readonly">
 								</div>
 								<div class="form-group">
 									<label for="responseContent">내용</label>
 									<textarea class="form-control" id="response_content" rows="5"
-										name="response_content" placeholder="회원이 쓴 문의 출력"
-										readonly="readonly">${list['RESPONSE_CONTENT'] }</textarea>
+										name="response_content" placeholder="답변 내용 출력"
+										readonly="readonly" style="resize: none;">${list['RESPONSE_CONTENT'] }</textarea>
 								</div>
 
 							</c:if>
+							<!-- 답변 여부가 Y일 때 end -->
 
 							<!-- 답변 여부가 N일 때 -->
 							<c:if test="${list['RESPONSE_STATE'] eq 'N' }">
@@ -149,6 +157,7 @@ s										<img id="preview"
 								<h3>답변이 없습니다.</h3>
 
 							</c:if>
+							<!-- 답변 여부가 N일 때 end -->
 
 							<!-- 목록 버튼 -->
 							<div style="text-align: right;">
@@ -157,7 +166,6 @@ s										<img id="preview"
 							</div>
 
 						</c:forEach>
-
 
 					</div>
 				</div>

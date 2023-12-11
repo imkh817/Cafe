@@ -43,9 +43,8 @@
  	</select>
  	
  	<!--  댓글 삭제 -->
- 	<delete id="deleteReply" parameterType="reply">
- 		delete from reply
-		where reply_no = #{reply_no}
+ 	<delete id="deleteReply" parameterType="int">
+ 		delete from reply where reply_no = #{reply_no}
  	</delete>
 </mapper>
 

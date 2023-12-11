@@ -27,6 +27,15 @@ public class Cafe {
 	// 검색
 	private String keyword;
 	
+	// 위치 API에서 받아온 사용자 위치 주소값
+	private String nearByCafe;
+	
+	public String getNearByCafe() {
+		return nearByCafe;
+	}
+	public void setNearByCafe(String nearByCafe) {
+		this.nearByCafe = nearByCafe;
+	}
 	public String getKeyword() {
 		return keyword;
 	}
