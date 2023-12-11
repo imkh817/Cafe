@@ -55,12 +55,9 @@
 <%@ include file="/WEB-INF/views/include/header.jsp"%>
 
 <script type="text/javascript">
-
 $(document).ready(function(){
 	$('#review_list').load('ReviewList?cafe_no=${cafe.cafe_no}&pageNum=${pageNum}');
 });
-
-
 </script>
 
 <div class="container mt-4">

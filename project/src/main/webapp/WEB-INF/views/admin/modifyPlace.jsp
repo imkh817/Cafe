@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>장소 수정</title>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
 function check(){
 	 if($.trim($("#cafe_name").val())==""){
@@ -56,6 +57,17 @@ function check(){
 }
 </script>
 
+<!-- Daum address API -->
+<script>
+	function openDaumPostcode() {
+		new daum.Postcode({
+			oncomplete : function(data) {
+				document.getElementById('cafe_address').value = data.address;
+			}
+		}).open();
+	}
+</script>
+
 <!-- 이전 페이지로 이동 -->
 <script>
     function goBack() {
@@ -102,9 +114,18 @@ function check(){
 						</div>
 						
 						<div class="form-group">
-							<label for="placeAddress">주소</label> <input type="text"
-								class="form-control" id="cafe_address" name="cafe_address" value="${cafe.cafe_address }">
-						</div>
+							<label for="placeAddress">주소</label>
+							<div class="input-group">
+								<input type="text" id="cafe_address" class="form-control"
+									name="cafe_address" readonly placeholder="주소를 입력하세요" onClick="openDaumPostcode()">
+								
+								<div class="input-group-append">
+									<input type="button" class="btn btn-secondary"
+										onclick="openDaumPostcode()" value="검색"/>
+								</div>
+							</div>
+							<br>
+						
 						
 						<div class="form-group">
 						

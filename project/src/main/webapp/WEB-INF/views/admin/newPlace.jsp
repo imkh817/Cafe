@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>장소 등록</title>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
 function check(){
 	 if($.trim($("#cafe_name").val())==""){
@@ -56,6 +57,18 @@ function check(){
 }
 </script>
 
+<!-- Daum address API -->
+<script>
+	function openDaumPostcode() {
+		new daum.Postcode({
+			oncomplete : function(data) {
+				document.getElementById('cafe_address').value = data.address;
+			}
+		}).open();
+	}
+</script>
+
+
 <script>
     function goBack() {
         window.history.back();
@@ -98,47 +111,55 @@ function check(){
 							<label for="placeAddress">전화번호</label> <input type="text"
 								class="form-control" id="cafe_number" name="cafe_number" placeholder="전화번호를 입력하세요">
 						</div>
-						
-						<div class="form-group">
-							<label for="placeAddress">주소</label> <input type="text"
-								class="form-control" id="cafe_address" name="cafe_address" placeholder="주소를 입력하세요">
-						</div>
-						
-						<div class="form-group">
-						
-							<label for="mondayOpeningTime">영업 시간</label> 
-							
-							<input type="text" class="form-control d-inline w-auto" 
-							id="cafe_time1" name="cafe_time1" placeholder="시작 시간" >
-							<span class="d-inline">부터</span>
-							
-							<input type="text" class="form-control d-inline w-auto" 
-							id="cafe_time2" name="cafe_time2" placeholder="종료 시간" >
-							<span class="d-inline">까지</span>
-							
-							<span class="d-inline">까지</span>
-						</div>
-							
-						<c:forEach var="i" begin="1" end="3">
-							<div class="form-group d-flex align-items-center">
-								<label for="recommendedMenu">추천 메뉴${i }</label> 
-								<input type="text" class="form-control d-inline w-auto mx-2"
-									id="cafe_menu${i}" placeholder="메뉴명을 입력하세요" name="cafe_menu${i}">
-							</div>
-						</c:forEach>
 
 						<div class="form-group">
-							<label for="placeDescription">설명</label>
-							<textarea class="form-control" id="cafe_comment" rows="5"
-								placeholder="장소 설명을 입력하세요" name="cafe_comment"></textarea>
-						</div>
-						<div class="form-group">
-							<label for="placeImage">이미지 업로드</label> 
-						<input type="file" class="form-control-file" id="cafe_image" name="cafe_image1">
-						<input type="submit" value="등록" class="btn btn-primary" />
-						<input type="button" value="취소" class="btn btn-primary" onclick="goBack()"/>
-						</div>
-						<!-- <button type="submit" class="btn btn-primary">등록</button> -->
+							<label for="placeAddress">주소</label>
+							<div class="input-group">
+								<input type="text" id="cafe_address" class="form-control"
+									name="cafe_address" readonly placeholder="주소를 입력하세요" onClick="openDaumPostcode()">
+								
+								<div class="input-group-append">
+									<input type="button" class="btn btn-secondary"
+										onclick="openDaumPostcode()" value="검색"/>
+								</div>
+							</div>
+							<br>
+
+
+
+							<div class="form-group">
+
+								<label for="mondayOpeningTime">영업 시간</label> <input type="text"
+									class="form-control d-inline w-auto" id="cafe_time1"
+									name="cafe_time1" placeholder="ex)09:00"> <span
+									class="d-inline">부터</span> <input type="text"
+									class="form-control d-inline w-auto" id="cafe_time2"
+									name="cafe_time2" placeholder="ex)18:00"> <span
+									class="d-inline">까지</span> <span class="d-inline">까지</span>
+							</div>
+
+							<c:forEach var="i" begin="1" end="3">
+								<div class="form-group d-flex align-items-center">
+									<label for="recommendedMenu">추천 메뉴${i }</label> <input
+										type="text" class="form-control d-inline w-auto mx-2"
+										id="cafe_menu${i}" placeholder="메뉴명을 입력하세요"
+										name="cafe_menu${i}">
+								</div>
+							</c:forEach>
+
+							<div class="form-group">
+								<label for="placeDescription">설명</label>
+								<textarea class="form-control" id="cafe_comment" rows="5"
+									placeholder="장소 설명을 입력하세요" name="cafe_comment"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="placeImage">이미지 업로드</label> <input type="file"
+									class="form-control-file" id="cafe_image" name="cafe_image1">
+								<input type="submit" value="등록" class="btn btn-primary" /> <input
+									type="button" value="취소" class="btn btn-primary"
+									onclick="goBack()" />
+							</div>
+							<!-- <button type="submit" class="btn btn-primary">등록</button> -->
 					</form>
 				</div>
 			</div>
