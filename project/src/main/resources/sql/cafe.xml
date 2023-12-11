@@ -59,4 +59,46 @@
 	<update id="update_avg_cafe_star" parameterType="cafe">
 		update cafe set avg_cafe_star = #{avg_cafe_star} where cafe_no = #{cafe_no}
 	</update>
+	
+		<!-- 카페 글작성 -->
+	<insert id="insertBoard" parameterType="cafe">
+		insert into cafe
+		(cafe_no,category_no,cafe_readcount,cafe_name,
+		cafe_image,cafe_time1,cafe_time2,cafe_number,cafe_address,cafe_reg,
+		cafe_menu1,cafe_menu2,cafe_menu3, cafe_comment, avg_cafe_star)
+		values
+		(cafe_num_seq.nextval,#{category_no},0,#{cafe_name},
+		#{cafe_image},#{cafe_time1},#{cafe_time2},#{cafe_number},#{cafe_address},sysdate,
+		#{cafe_menu1},#{cafe_menu2},#{cafe_menu3}, #{cafe_comment}, #{avg_cafe_star})
+	</insert>
+	
+	<!-- 카페 글수정 -->
+	<update id="updateBoard" parameterType="cafe">
+		UPDATE cafe
+	SET
+	  cafe_name = #{cafe_name},
+	  cafe_image = #{cafe_image},
+	  cafe_time1 = #{cafe_time1},
+	  cafe_time2 = #{cafe_time2},
+	  cafe_number = #{cafe_number},
+	  cafe_address = #{cafe_address},
+	  cafe_reg = sysdate,
+	  cafe_menu1 = #{cafe_menu1},
+	  cafe_menu2 = #{cafe_menu2},
+	  cafe_menu3 = #{cafe_menu3},
+	  cafe_comment = #{cafe_comment}
+	WHERE
+	  cafe_no = #{cafe_no}
+	</update>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateCaferead" parameterType="int">
+		update cafe set cafe_readcount = cafe_readcount+1 where cafe_no=#{cafe_no}
+	</update>
+
+
+	<!-- 카페 데이터 불러오기 -->
+	<select id="select" parameterType="int" resultType="cafe">
+		select * from Cafe where cafe_no=#{cafe_no}
+	</select>
 </mapper>

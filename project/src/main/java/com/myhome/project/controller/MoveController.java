@@ -21,15 +21,23 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.myhome.project.dao.HashtagDao;
 import com.myhome.project.model.Cafe;
 import com.myhome.project.model.Category;
+import com.myhome.project.model.Hashtag;
+import com.myhome.project.model.Member;
+import com.myhome.project.model.Liked;
 import com.myhome.project.model.PagingPgm;
 import com.myhome.project.model.Recommend;
 import com.myhome.project.model.Reply;
+import com.myhome.project.model.Review;
+import com.myhome.project.service.CafeService;
 import com.myhome.project.service.CategoryService;
+import com.myhome.project.service.LikedService;
 import com.myhome.project.service.MemberService;
 import com.myhome.project.service.RecommendService;
 import com.myhome.project.service.ReplyService;
+import com.myhome.project.service.ReviewService;
 import com.myhome.project.service.listService;
 import com.myhome.project.service.reviewPaging;
 
@@ -50,6 +58,19 @@ public class MoveController {
 	
 	@Autowired
 	private listService listService;
+	
+	@Autowired
+	CafeService cafeService;
+	
+	@Autowired
+	ReviewService reviewService;
+	
+	@Autowired
+	LikedService likedService;
+	
+	@Autowired
+	HashtagDao hashdao;
+	
 	
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -72,11 +93,7 @@ public class MoveController {
 		List<Category> list = new ArrayList<Category>();
 		list = categoryService.selectList();
 		
-		String id = (String)session.getAttribute("id");
-		System.out.println("session에 저장된 id : " + id);
-		
 		model.addAttribute("list",list);
-		model.addAttribute("id",id);
 		return "cafe/main";
 	}
 	
@@ -167,11 +184,85 @@ public class MoveController {
 		return "cafe/list";
 	}
 
-	// 상세 페이지로 이동
-	@RequestMapping("/detail")
-	public String g3(String cate, Model model) {
+
+		// 상세 페이지로 이동
+		@RequestMapping("/detail")
+		public String cafe_detail(int cafe_no, 
+									Review review, 
+									HttpSession session,
+									Model model,
+									String pageNum) {
+			
+			if(pageNum == null || pageNum.equals("")) {
+				pageNum = "1";
+			}
+			
+			// 리뷰
+
+			// 해시 태그 목록 가져오기
+			List<Hashtag> hashtag = new ArrayList<Hashtag>();
+			hashtag = hashdao.gethashtag();
+			
+			
+			
+			
+			
+		// update
+		// 조회수 증가
+			System.out.println("detail컨트롤러 cafe_no : " + cafe_no);
+		cafeService.cafe_readcount(cafe_no);
+		
+		// select
+			// 카페 정보
+		Cafe cafe = cafeService.select(cafe_no);
+		System.out.println("cafe:" + cafe);
+			// 해시 태그 평균 값
+		List<Map<String, Object>> hashAvg = new ArrayList<Map<String, Object>>();
+		hashAvg = reviewService.hash_avg(review);
+			// 넘어온 값 확인
+		for (int i = 0; i < hashAvg.size(); i++)
+			System.out.println(hashAvg.get(i));	
+			// 별점 평균 값
+		double star = reviewService.starAvg(cafe_no);
+		System.out.println("star:" + star);
+		
+		// 하트
+		// liked테이블에서 해당 값을 구해오려면 cafe_no와 member_id값이 필요하다.
+		String id = (String) session.getAttribute("id");
+		System.out.println("session에 저장된 값:" + id);
+		System.out.println("cafe_no: " + cafe_no);
+		int result = 0;
+		if (id != null) {
+			Liked liked = new Liked();
+			liked.setCafe_no(cafe_no);
+			liked.setMember_id(id);
+			Liked tmpLiked = likedService.selectLike(liked);
+			
+			System.out.println("tmpLiked :"+ tmpLiked);
+			if (tmpLiked != null) {
+				result = 1;
+			}
+		}
+
+		
+		// 뷰 파일로 값 넘기기
+			// 카페 정보
+		model.addAttribute("cafe", cafe);
+		System.out.println("Cafe :::::" + cafe.getCafe_name());
+			// 해시 태그 평균 값
+		model.addAttribute("hashAvg", hashAvg);
+			// 별점 가져오기
+		model.addAttribute("star", star);
+			// 찜 상태 가져오기
+		model.addAttribute("liked",result);
+		
+		model.addAttribute("tag",hashtag);
+		
+		model.addAttribute("pageNum",pageNum);
+		model.addAttribute("id",id);
+		
 		return "cafe/detail";
-	}
+		}
 
 	// 리뷰
 	@RequestMapping("/hashtag_result")
@@ -209,11 +300,50 @@ public class MoveController {
 		return "admin/manage";
 	}
 
-	// 관리자 장소등록
+	// 관리자 장소등록 폼
 	@RequestMapping("/newPlace")
-	public String ggg1() {
+	public String newPlace(Model model) {
+		System.out.println("cafe 컨트롤러 newPlace 매핑");
+		// 카테고리 값을 담을 변수 생성
+		List<Category> categorylist = new ArrayList<Category>();
+
+		// 카테고리 번호를 DAO에 보낸다.
+		categorylist = categoryService.selectList();
+
+		for (int i = 0; i < categorylist.size(); i++) {
+			System.out.println(categorylist.get(i).getCategory_name());
+		}
+		
+		// 뷰에 데이터 값 전달
+		model.addAttribute("category", categorylist);
 		return "admin/newPlace";
 	}
+	// 관리자 장소 수정 폼
+		@RequestMapping("/modifyPlace")
+		public String modifyPlace(int cafe_no, Model model) {
+			System.out.println("Modify controller");
+			
+			System.out.println("cafe 컨트롤러 newPlace 매핑");
+			// 카테고리 값을 담을 변수 생성
+			List<Category> categorylist = new ArrayList<Category>();
+
+			// 카테고리 번호를 DAO에 보낸다.
+			categorylist = categoryService.selectList();
+
+			for (int i = 0; i < categorylist.size(); i++) {
+				System.out.println(categorylist.get(i).getCategory_name());
+			}
+			
+			Cafe cafe = cafeService.select(cafe_no);
+			System.out.println("cafe category: " + cafe.getCategory_no());
+
+			// 뷰에 데이터 값 전달
+			model.addAttribute("category", categorylist);
+			model.addAttribute("cafe", cafe);
+			
+			return "admin/modifyPlace";
+		}
+	
 
 	// 클라이언트 추천 게시판 목록
 	@RequestMapping("/recommendList")
@@ -337,16 +467,20 @@ public class MoveController {
 	// 추천 게시판 댓글 삭제
 	@RequestMapping("deleteReply")
 	public String deleteReply(Reply reply, Model model, HttpSession session) {
-		// session.getAttribute("id");
+		
+		int result = 0;
+	    
 	    if(session.getAttribute("id").equals(reply.getMember_id())) {
 	    	System.out.println("아이디 일치");
-	    	int result = replyService.deleteReply(reply);
-	    	System.out.println("result:" + result);
-	    	model.addAttribute("result", result);
+	    	result = replyService.deleteReply(reply.getReply_no());
 	    }
+	    System.out.println("result:" + result);
+	    System.out.println("reply_no:" + reply.getReply_no());
+	    
+	    model.addAttribute("result", result);
+	    model.addAttribute("rec_no", reply.getRec_no());	// result에서 디테일로 넘어갈 때 필요
 		return "recommend/deleteReplyResult";
 	}
-
 	
 	// 클라이언트 추천 게시판 작성
 //	@RequestMapping("/recommendWrite")

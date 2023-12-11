@@ -17,8 +17,15 @@ public class Member {
 	String member_email; /* 이메일  */
 	String member_domain; /* 도메인  */
 	String member_state;/* 회원 상태(탈퇴유무) */
+	String social_state; // 소설로그인 상태 여부 확인
 	
 	
+	public String getSocial_state() {
+		return social_state;
+	}
+	public void setSocial_state(String social_state) {
+		this.social_state = social_state;
+	}
 	public String getMember_id() {
 		return member_id;
 	}

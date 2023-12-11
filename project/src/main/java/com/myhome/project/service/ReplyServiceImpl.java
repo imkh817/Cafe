@@ -46,8 +46,10 @@ public class ReplyServiceImpl implements ReplyService{
 
 
 	@Override
-	public int deleteReply(Reply reply) {
-		return dao.deleteReply(reply);
+	public int deleteReply(int reply_no) {
+		return dao.deleteReply(reply_no);
 	}
+
+
 
 }

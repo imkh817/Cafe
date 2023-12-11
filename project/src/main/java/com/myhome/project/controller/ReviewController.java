@@ -35,7 +35,7 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 	
-	
+	// 수정필요
 	@RequestMapping("Detail")
 	public String gethashtag(@RequestParam("cafe_no") int cafe_no,String pageNum, Model model, HttpSession session) {
 		

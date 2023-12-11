@@ -18,5 +18,12 @@ public interface LikedDao {
 
 //	지금 바로 확인하기 버튼 클릭 및 카페 이름 클릭 이동
 	public List<Liked> moveLikedToDetail(int cafe_no);
+	Liked selectLike(Liked ldto);
+
+	int insertLike(Liked liked);
+
+	int deleteLike(Liked liked);
+
+	
 
 }

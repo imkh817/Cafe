@@ -43,7 +43,7 @@ public class LikedController {
 		int total = likedService.getTotal(liked);
 		int rowPerPage = 6;
 
-		int startRow = (curruntPage - 1) * rowPerPage + 1;
+		int startRow = (curruntPage - 1) * rowPerPage;
 		int endRow = startRow + rowPerPage - 1;
 
 		liked.setStartRow(startRow);

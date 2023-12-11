@@ -5,16 +5,14 @@
 <mapper namespace="com.myhome.project.dao.InquiryDao">
 
 	<!-- 문의목록 조회 -->
-	<select id="inquiryList" parameterType="String"
-		resultType="inquiry">
+	<select id="inquiryList" parameterType="String" resultType="inquiry">
 		select * from inquiry where member_id = #{member_id} order
-		by inquiry_no ASC
+		by inquiry_no DESC
 	</select>
 
 	<!-- 문의글 수 -->
-	<select id="getTotal" parameterType="inquiry" resultType="int">
-		select
-		count(*) from inquiry
+	<select id="getTotal" parameterType="String" resultType="int">
+		select count(*) from inquiry where member_id = #{member_Id}
 	</select>
 
 	<!-- 문의 제출 -->

@@ -47,10 +47,12 @@ public class InquiryController {
 
 		int curruntPage = Integer.parseInt(pageNum);
 
-		int total = inquiryService.getTotal(inquiry);
+		String id = (String) session.getAttribute("id");
+
+		int total = inquiryService.getTotal(id);
 		int rowPerPage = 10;
 
-		int startRow = (curruntPage - 1) * rowPerPage + 1;
+		int startRow = (curruntPage - 1) * rowPerPage;
 		int endRow = startRow + rowPerPage - 1;
 
 		inquiry.setStartRow(startRow);
@@ -209,3 +211,4 @@ public class InquiryController {
 	}
 
 }
+ 

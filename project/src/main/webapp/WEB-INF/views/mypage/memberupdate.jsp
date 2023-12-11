@@ -6,7 +6,7 @@
     <title>회원 수정</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 	
-<script src="./js/member.js"></script>
+<script src="/js/member.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
 	function openDaumPostcode() {

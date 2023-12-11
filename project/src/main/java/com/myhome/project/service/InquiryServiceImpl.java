@@ -24,8 +24,8 @@ public class InquiryServiceImpl implements InquiryService {
 
 //	문의글 수
 	@Override
-	public int getTotal(Inquiry inquiry) {
-		return dao.getTotal(inquiry);
+	public int getTotal(String id) {
+		return dao.getTotal(id);
 	}
 
 //	문의 제출

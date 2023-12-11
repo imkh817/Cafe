@@ -18,7 +18,7 @@ public interface ReplyService {
 
 	Reply replyCheck(Reply reply);
 
-	int deleteReply(Reply reply);
+	int deleteReply(int reply_no);
 
 
 }
