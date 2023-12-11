@@ -74,7 +74,7 @@ $(document).ready(function(){
 	<div class="container mt-4">
 		<div class="row">
 			<!-- 제목 -->
-			<div class="col-12 text-center map-title">스타벅스</div>
+			<div class="col-12 text-center map-title">${cafe.cafe_name }</div>
 
 		</div>
 	</div>
@@ -269,8 +269,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var heartIcon = document.getElementById('heartIcon');
     // name 값이 like_state인 첫번 째 input을 구해옴
     var heartValue = document.querySelector('input[name="like_state"]');
-    alert("heartValue.value 값은 " + heartValue.value + " 입니다.");
-    alert("cafe_no 값은 " + ${cafe.cafe_no} + " 입니다.");
     
     if (heartValue.value == '1') {
         heartIcon.classList.add('fas', 'text-danger');
@@ -279,10 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     heartIcon.addEventListener('click', function() {
-        alert("찜 버튼 클릭");
         var id = "<c:out value='${id}'/>";	
-        alert("ID 값은 " + id + " 입니다.");
-        alert("cafe_no 값은 " + ${cafe.cafe_no} + " 입니다.");
         if (!id || id === "null" || id === "undefined") {
             alert("로그인 후 이용해주세요.");
         } else {
