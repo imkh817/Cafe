@@ -187,81 +187,72 @@ public class MoveController {
 
 		// 상세 페이지로 이동
 		@RequestMapping("/detail")
-		public String cafe_detail(int cafe_no, 
-									Review review, 
-									HttpSession session,
-									Model model,
-									String pageNum) {
-			
-			if(pageNum == null || pageNum.equals("")) {
+		public String cafe_detail(int cafe_no, Review review, HttpSession session, Model model, String pageNum) {
+
+			if (pageNum == null || pageNum.equals("")) {
 				pageNum = "1";
 			}
-			
+
 			// 리뷰
 
 			// 해시 태그 목록 가져오기
 			List<Hashtag> hashtag = new ArrayList<Hashtag>();
 			hashtag = hashdao.gethashtag();
-			
-			
-			
-			
-			
-		// update
-		// 조회수 증가
-			System.out.println("detail컨트롤러 cafe_no : " + cafe_no);
-		cafeService.cafe_readcount(cafe_no);
-		
-		// select
-			// 카페 정보
-		Cafe cafe = cafeService.select(cafe_no);
-		System.out.println("cafe:" + cafe);
-			// 해시 태그 평균 값
-		List<Map<String, Object>> hashAvg = new ArrayList<Map<String, Object>>();
-		hashAvg = reviewService.hash_avg(review);
-			// 넘어온 값 확인
-		for (int i = 0; i < hashAvg.size(); i++)
-			System.out.println(hashAvg.get(i));	
-			// 별점 평균 값
-		double star = reviewService.starAvg(cafe_no);
-		System.out.println("star:" + star);
-		
-		// 하트
-		// liked테이블에서 해당 값을 구해오려면 cafe_no와 member_id값이 필요하다.
-		String id = (String) session.getAttribute("id");
-		System.out.println("session에 저장된 값:" + id);
-		System.out.println("cafe_no: " + cafe_no);
-		int result = 0;
-		if (id != null) {
-			Liked liked = new Liked();
-			liked.setCafe_no(cafe_no);
-			liked.setMember_id(id);
-			Liked tmpLiked = likedService.selectLike(liked);
-			
-			System.out.println("tmpLiked :"+ tmpLiked);
-			if (tmpLiked != null) {
-				result = 1;
-			}
-		}
 
-		
-		// 뷰 파일로 값 넘기기
+			// update
+			// 조회수 증가
+			System.out.println("detail컨트롤러 cafe_no : " + cafe_no);
+			cafeService.cafe_readcount(cafe_no);
+
+			// select
 			// 카페 정보
-		model.addAttribute("cafe", cafe);
-		System.out.println("Cafe :::::" + cafe.getCafe_name());
+			Cafe cafe = cafeService.select(cafe_no);
+			System.out.println("cafe:" + cafe);
 			// 해시 태그 평균 값
-		model.addAttribute("hashAvg", hashAvg);
+			List<Map<String, Object>> hashAvg = new ArrayList<Map<String, Object>>();
+			hashAvg = reviewService.hash_avg(review);
+			// 넘어온 값 확인
+			for (int i = 0; i < hashAvg.size(); i++)
+				System.out.println(hashAvg.get(i));
+			// 별점 평균 값
+			double star = reviewService.starAvg(cafe_no);
+			System.out.println("star:" + star);
+
+			// 하트
+			// liked테이블에서 해당 값을 구해오려면 cafe_no와 member_id값이 필요하다.
+			String id = (String) session.getAttribute("id");
+			System.out.println("session에 저장된 값:" + id);
+			System.out.println("cafe_no: " + cafe_no);
+			int result = 0;
+			if (id != null) {
+				Liked liked = new Liked();
+				liked.setCafe_no(cafe_no);
+				liked.setMember_id(id);
+				Liked tmpLiked = likedService.selectLike(liked);
+
+				System.out.println("tmpLiked :" + tmpLiked);
+				if (tmpLiked != null) {
+					result = 1;
+				}
+			}
+
+			// 뷰 파일로 값 넘기기
+			// 카페 정보
+			model.addAttribute("cafe", cafe);
+			System.out.println("Cafe :::::" + cafe.getCafe_name());
+			// 해시 태그 평균 값
+			model.addAttribute("hashAvg", hashAvg);
 			// 별점 가져오기
-		model.addAttribute("star", star);
+			model.addAttribute("star", star);
 			// 찜 상태 가져오기
-		model.addAttribute("liked",result);
-		
-		model.addAttribute("tag",hashtag);
-		
-		model.addAttribute("pageNum",pageNum);
-		model.addAttribute("id",id);
-		
-		return "cafe/detail";
+			model.addAttribute("liked", result);
+
+			model.addAttribute("tag", hashtag);
+
+			model.addAttribute("pageNum", pageNum);
+			model.addAttribute("id", id);
+
+			return "cafe/detail";
 		}
 
 	// 리뷰
