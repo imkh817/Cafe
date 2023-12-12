@@ -5,7 +5,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- /detail 에서 보낸것 : page,cafe_no, -->
 <style>
 .btn input[type="radio"] {
 	appearance: none;
@@ -116,25 +115,25 @@ function deleterecommend(rec_no) {
 	<div class="container mt-4">
 		<div class="row">
 
-		
+
 			<div class="col-12 text-center map-title" style="font-weight: bold;">${recommend.rec_name}</div>
 
 
 			<div class="col-12 d-flex justify-content-end">
 
 				<c:if test="${id == recommend.member_id}">
-				<div style="display: inline-block; margin-right: 10px;">
-					<input type="button" class="btn btn-primary"
-						onclick="location.href='recommendUpdateForm?rec_no=${rec_no}&page=${page.currentPage}'"
-						value="글수정">
-				</div>
+					<div style="display: inline-block; margin-right: 10px;">
+						<input type="button" class="btn btn-primary"
+							onclick="location.href='recommendUpdateForm?rec_no=${rec_no}&page=${page.currentPage}'"
+							value="글수정">
+					</div>
 				</c:if>
 
 				<c:if test="${id == recommend.member_id}">
-				<div style="display: inline-block;">
-					<input type="button" class="btn btn-primary"
-						onclick="deleterecommend(${rec_no})" value="글삭제">
-				</div>
+					<div style="display: inline-block;">
+						<input type="button" class="btn btn-primary"
+							onclick="deleterecommend(${rec_no})" value="글삭제">
+					</div>
 				</c:if>
 
 			</div>
@@ -145,7 +144,8 @@ function deleterecommend(rec_no) {
 	<div class="container">
 		<div class="section-container">
 			<div class="section">
-			<input type="hidden" id="cafe_address" value=" ${recommend.rec_address}">
+				<input type="hidden" id="cafe_address"
+					value=" ${recommend.rec_address}">
 				<div class="d-flex ">
 					<h2 class="section-title">${recommend.rec_name}</h2>
 				</div>
@@ -216,11 +216,11 @@ function deleterecommend(rec_no) {
 								<td>
 									<div
 										style="display: flex; justify-content: space-between; align-items: center;">
-										<span>${list['REPLY_CONTENT']}</span> <span>
-											<button id="openModalButton2" class="btn btn-primary"
-												onClick="*">댓글 달기</button>
-											<button class="btn btn-primary"
-												onclick="changeHrefAndNavigate()">삭제</button>
+										<span>${list['REPLY_CONTENT']}</span> <span> <c:if
+												test="${id eq list['MEMBER_ID']}">
+												<button class="btn btn-primary"
+													onclick="changeHrefAndNavigate()">삭제</button>
+											</c:if>
 										</span>
 									</div>
 								</td>
@@ -288,43 +288,11 @@ function deleterecommend(rec_no) {
 
 
 			<!-- 대댓글 작성 모달창 -->
-			<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-				data-bs-keyboard="false" tabindex="-1"
-				aria-labelledby="staticBackdropLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h1 class="modal-title fs-5" id="staticBackdropLabel">댓글 작성</h1>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close"></button>
-						</div>
-
-						<div class="modal-body">
-							<form action="recommendReplyWrite" method="post">
-								<input type="hidden" name="member_id" value="${id}"> <input
-									type="hidden" name="rec_no" value="${rec_no}">
-
-								<div class="mb-3">
-									<label for="reviewCity" class="form-label">내용</label>
-									<textarea class="form-control" id="reply_content"
-										name="reply_content" rows="5" required></textarea>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary"
-										data-bs-dismiss="modal">Close</button>
-									<button type="submit" class="btn btn-primary">댓글 작성</button>
-								</div>
-							</form>
-						</div>
-						<!-- end class="modal-body" -->
-					</div>
-				</div>
-			</div>
 
 
 		</div>
 	</div>
-	
+
 	<!-- 글작성버튼 누르면 모달나오는 스크립트 코드 -->
 	<!-- 임시 아이디 -->
 	<!-- id값이 없으면 리뷰작성 불가 로그인해주세요 alert창 뜨게 함 -->
@@ -369,13 +337,13 @@ function deleterecommend(rec_no) {
            
           
          </script>
-	
+
 
 	<!-- </div> -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-		
-		<!-- 카카오 맵 -->
+
+	<!-- 카카오 맵 -->
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=dc616f3f60dc0ec7cd19b89f1c6dc69a&libraries=services,clusterer,drawing"></script>
 	<script>
@@ -427,12 +395,8 @@ function deleterecommend(rec_no) {
 
 		geocoder.addressSearch(cafe_address, callback);
 		
-	
-		
-		
-		
 	</script>
-	
+
 
 </body>
 
