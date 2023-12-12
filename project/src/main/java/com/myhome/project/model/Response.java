@@ -6,14 +6,14 @@ import lombok.Data;
 
 @Data
 public class Response {
-	int response_no; /* 문의답변 번호 */
-	int inquiry_no; /* 문의 게시판 번호 */
-	String response_content; /* 문의 답변 내용 */
-	String response_title; /* 문의 답변 내용 */
-	Date response_reg;/* 문의 답변 날짜 */
+	private int response_no; /* 문의답변 번호 */
+	private int inquiry_no; /* 문의 게시판 번호 */
+	private String response_content; /* 문의 답변 내용 */
+	private String response_title; /* 문의 답변 내용 */
+	private Date response_reg;/* 문의 답변 날짜 */
 	
-	int startRow;
-	int endRow;
+	private int startRow;
+	private int endRow;
 	
 	
 }
