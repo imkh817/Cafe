@@ -69,13 +69,13 @@
 									<h3>1:1 문의 상세페이지</h3>
 									<br> <label for="inquiryTitle">제목</label> <input
 										type="text" class="form-control" id="inquiry_title"
-										name="inquiry_title" placeholder="회원이 쓴 문의 출력"
+										name="inquiry_title" placeholder="회원이 쓴 문의 제목"
 										value="${list['INQUIRY_TITLE'] }" readonly="readonly">
 								</div>
 								<div class="form-group">
 									<label for="inquiryContent">내용</label>
 									<textarea class="form-control" id="inquiry_content" rows="5"
-										name="inquiry_content" placeholder="회원이 쓴 문의 출력"
+										name="inquiry_content" placeholder="회원이 쓴 문의 내용"
 										readonly="readonly" style="resize: none;">${list['INQUIRY_CONTENT'] }</textarea>
 								</div>
 
@@ -114,15 +114,15 @@
 
 								<div class="form-group">
 									<h3>1:1 문의 상세페이지</h3>
-									<br> <label for="inquiryTitle">제목</label> <input
+									<br> <label for="inquiryTitle">제목 (30자 제한)</label> <input
 										type="text" class="form-control" id="inquiry_title"
-										name="inquiry_title" placeholder="회원이 쓴 문의 출력"
+										name="inquiry_title" placeholder="회원이 쓴 문의 제목"  maxlength="30"
 										value="${list['INQUIRY_TITLE'] }">
 								</div>
 								<div class="form-group">
-									<label for="inquiryContent">내용</label>
+									<label for="inquiryContent">내용 (200자 제한)</label>
 									<textarea class="form-control" id="inquiry_content" rows="5"
-										name="inquiry_content" placeholder="회원이 쓴 문의 출력">${list['INQUIRY_CONTENT'] }</textarea>
+										name="inquiry_content" placeholder="회원이 쓴 문의 내용" maxlength="200">${list['INQUIRY_CONTENT'] }</textarea>
 								</div>
 								<div class="form-group">
 

@@ -78,9 +78,8 @@ public class InquiryController {
 		int size = (int) imageUpload.getSize();
 		inquiry.setInquiry_image(filename);
 
-		System.out.println("filename : " + filename);
-		System.out.println("size : " + size);
-		System.out.println("inquiry img : " + inquiry.getInquiry_image());
+		System.out.println("문의 제출한 파일명 : " + filename);
+		System.out.println("문의 제출한 이미지 사이즈 : " + size);
 
 		String pathDir = request.getRealPath("/upload/");
 		System.out.println("pathDir : " + pathDir);
@@ -101,8 +100,7 @@ public class InquiryController {
 		String member_id = (String) session.getAttribute("member_id");
 		String pageNum = (String) session.getAttribute("pageNum");
 
-		System.out.println("member_id" + member_id);
-		System.out.println("pageNum" + pageNum);
+		System.out.println("문의 pageNum : " + pageNum);
 
 		int result = inquiryService.submitInquiry(inquiry);
 
@@ -122,7 +120,7 @@ public class InquiryController {
 		List<Map<Integer, Object>> inquiryDetailList = inquiryService.detailInquiry(inquiry);
 
 		model.addAttribute("inquiryDetailList", inquiryDetailList);
-		System.out.println("inquiryDetailList : " + inquiryDetailList);
+		System.out.println("문의 상세 List : " + inquiryDetailList);
 
 		return "mypage/inquiry_detail";
 	}
@@ -135,7 +133,6 @@ public class InquiryController {
 		String member_id = (String) session.getAttribute("member_id");
 
 		inquiry.setMember_id(member_id);
-		System.out.println("member_id: " + inquiry.getMember_id());
 
 		String pageNum = (String) session.getAttribute("pageNum");
 		model.addAttribute("pageNum", pageNum);
@@ -145,10 +142,10 @@ public class InquiryController {
 		int size = (int) imageUpload.getSize(); // 첨부파일의 크기 (단위:Byte)
 
 		String path = request.getRealPath("upload");
-		System.out.println("imageUpload : " + imageUpload);
-		System.out.println("filename=" + filename); // filename="Koala.jpg"
-		System.out.println("size=" + size);
-		System.out.println("Path=" + path);
+		System.out.println("문의수정 멀티파트 : " + imageUpload);
+		System.out.println("문의수정 파일명 : " + filename);
+		System.out.println("문의수정 이미지 크기 :" + size);
+		System.out.println("문의수정 이미지 경로 : " + path);
 
 		String file[] = new String[2];
 		String newfilename = inquiry.getInquiry_image();
@@ -158,18 +155,18 @@ public class InquiryController {
 			// 파일 중복문제 해결
 			String extension = filename.substring(filename.lastIndexOf("."), filename.length());
 
-			System.out.println("extension:" + extension);
+			System.out.println("확장자 :" + extension);
 
 			StringTokenizer st = new StringTokenizer(filename, ".");
 			file[0] = st.nextToken(); // 파일명 Koala
 			file[1] = st.nextToken(); // 확장자 jpg
 
 			newfilename = file[0] + extension;
-			System.out.println("newfilename: " + newfilename);
+			System.out.println("문의수정 저장할 파일명: " + newfilename);
 		}
 
 		Inquiry edited = this.inquiryService.noCheck(inquiry.getInquiry_no());
-		System.out.println("edit inquiry_no" + inquiry.getInquiry_no());
+		System.out.println("수정한 문의 : " + inquiry.getInquiry_no());
 
 		if (size > 0) { // 첨부파일이 전송된 경우
 			try {
@@ -190,7 +187,7 @@ public class InquiryController {
 		int updateResult = inquiryService.updateInquiry(inquiry);
 		model.addAttribute("updateResult", updateResult);
 		System.out.println("updateResult: " + updateResult);
-		System.out.println("imageUpload : " + imageUpload);
+		System.out.println("문의수정 멀티파트 : " + imageUpload);
 
 		return "mypage/inquiryUpdateCheck";
 	}

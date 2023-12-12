@@ -90,12 +90,12 @@
 							<h1>1:1문의</h1>
 							<br> <br> <label for="inquiry_title">제목</label> <input
 								type="text" class="form-control" id="inquiry_title"
-								name="inquiry_title" placeholder="제목을 입력하세요">
+								name="inquiry_title" placeholder="제목을 입력하세요" maxlength="30">
 						</div>
 						<div class="form-group">
 							<label for="inquiry_content">내용</label>
 							<textarea class="form-control" id="inquiry_content" rows="5"
-								name="inquiry_content" placeholder="내용을 입력하세요"></textarea>
+								name="inquiry_content" placeholder="내용을 입력하세요" maxlength="200"></textarea>
 						</div>
 						<div class="form-group">
 							<label for="imageUpload">이미지 업로드</label> <input type="file"

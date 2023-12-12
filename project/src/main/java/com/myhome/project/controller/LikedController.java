@@ -30,7 +30,7 @@ public class LikedController {
 		List<Map<String, Object>> likedResult = likedService.getLikedListByNo(liked);
 
 		model.addAttribute("likedResult", likedResult);
-		System.out.println("likedResult" + likedResult);
+		System.out.println("찜목록 List" + likedResult);
 		model.addAttribute("liked", liked);
 
 //		페이징
@@ -65,7 +65,7 @@ public class LikedController {
 
 		model.addAttribute("likedDetail", likedDetail);
 
-		System.out.println("likedDetail :" + likedDetail);
+		System.out.println("카페 정보 :" + likedDetail);
 
 		return "cafe/detail";
 	}
