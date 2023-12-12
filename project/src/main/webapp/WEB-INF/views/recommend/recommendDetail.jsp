@@ -167,6 +167,7 @@ function deleterecommend(rec_no) {
 		<!-- 리뷰 -->
 		<h2 class="section-title">댓글</h2>
 
+
 		<div class="d-flex justify-content-end mb-3">
 			<!-- "글 작성" 버튼을 리뷰 섹션 맨 오른쪽에 배치 -->
 			<button id="openModalButton" class="btn btn-primary" onClick="*">댓글
@@ -342,7 +343,7 @@ function deleterecommend(rec_no) {
            
           
          </script>
-	</div>
+	
 
 	<!-- </div> -->
 	<script
