@@ -35,8 +35,8 @@
 		<div class="post-list">
 			<ul class="list-group">
 				<c:forEach var="list" items="${list}">
-					<li class="list-group-item"><a href="recommendDetail?rec_no=${list['REC_NO']}"><h3
-								style="text-align: left;">제목 : ${list['REC_NAME']}</h3></a>
+					<li class="list-group-item"><a href="recommendDetail?rec_no=${list['REC_NO']}">
+					<h3 style="text-align: left;">제목 : ${list['REC_NAME']}</h3></a>
 						
 						<p style="text-align: left;">조회수 : ${list['REC_READCOUNT']}</p></li>
 				</c:forEach>

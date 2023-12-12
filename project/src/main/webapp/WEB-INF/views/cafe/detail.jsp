@@ -61,17 +61,17 @@ $(document).ready(function(){
 </script>
 
 <div class="container mt-4">
-		<div class="row">
+	<div class="row">
 
-			<!-- 제목 -->
-			<!-- 제목 -->
-			<div class="col-12 text-center map-title" style="font-weight: bold;">${recommend.rec_name}</div>
-
-
+		<!-- 제목 -->
+		<!-- 제목 -->
+		<div class="col-12 text-center map-title" style="font-weight: bold;">${recommend.rec_name}</div>
 
 
-		</div>
+
+
 	</div>
+</div>
 
 
 <script src="js/review.js"></script>
@@ -101,7 +101,7 @@ $(document).ready(function(){
 		</c:if>
 
 	</div>
-	
+
 
 
 	<div class="container">
@@ -114,16 +114,15 @@ $(document).ready(function(){
 					${cafe.cafe_time2 } PM</p>
 				<p class="card-text">위치: ${cafe.cafe_address }</p>
 				<br>
-				
+
 				<h2 class="section-title">메뉴</h2>
 				<p class="card-text">추천메뉴 : ${cafe.cafe_menu1 }</p>
 				<p class="card-text">추천메뉴 : ${cafe.cafe_menu2 }</p>
 				<p class="card-text">추천메뉴 : ${cafe.cafe_menu3 }</p>
 				<h2 class="section-title">
-				<br>				
-				
-					찜 <i id="heartIcon" class="far fa-heart" style="cursor: pointer;"></i>
-					<input type="hidden" name="like_state" value="${liked }">
+					<br> 찜 <i id="heartIcon" class="far fa-heart"
+						style="cursor: pointer;"></i> <input type="hidden"
+						name="like_state" value="${liked }">
 
 
 				</h2>
@@ -172,15 +171,16 @@ $(document).ready(function(){
 			<div class="section image-section">
 				<!-- 사진 -->
 				<h2 class="section-title text-center">사진</h2>
-				<img src="upload/${cafe.cafe_image }" class="img-thumbnail" alt="카페 사진"
-					style="width: 100%; height: auto;">
+				<img src="upload/${cafe.cafe_image }" class="img-thumbnail"
+					alt="카페 사진" style="width: 100%; height: auto;">
 			</div>
 			<div class="section map-section text-center">
 				<!-- 지도 -->
 				<h2 class="section-title">지도</h2>
 				<div id="kakao-map"></div>
 				<br>
-				<button class="kakaobtn" id="kakaobtn" style="display:none;">길찾기 바로가기</button>
+				<button class="kakaobtn" id="kakaobtn" style="display: none;">길찾기
+					바로가기</button>
 			</div>
 		</div>
 
