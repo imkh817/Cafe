@@ -48,4 +48,8 @@ public interface InquiryDao {
 	// 관리자 - 문의한 사람의 답변상태 변경
 	void updateResponseState(int inquiry_no);
 
+	public int checkInquiry(int inquiry_no);
+
+	public int updateResponse(Response response);
+
 }

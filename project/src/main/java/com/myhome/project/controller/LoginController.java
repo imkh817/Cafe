@@ -36,6 +36,7 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.myhome.project.model.KakaoProfile;
 import com.myhome.project.model.Member;
 import com.myhome.project.model.NaverLoginBO;
+import com.myhome.project.model.NaverResponse;
 import com.myhome.project.model.OAuthToken;
 import com.myhome.project.service.MemberService;
  
@@ -90,36 +91,30 @@ public class LoginController {
         
         // Jackson ObjectMapper를 사용하여 JSON 데이터 파싱
         ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(apiResult);
-
-        // "response" 객체 내의 "id" 필드 추출
-        JsonNode responseNode = jsonNode.get("response");
-        String naverId = responseNode.get("id").asText();
-        String naverName = responseNode.get("name").asText();
-        String naverNickname = responseNode.get("nickname").asText();
-        // 이메일 등록안되어 있는 사람도 있음 ㅜ
-        String naverEmail = responseNode.get("email").asText();
-        // 전화번호 파싱(2줄로)
-        String phone = responseNode.get("mobile").asText();
-        String phoneParsing[] = phone.split("-");
-        // 이메일 파싱(1줄로)
-       String emailParsing[] = responseNode.get("email").asText().split("@");
+        NaverResponse response = objectMapper.readValue(apiResult, NaverResponse.class);
+        
         
         Member member = new Member();
-        member.setMember_id(naverId);
-        member.setMember_name(naverName);
-        member.setMember_nickname(naverNickname);
-        //파싱한 이메일 등록
-        member.setMember_email(emailParsing[0]);
-        member.setMember_domain(emailParsing[1]);
-        // 파싱한 폰넘버 등록
-        member.setMember_phone1(phoneParsing[0]);
-        member.setMember_phone2(phoneParsing[1]);
-        member.setMember_phone3(phoneParsing[2]);
+        member.setMember_id(response.getResponseData().getName());
+        member.setMember_name(response.getResponseData().getName());
+        member.setMember_nickname(response.getResponseData().getNickname());
         
+        //파싱한 이메일 등록 -> 이메일이 네이버에 등록 안된 회원도 있음
+        if(response.getResponseData().getEmail() != null) {
+        	String emailParsing[] = response.getResponseData().getEmail().split("@");
+        	member.setMember_email(emailParsing[0]);
+        	member.setMember_domain(emailParsing[1]);
+        }
+        // 파싱한 폰넘버 등록
+        String phoneNumber[] = response.getResponseData().getMobile().split("-");
+        member.setMember_phone1(phoneNumber[0]);
+        member.setMember_phone2(phoneNumber[1]);
+        member.setMember_phone3(phoneNumber[2]);
+        
+       
         // 회원 확인
         int result = 0;  // 카카오 로그인 성공여부 확인 -> 1:신규, 2:기존 회원
-        Member userCheck = service.userCheck(naverId);
+        Member userCheck = service.userCheck(member.getMember_id());
         if(userCheck == null) {	// 신규 회원
         	result = service.insert(member); // --> 신규 회원 DB등록
         }
@@ -192,9 +187,6 @@ public class LoginController {
 			e.printStackTrace();
 		}
 
-		System.out.println("카카오 엑세스 토큰: " + oauthToken.getAccess_token());
-
-		
 		RestTemplate rt2 = new RestTemplate();
 
 		// Http Header 데이터를 담을 Object 생성
@@ -236,22 +228,21 @@ public class LoginController {
 
 		// KakaoProfile에서 필요한 정보 추출하여 member에 설정
 
-		member.setMember_id(kakaoProfile.getId());
+		member.setMember_id(kakaoProfile.getKakao_account().getName());
 
 		member.setMember_name(kakaoProfile.getKakao_account().getName());
 
 		member.setMember_nickname(kakaoProfile.getProperties().getNickname());
 
 		// 이메일 설정
-		String[] emailPashing = kakaoProfile.getKakao_account().getEmail().split("@");
-		member.setMember_email(emailPashing[0]);
-		member.setMember_domain(emailPashing[1]);
+		if(kakaoProfile.getKakao_account().getEmail() != null) {
+			String[] emailPashing = kakaoProfile.getKakao_account().getEmail().split("@");
+			member.setMember_email(emailPashing[0]);
+			member.setMember_domain(emailPashing[1]);
+		}
 
-		System.out.println("파싱성공");
 		
 		String phonePashing = kakaoProfile.getKakao_account().getPhone_number();
-		System.out.println("phonePashing : " + phonePashing);
-		System.out.println("pashingLength : " + phonePashing.length());
 		
 		
 		
@@ -266,9 +257,6 @@ public class LoginController {
 			String pashing[] = pp.split("-");
 			pashing[0] = "0"+pashing[0];
 			
-			for(int i=0; i<pashing.length; i++) {
-				System.out.println("pashing["+i+"] : " + pashing[i]);
-			}
 
 			if (pashing.length == 3) {
 				try {
@@ -287,11 +275,22 @@ public class LoginController {
 		}
 
 		// 회원 확인
-		Member userCheck = service.KakaoUserCheck(member.getMember_id());
+		Member userCheck = service.KakaoUserCheck(member);
 		int result = 0;
 		if (userCheck == null) { // 신규 회원
-			result = service.insertKakao(member);
+			try {
+				
+				result = service.insertKakao(member);
+			}
+			catch(Exception e) {
+				result = 2;
+				System.out.println("이미 가입된 회원");
+				model.addAttribute("kakaoResult", result);
+				return "login/join_result";
+				
+			}
 		} else { // 기존 회원
+			System.out.println("check!");
 		}
 		session.setAttribute("id", member.getMember_id());
 		model.addAttribute("kakaoResult", result);

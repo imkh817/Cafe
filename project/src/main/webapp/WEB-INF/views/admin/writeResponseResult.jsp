@@ -9,9 +9,16 @@
 	</script>
 </c:if>
 
-<c:if test="${result != 1 }">
+<c:if test="${result == 0 }">
 	<script>
 		alert("답변 작성 실패");
 		history.go(-1);
+	</script>
+</c:if>
+
+<c:if test="${check == 1 }">
+	<script>
+		alert("답변 수정 성공");
+		location.href="adminInquiry";
 	</script>
 </c:if>

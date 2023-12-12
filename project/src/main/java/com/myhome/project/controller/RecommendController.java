@@ -1,6 +1,9 @@
 package com.myhome.project.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
@@ -16,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.myhome.project.model.PagingPgm;
 import com.myhome.project.model.Recommend;
+import com.myhome.project.model.Reply;
 import com.myhome.project.service.RecommendService;
+import com.myhome.project.service.ReplyService;
 
 @Controller
 public class RecommendController {
@@ -25,6 +31,12 @@ public class RecommendController {
 	@Autowired
 	private RecommendService service;
 
+	@Autowired
+	ReplyService replyService;
+	
+	@Autowired
+	RecommendService recService;
+	
 	// 글작성 폼
 	@RequestMapping("/recommendWrite")
 	public String boardform() {
@@ -120,73 +132,6 @@ public class RecommendController {
 
 	}
 
-	// 글목록
-//	@RequestMapping("/recommendList")
-//	public String recommendList(@RequestParam(value = "page", defaultValue = "1") int page,
-//
-//			Model model) {
-//
-//		int limit = 10;
-//		// 한페이지에 출력할 데이터 갯수
-//
-//		// page = 1, startRow=1, endRow=10
-//		// page = 2, startRow=11, endRow=20
-//		int startRow = (page - 1) * limit + 1;
-//		// 출력하는 데이터의 시작번호
-//		int endRow = (page + limit) - 1;
-//		// 출력하는 데이터의 끝번호
-//
-//		// 총데이터 갯수가 있어야 몇페이지로 나눌지 확인할 수 있다.
-//		int listcount = service.getCount();
-//		System.out.println("listcount:" + listcount);
-//
-//		// 총페이지
-//		int pageCount = listcount / limit + ((listcount % 10 == 0) ? 0 : 1);
-//
-//		// 페이지바 에서 나타내는 시작하는 번호
-//		int startPage = ((page - 1) / 10) * limit + 1; // 1,11,21..
-//		// 페이지바에서 나타내는 끝나는 번호
-//		int endPage = startPage + 10 - 1; // 10,20,30..
-//
-//		if (endPage > pageCount)
-//			endPage = pageCount;
-//
-//		List<Map<String, Object>> resultList = new ArrayList<>();
-//
-//		Recommend recommend = new Recommend();
-//
-//		recommend.setStartRow(startRow);
-//		recommend.setEndRow(endRow);
-//
-//		resultList = service.getList(recommend);
-//
-//		model.addAttribute("list", resultList);
-//		model.addAttribute("startPage", startPage);
-//		model.addAttribute("endPage", endPage);
-//		model.addAttribute("pagePerBlk", limit);
-//
-//		return "recommend/recommendList";
-//	}
-
-	// 상세 페이지 : 조회수 1증가 + 상세정보 구하기
-//	@RequestMapping("/recommendDetail")
-//	public String recommendDetail(@RequestParam("rec_no") int rec_no,
-//			@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
-//
-//		// System.out.println("조회수 콘트롤러 rec_no:" + rec_no);
-//		service.updatecount(rec_no); // 조회수 1증가
-//
-//		Recommend recommend = service.getBoard(rec_no); // 상세정보 구하기
-//
-//		String content = recommend.getRec_content().replace("\n", "<br>");
-//
-//		model.addAttribute("recommend", recommend);
-//		model.addAttribute("rec_no", rec_no);
-//		model.addAttribute("page", page);
-//		model.addAttribute("content", content);
-//
-//		return "recommend/recommendDetail";
-//	}
 
 	// 수정 폼
 	@RequestMapping("/recommendUpdateForm")
@@ -330,6 +275,130 @@ public class RecommendController {
 	    	return "N";
 	    }
 		
+	}
+	
+	// 클라이언트 추천 게시판 목록
+	@RequestMapping("/recommendList")
+	public String recommendList(String page, Model model, HttpSession session) {
+
+		if (page == null || page.equals("")) {
+			page = "1";
+		}
+		int currentPage = Integer.parseInt(page);
+		// 일단 데이터(글)가 페이지에 몇 개를 띄워줄 건지 정해야함
+		int rowPerPage = 5;
+		// startRow와 endRow는 rowPerPage에 종속될 수 밖에 없다. 그래서 식에 꼭rowPerPage가 들어갈 수 밖에 없다.
+		int startRow = (currentPage - 1) * rowPerPage + 1; // 1, 6, 11...
+		int endRow = startRow + rowPerPage - 1; // 5, 10, 15...
+
+		// total(db에 있는 전체 데이터 갯수)를 구해야 페이징할 때 페이지를 나눌 수 있으니까
+		int total = recService.getTotal();
+
+		PagingPgm pp = new PagingPgm(total, rowPerPage, currentPage);
+
+		Recommend recommend = new Recommend();
+		recommend.setStartRow(startRow);
+		recommend.setEndRow(endRow);
+
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		list = recService.getList(recommend);
+
+
+		model.addAttribute("list", list);
+		model.addAttribute("page", pp);
+
+		return "recommend/recommendList";
+	}
+
+	// 추천 게시판 상세 페이지로 이동
+	@RequestMapping("/recommendDetail")
+	public String recommendDetail(
+	    @RequestParam("rec_no") int rec_no,
+	    @RequestParam(value = "page", defaultValue = "1") String page,
+	    												  Model model,
+	    												  HttpSession session) {
+	    // 조회수 업데이트
+		recService.updatecount(rec_no);
+
+	    // 추천 상세 정보 가져오기
+	    Recommend recommend = recService.getBoard(rec_no);
+
+	    String content = recommend.getRec_content().replace("\n", "<br>");
+	    System.out.println(content);
+	    
+	    // 페이징 설정
+	    if (page == null || page.equals("")) {
+	    	page = "1";
+	    }
+	    int currentPage = Integer.parseInt(page);
+	    int rowPerPage = 5;
+	    int startRow = (currentPage - 1) * rowPerPage + 1;
+	    int endRow = startRow + rowPerPage - 1;
+
+	    // 해당 추천에 대한 댓글 총 개수 가져오기
+	    int total = replyService.getReplyTotal(String.valueOf(rec_no));
+
+	    // 페이징 정보 계산
+	    PagingPgm pp = new PagingPgm(total, rowPerPage, currentPage);
+
+	    // 댓글 가져오기 위한 파라미터 설정
+	    Reply reply = new Reply();
+	    reply.setStartRow(startRow);
+	    reply.setEndRow(endRow);
+	    reply.setRec_no(rec_no);
+
+	    // 댓글 목록 가져오기
+	    List<Map<String, Object>> list = replyService.getReplyList(reply);
+
+	    // 모델에 속성 추가
+	    model.addAttribute("recommend", recommend);
+	    model.addAttribute("content", content);
+	    model.addAttribute("id", session.getAttribute("id"));
+	    model.addAttribute("list", list);
+	    model.addAttribute("page", pp);
+	    model.addAttribute("rec_no",rec_no);
+	    
+	    return "recommend/recommendDetail";
+	}
+
+
+	
+	// 추천 게시판 댓글 작성
+	@RequestMapping("recommendReplyWrite")
+	public String recommendReplyWrite( Reply reply, Model model, HttpSession session) {
+		Reply check = replyService.replyCheck(reply);
+		
+	    if(check == null) {
+		int result = replyService.insert(reply);
+		
+		model.addAttribute("reply", reply);
+		model.addAttribute("result", result);
+		
+	    }else if(check != null){
+	    	int result = replyService.reInsert(reply);
+	    	model.addAttribute("result", result);
+	    	
+	    }
+		return "recommend/replyInsertResult";
+	}
+	
+	// 추천 게시판 댓글 삭제
+	@RequestMapping("deleteReply")
+	public String deleteReply(Reply reply, Model model, HttpSession session) {
+		
+		int result = 0;
+	    
+	    if(session.getAttribute("id").equals(reply.getMember_id())) {
+	    	System.out.println("아이디 일치");
+	    	result = replyService.deleteReply(reply.getReply_no());
+	    }
+	    System.out.println("result:" + result);
+	    System.out.println("reply_no:" + reply.getReply_no());
+	    
+	    model.addAttribute("result", result);
+	    model.addAttribute("rec_no", reply.getRec_no());	// result에서 디테일로 넘어갈 때 필요
+		return "recommend/deleteReplyResult";
 	}
 
 }

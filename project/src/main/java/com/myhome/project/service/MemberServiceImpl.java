@@ -1,5 +1,8 @@
 package com.myhome.project.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -79,8 +82,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
-	public void memberDelete(Member member) {
-		dao.memberDelete(member);
+	public int memberDelete(String id) {
+		return dao.memberDelete(id);
 	}
 	
 	// kakao
@@ -90,8 +93,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public Member KakaoUserCheck(String member_id) {
-		return dao.KakaoUserCheck(member_id);
+	public Member KakaoUserCheck(Member member) {
+		return dao.KakaoUserCheck(member);
 	}
 
 	@Override
@@ -106,6 +109,14 @@ public class MemberServiceImpl implements MemberService{
             return null;
         }
     }
+
+	@Override
+	public List<Map<String, Object>> getTotalMember() {
+		return dao.getTotalMember();
+	}
+
+
+
 
 
 
