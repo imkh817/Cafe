@@ -78,4 +78,15 @@ public class MypageController {
 		return "mypage/deleteReviewResult";
 		
 	}
+	  // 마이페이지 정보수정
+	   @RequestMapping("/memberupdate")
+	   public String g8() {
+	      return "mypage/memberupdate";
+	   }
+
+	   // 마이페이지 회원탈퇴
+	   @RequestMapping("/quit")
+	   public String gg9() {
+	      return "mypage/quit";
+	   }
 }

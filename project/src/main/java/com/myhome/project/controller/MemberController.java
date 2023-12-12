@@ -119,6 +119,23 @@ public class MemberController {
 		
 		return "login/updateResult";
 	}
+	   // 아이디 찾기
+	   @RequestMapping("/find_id")
+	   public String g14() {
+	      return "login/find_id";
+	   }
+	   
+	   // 비밀번호 찾기
+	   @RequestMapping("/find_pw")
+	   public String g15() {
+	      return "login/find_pw";
+	   }
+	   // 회원가입
+	   @RequestMapping("/join")
+	   public String gg6() {
+	      return "login/join";
+	   }
+
 	
 	// 아이디 찾기
 	@RequestMapping("find_id_ok")
@@ -128,6 +145,7 @@ public class MemberController {
 				
 		System.out.println("받아온 member 이름 : " + member.getMember_name());
 		Member db = service.findId(member);
+		System.out.println(member.getMember_email()+"@" + member.getMember_domain());
 		int result = -1;
 		if(db != null && db.getMember_email().equals(member.getMember_email())
 				      && db.getMember_domain().equals(member.getMember_domain())) {
