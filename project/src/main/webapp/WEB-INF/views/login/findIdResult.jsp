@@ -49,6 +49,12 @@
 
 <div class="container">
     <div class="result-box">
+    <c:if test="${result == -1 }">
+    	<script>
+    	alert("올바른 회원 정보를 입력해주십시오.");
+    	history.go(-1);
+    	</script>
+    </c:if>
         <div class="result-message">아이디 찾기 결과</div>
         <div class="result-username">회원님의 아이디는 <span id="username">${id}</span> 입니다.</div>
         <a href="main" class="back-link">홈으로 돌아가기</a>
