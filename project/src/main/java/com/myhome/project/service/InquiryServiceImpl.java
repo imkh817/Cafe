@@ -72,19 +72,5 @@ public class InquiryServiceImpl implements InquiryService {
 		return dao.getOneInquiry(inquiry_no);
 	}
 
-	public Response getResponse(String inquiry_no) {
-		return dao.getResponse(inquiry_no);
-	}
-
-	// 관리자 - 답변 작성
-	public int insertResponse(Response response) {
-		return dao.insertResponse(response);
-	}
-
-	// 관리자 - 문의한 사람의 답변상태 변경
-	public void updateResponseState(int inquiry_no) {
-		dao.updateResponseState(inquiry_no);
-
-	}
 
 }

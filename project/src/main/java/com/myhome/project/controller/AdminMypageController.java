@@ -21,6 +21,7 @@ import com.myhome.project.service.CafeService;
 import com.myhome.project.service.CategoryService;
 import com.myhome.project.service.InquiryService;
 import com.myhome.project.service.MemberService;
+import com.myhome.project.service.ResponseService;
 
 @Controller
 public class AdminMypageController {
@@ -37,6 +38,8 @@ public class AdminMypageController {
 	@Autowired
 	CafeService cafeService;
 
+	@Autowired
+	ResponseService responseService;
 	// 관리자 1대1 문의 폼
 	@RequestMapping("adminInquiry")
 	public String adminInquiry(String page, Model model) {
@@ -83,7 +86,7 @@ public class AdminMypageController {
 		model.addAttribute("inquiry", inquiry);
 
 		// 답변을 했을 경우
-		Response response = inquiryService.getResponse(inquiry_no);
+		Response response = responseService.getResponse(inquiry_no);
 		System.out.println(inquiry_no);
 		if (response != null) {
 			model.addAttribute("response", response);
@@ -96,12 +99,20 @@ public class AdminMypageController {
 	@RequestMapping("writeResponse")
 	public String writeResponse(int inquiry_no, Model model, Response response) {
 
-		int result = inquiryService.insertResponse(response);
-		if (result == 1) {
-			System.out.println("번호 : " + inquiry_no);
-			inquiryService.updateResponseState(inquiry_no);
+		int check = responseService.checkResponse(inquiry_no);
+		System.out.println("check 번호 :" + check);
+		if(check == 1) { // 답변이 있는경우
+			int update = responseService.updateResponse(response);
+			model.addAttribute("check", check);
+		}else { // 답변이 안적혀있을 경우
+			int result = responseService.insertResponse(response);
+			if (result == 1) {
+				System.out.println("번호 : " + inquiry_no);
+				responseService.updateResponseState(inquiry_no);
+			}
+			model.addAttribute("result", result);
 		}
-		model.addAttribute("result", result);
+		
 
 		return "admin/writeResponseResult";
 	}
