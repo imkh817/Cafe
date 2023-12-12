@@ -27,7 +27,7 @@
 </c:if>
 
 <!-- 네이버 로그인 기존회원 -->
-<c:if test="${naverReesult!=1 }">
+<c:if test="${naverResult == 0 }">
 	<script>
 	alert("${name} 님 환영합니다!")	
 	location.href="main";
@@ -43,9 +43,16 @@
 </c:if>
 
 <!-- 카카오 로그인 기존회원 -->
-<c:if test="${kakaoReesult!=1 }">
+<c:if test="${kakaoResult == 0}">
 	<script>
 	alert("${name} 님 환영합니다!")	
+	location.href="main";
+	</script>
+</c:if>
+<!-- 카카오 로그인 기존회원 -->
+<c:if test="${kakaoResult==2 }">
+	<script>
+	alert("이미 가입된 회원입니다.")	
 	location.href="main";
 	</script>
 </c:if>

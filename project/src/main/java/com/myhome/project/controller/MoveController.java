@@ -240,7 +240,6 @@ public class MoveController {
 			// 뷰 파일로 값 넘기기
 			// 카페 정보
 			model.addAttribute("cafe", cafe);
-			System.out.println("Cafe :::::" + cafe.getCafe_name());
 			// 해시 태그 평균 값
 			model.addAttribute("hashAvg", hashAvg);
 			// 별점 가져오기
@@ -256,86 +255,8 @@ public class MoveController {
 			return "cafe/detail";
 		}
 
-	// 리뷰
-	@RequestMapping("/hashtag_result")
-	public String g4() {
-		return "cafe/hashtag_result";
-	}
 
-	// 하트
-	@RequestMapping("/heart_result")
-	public String g5() {
-		return "cafe/heart_result";
-	}
 
-	// 회원가입
-	@RequestMapping("/join")
-	public String gg6() {
-		return "login/join";
-	}
-
-	// 마이페이지 정보수정
-	@RequestMapping("/memberupdate")
-	public String g8() {
-		return "mypage/memberupdate";
-	}
-
-	// 마이페이지 회원탈퇴
-	@RequestMapping("/quit")
-	public String gg9() {
-		return "mypage/quit";
-	}
-
-	// 관리자 회원관리
-	@RequestMapping("/manage")
-	public String ggg9() {
-		return "admin/manage";
-	}
-
-	// 관리자 장소등록 폼
-	@RequestMapping("/newPlace")
-	public String newPlace(Model model) {
-		System.out.println("cafe 컨트롤러 newPlace 매핑");
-		// 카테고리 값을 담을 변수 생성
-		List<Category> categorylist = new ArrayList<Category>();
-
-		// 카테고리 번호를 DAO에 보낸다.
-		categorylist = categoryService.selectList();
-
-		for (int i = 0; i < categorylist.size(); i++) {
-			System.out.println(categorylist.get(i).getCategory_name());
-		}
-		
-		// 뷰에 데이터 값 전달
-		model.addAttribute("category", categorylist);
-		return "admin/newPlace";
-	}
-	// 관리자 장소 수정 폼
-		@RequestMapping("/modifyPlace")
-		public String modifyPlace(int cafe_no, Model model) {
-			System.out.println("Modify controller");
-			
-			System.out.println("cafe 컨트롤러 newPlace 매핑");
-			// 카테고리 값을 담을 변수 생성
-			List<Category> categorylist = new ArrayList<Category>();
-
-			// 카테고리 번호를 DAO에 보낸다.
-			categorylist = categoryService.selectList();
-
-			for (int i = 0; i < categorylist.size(); i++) {
-				System.out.println(categorylist.get(i).getCategory_name());
-			}
-			
-			Cafe cafe = cafeService.select(cafe_no);
-			System.out.println("cafe category: " + cafe.getCategory_no());
-
-			// 뷰에 데이터 값 전달
-			model.addAttribute("category", categorylist);
-			model.addAttribute("cafe", cafe);
-			
-			return "admin/modifyPlace";
-		}
-	
 
 	// 클라이언트 추천 게시판 목록
 	@RequestMapping("/recommendList")

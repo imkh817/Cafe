@@ -24,6 +24,10 @@
                         </div>
                         <input type="submit" value="회원 탈퇴" style="padding: 10px 20px; background-color: #ff3333; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 15px;">
                     </form>
+                    <br>
+            <div>
+            	<input type="button" class="btn btn-outline-info" value="소셜 로그인 회원은 정보수정에서 비밀번호를 설정해주세요 :)" onClick="location.href='member_update'" >
+            </div>
                 </div>
             </div>
         </div>

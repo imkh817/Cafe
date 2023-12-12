@@ -10,7 +10,7 @@
 		jdbcType=VARCHAR},
 		#{member_nickname},#{member_phone1},#{member_phone2},
 		#{member_phone3},#{member_post,jdbcType=VARCHAR},#{member_address1,jdbcType=VARCHAR},
-		#{member_address2,jdbcType=VARCHAR},#{member_email},#{member_domain},'Y')
+		#{member_address2,jdbcType=VARCHAR},#{member_email,jdbcType=VARCHAR},#{member_domain,jdbcType=VARCHAR},'Y')
 	</insert>
 
 	<select id="idCheck" parameterType="String" resultType="member">
@@ -63,17 +63,21 @@
     </update>
     
 	<!-- kakao -->
-	<select id="KakaoUserCheck" parameterType="String"
+	<select id="KakaoUserCheck" parameterType="member"
 		resultType="member">
-		select * from member where member_id = #{member_id} and member_state='Y'
+		select * from member where member_id = #{member_id} and member_state='Y' and member_email=#{member_email}
 	</select>
 	
 	<insert id="insertKakao" parameterType="member">
 		insert into member
 		values(#{member_id},null,#{member_name},null,null,#{member_nickname},
 		#{member_phone1},#{member_phone2},#{member_phone3},
-		null,null,null,#{member_email},#{member_domain},'Y')
+		null,null,null,#{member_email, jdbcType=VARCHAR},#{member_domain, jdbcType=VARCHAR},'Y')
 	</insert>
+	
+	<select id="getTotalMember" resultType="java.util.Map">
+		select * from member where member_state ='Y' order by member_name
+	</select>
 
 
 

@@ -2,22 +2,40 @@ package com.myhome.project.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.myhome.project.model.Cafe;
+import com.myhome.project.model.Category;
 import com.myhome.project.model.Inquiry;
+import com.myhome.project.model.Member;
 import com.myhome.project.model.PagingPgm;
 import com.myhome.project.model.Response;
+import com.myhome.project.service.CafeService;
+import com.myhome.project.service.CategoryService;
 import com.myhome.project.service.InquiryService;
+import com.myhome.project.service.MemberService;
 
 @Controller
 public class AdminMypageController {
 
 	@Autowired
 	InquiryService inquiryService;
+	
+	@Autowired
+	MemberService memberService;
+	
+	@Autowired
+	CategoryService categoryService;
+	
+	@Autowired
+	CafeService cafeService;
 
 	// 관리자 1대1 문의 폼
 	@RequestMapping("adminInquiry")
@@ -87,5 +105,68 @@ public class AdminMypageController {
 
 		return "admin/writeResponseResult";
 	}
+	
+	// 관리자 회원관리
+		@RequestMapping("/manage")
+		public String manage(Model model) {
+			
+			System.out.println("manage진");
+			List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+			list = memberService.getTotalMember();
+			
+			model.addAttribute("list",list);
+			
+			return "admin/manage";
+		}
+		@RequestMapping("deleteMemberManage")
+		@ResponseBody
+		public int deleteMemberManage(@RequestParam String member_id) {
+			int result = memberService.memberDelete(member_id);
+		    return result;
+		}
+		
+		// 관리자 장소등록 폼
+		@RequestMapping("/newPlace")
+		public String newPlace(Model model) {
+			System.out.println("cafe 컨트롤러 newPlace 매핑");
+			// 카테고리 값을 담을 변수 생성
+			List<Category> categorylist = new ArrayList<Category>();
 
+			// 카테고리 번호를 DAO에 보낸다.
+			categorylist = categoryService.selectList();
+
+			for (int i = 0; i < categorylist.size(); i++) {
+				System.out.println(categorylist.get(i).getCategory_name());
+			}
+			
+			// 뷰에 데이터 값 전달
+			model.addAttribute("category", categorylist);
+			return "admin/newPlace";
+		}
+		// 관리자 장소 수정 폼
+			@RequestMapping("/modifyPlace")
+			public String modifyPlace(int cafe_no, Model model) {
+				System.out.println("Modify controller");
+				
+				System.out.println("cafe 컨트롤러 newPlace 매핑");
+				// 카테고리 값을 담을 변수 생성
+				List<Category> categorylist = new ArrayList<Category>();
+
+				// 카테고리 번호를 DAO에 보낸다.
+				categorylist = categoryService.selectList();
+
+				for (int i = 0; i < categorylist.size(); i++) {
+					System.out.println(categorylist.get(i).getCategory_name());
+				}
+				
+				Cafe cafe = cafeService.select(cafe_no);
+				System.out.println("cafe category: " + cafe.getCategory_no());
+
+				// 뷰에 데이터 값 전달
+				model.addAttribute("category", categorylist);
+				model.addAttribute("cafe", cafe);
+				
+				return "admin/modifyPlace";
+			}
+		
 }

@@ -1,5 +1,8 @@
 package com.myhome.project.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.myhome.project.model.Member;
 
 public interface MemberService {
@@ -25,14 +28,18 @@ public interface MemberService {
 	
 	void pwUpdate(Member member);
 	
-	void memberDelete(Member member);
+	int memberDelete(String id);
 
 	// 카카오
 	int insertKakao(Member member);
 	
-	Member KakaoUserCheck(String member_id);
+	Member KakaoUserCheck(Member member);
 	
 	Member isLogin(String id, String pw);
+
+	// 관리자 회원관리
+	List<Map<String, Object>> getTotalMember();
+
 
 
 

@@ -101,8 +101,6 @@ public class MemberController {
 		String phone = member.getMember_phone1()+"-"+member.getMember_phone2()+"-"+member.getMember_phone3();
 //		String email = member.getMember_email()+"@"+member.getMember_domain();
 //		
-//		model.addAttribute("email", email);
-		System.out.println("memeber:::::" + member);
 		model.addAttribute("phone", phone);
 		model.addAttribute("member", member);
 		
@@ -227,7 +225,7 @@ public class MemberController {
 		Member m = service.getMember((String)session.getAttribute("id"));
 		
 		if(m.getMember_pw().equals(member.getMember_pw())) {
-			service.memberDelete(member);
+			int reuslt = service.memberDelete(member.getMember_id());
 			
 			session.invalidate();
 			
