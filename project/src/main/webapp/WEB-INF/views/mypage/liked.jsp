@@ -22,7 +22,9 @@
 				<%@ include file="/WEB-INF/views/include/sidebar.jsp"%>
 			</div>
 
-			<!-- 찜한 카페 이름, 소개글, 영업시간, 주소, 별점순 보이기 -->
+			<input type="hidden" name="member_id" value="${member.member_id }">
+
+			<!-- 목록페이지 카페 이름, 소개글, 영업시간, 주소, 별점순 -->
 			<div class="col-md-10">
 				<div class="row">
 					<c:forEach var="l" items="${likedResult }"
@@ -34,15 +36,18 @@
 									alt="카페 이미지">
 								<div class="card-body">
 									<h5 class="card-title">
-										<a href="detail?cafe_no=${l['CAFE_NO']}">${l['CAFE_NAME'] }</a>
+										<a href="Detail?cafe_no=${l['CAFE_NO']}">${l['CAFE_NAME'] }</a>
 									</h5>
 									<p class="card-text">${l['CAFE_COMMENT'] }</p>
 
 								</div>
-								<ul class="list-group list-group-flush">
+								<ul
+									class="list-group list-group-flush">
 									<li class="list-group-item">${l['CAFE_TIME1'] }~
 										${l['CAFE_TIME2'] }</li>
 									<li class="list-group-item">${l['CAFE_ADDRESS'] }</li>
+
+									<!-- 평균 별점 -->
 									<li class="list-group-item"><span
 										style="font-size: 24px; color: gold;"> <c:set
 												var="cafe_star" value="${l['AVG_CAFE_STAR'] }" /> <c:set

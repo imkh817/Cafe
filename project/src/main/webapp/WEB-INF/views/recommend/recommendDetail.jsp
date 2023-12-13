@@ -44,22 +44,7 @@
 	color: #fff;
 }
 </style>
-<script>
-        // 댓글 버튼 클릭 시 호출되는 함수
-        function toggleTextInput() {
-            var textInputDiv = document.getElementById("textInputDiv");
-            var uploadButton = document.getElementById("uploadButton");
 
-            // 현재 상태에 따라 텍스트 입력 부분과 버튼을 토글
-            if (textInputDiv.style.display === "none") {
-                textInputDiv.style.display = "block";
-                uploadButton.innerText = "취소"; // "취소"로 변경
-            } else {
-                textInputDiv.style.display = "none";
-                uploadButton.innerText = "업로드"; // "업로드"로 변경
-            }
-        }
-    </script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -79,8 +64,7 @@
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 
 
-	<script>
-
+<script>
 function deleterecommend(rec_no) {
     console.log("deleterecommend");
     var confirmDelete = confirm("진짜 삭제하시겠습니까?");
@@ -107,6 +91,30 @@ function deleterecommend(rec_no) {
            
         });
     }
+}
+
+// 댓글 삭제 
+function deleteReply(rec_no, id, reply_no) {
+    $.ajax({
+        type: 'POST', // HTTP POST 메서드 사용
+        url: 'deleteReply', // url
+        data: {'rec_no':rec_no,'member_id':id,'reply_no':reply_no}, // url로 넘겨줄 값
+        
+        success: function (result) { // data는 위의 요청이 성공되면 받는 return값
+            // 성공적으로 삭제되었을 때의 동작
+            if(result == 1){
+            alert('댓글 삭제 성공!');
+            location.href="recommendDetail?rec_no=${rec_no}";
+            }else{
+            alert('댓글 삭제에 실패했습니다.');
+            history.go(-1);
+            }
+            
+        },
+        error: function (error) {
+            // 삭제 실패 시의 동작
+        }
+    });
 }
 
 </script>
@@ -173,8 +181,8 @@ function deleterecommend(rec_no) {
 				<div class="d-flex justify-content-center">
 					<h2 class="section-title">사진</h2>
 				</div>
-				<img src="upload/${recommend.rec_image}" class="img-thumbnail"
-					alt="..." style="width: 100%; height: auto;">
+				<img src="upload/${recommend.rec_image}" class="card-img-top"
+					alt="..." style="object-fit: cover; height: 400px;">
 			</div>
 			<div class="section map-section">
 				<div class="d-flex justify-content-center">
@@ -216,10 +224,12 @@ function deleterecommend(rec_no) {
 								<td>
 									<div
 										style="display: flex; justify-content: space-between; align-items: center;">
-										<span>${list['REPLY_CONTENT']}</span> <span> <c:if
+										<span>${list['REPLY_CONTENT']}</span> 
+										<span> 
+											<c:if
 												test="${id eq list['MEMBER_ID']}">
-												<button class="btn btn-primary"
-													onclick="changeHrefAndNavigate()">삭제</button>
+												<button class="btn btn-primary" id="deleteButton" onClick="deleteReply('${rec_no}','${id}','${list['REPLY_NO']}')"
+													>삭제</button>
 											</c:if>
 										</span>
 									</div>
@@ -329,13 +339,8 @@ function deleterecommend(rec_no) {
 	            }
 	        });
 	    });
-
-	    function changeHrefAndNavigate() {
-            // URL 변경
-            window.location.href = 'deleteReply';
-        }
+	    
            
-          
          </script>
 
 

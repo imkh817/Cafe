@@ -117,7 +117,7 @@ function check(){
 							<label for="placeAddress">주소</label>
 							<div class="input-group">
 								<input type="text" id="cafe_address" class="form-control"
-									name="cafe_address" readonly placeholder="주소를 입력하세요" onClick="openDaumPostcode()">
+									name="cafe_address" readonly placeholder="주소를 입력하세요" onClick="openDaumPostcode()" value="${cafe.cafe_address }">
 								
 								<div class="input-group-append">
 									<input type="button" class="btn btn-secondary"
