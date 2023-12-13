@@ -16,7 +16,7 @@ public class LoginCheck implements HandlerInterceptor {
 		if (session.getAttribute("id") == null) {
 			//response.sendRedirect("/project/main");
 			response.setContentType("text/html; charset=UTF-8");
-			response.getWriter().println("<script>alert('로그인이 필요합니다.'); window.location='/project/main';</script>");
+			response.getWriter().println("<script>alert('로그인이 필요합니다.'); window.location='/main';</script>");
 			
 			return false;
 			// id값이 null일때 return 값이 false 여야 가로채서 main으로 페이지를 보낸다. 

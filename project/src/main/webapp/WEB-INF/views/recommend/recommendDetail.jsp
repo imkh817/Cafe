@@ -89,15 +89,15 @@ function deleterecommend(rec_no) {
     if (confirmDelete) {
         $.ajax({
             type: "POST",
-            url: "/project/recommendDelete",
-            data: { "rec_no": rec_no },
+            url: "recommendDelete",
+            data: {"rec_no": rec_no },
             success: function (response) {
                 if (response === "Y") {  
                     alert("글 삭제가 되었습니다.");
-                    location.href = "/project/recommendList";
+                    location.href = "recommendList";
                 } else {
                     alert("삭제에 실패했습니다.");
-                    location.href = "/project/recommendList";
+                    location.href = "recommendList";
                 }
             },
             error: function () {
@@ -129,7 +129,7 @@ function deleterecommend(rec_no) {
 					</div>
 				</c:if>
 
-				<c:if test="${id == recommend.member_id}">
+				<c:if test="${id == recommend.member_id || id == 'master'}">
 					<div style="display: inline-block;">
 						<input type="button" class="btn btn-primary"
 							onclick="deleterecommend(${rec_no})" value="글삭제">

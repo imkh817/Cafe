@@ -256,14 +256,14 @@ public class RecommendController {
 	@RequestMapping(value= "/recommendDelete", method= RequestMethod.POST)
 	@ResponseBody
 	public String recommendDelete(@RequestParam("rec_no") int rec_no, HttpSession session ) {
-		
+		System.out.println("들어옴");
 		String id = (String) session.getAttribute("id");
 		System.out.println(rec_no);
 		int deleteresult = 0;
 	
 		Recommend db = service.getBoard(rec_no);
 		
-		if(id.equals(db.getMember_id())) { //아이디 일치시
+		if(id.equals(db.getMember_id()) || id.equals("master")) { //아이디 일치시
 			deleteresult = service.delete(rec_no);
 		}		
 		
