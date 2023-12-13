@@ -26,9 +26,9 @@
 	<resources mapping="/views/**" location="/WEB-INF/views/" />
 	<resources mapping="/upload/**" location="/upload/" />
 
-
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
+
 
 
 	<beans:bean
@@ -47,7 +47,28 @@
 		<beans:property name="maxUploadSize" value="10000000" />
 	</beans:bean>
 
-
+	<!-- recommendWrite ,recommendUpdateForm, recommendDelete, liked, myReview,member_update, 
+		member_delete, inquiry,manage,newPlace,adminInquiry -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/recommendWrite" />
+			<mapping path="/recommendUpdateForm" />
+			<mapping path="/recommendDelete" />
+			<mapping path="/liked" />
+			<mapping path="/myReview" />
+			<mapping path="/member_update" />
+			<mapping path="/member_delete" />
+			<mapping path="/inquiry" />
+			<mapping path="/manage" />
+			<mapping path="/newPlace" />
+			<mapping path="/adminInquiry" />
+			
+			
+			<beans:bean id="Interceptor"
+				class="com.myhome.project.service.LoginCheck" />
+		</interceptor>
+	</interceptors>
+	
 	<context:component-scan
 		base-package="com.myhome.project" />
 

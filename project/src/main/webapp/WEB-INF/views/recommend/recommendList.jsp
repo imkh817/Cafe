@@ -24,19 +24,22 @@
 				<br>
 				<h1 class="text-center mb-4">사장님 홍보 게시판</h1>
 			</div>
+			
+			<c:if test="${id ne null}">
 			<div style="margin-left: auto; margin-top: 10px;">
 				<a href="recommendWrite"> <input type="button" value="글 작성"
 					style="padding: 10px 20px; border-radius: 5px; background-color: #337ab7; color: #fff; border: none;">
 				</a>
 			</div>
+			</c:if>
 		</div>
 
 	
 		<div class="post-list">
 			<ul class="list-group">
 				<c:forEach var="list" items="${list}">
-					<li class="list-group-item"><a href="recommendDetail?rec_no=${list['REC_NO']}"><h3
-								style="text-align: left;">제목 : ${list['REC_NAME']}</h3></a>
+					<li class="list-group-item"><a href="recommendDetail?rec_no=${list['REC_NO']}">
+					<h3 style="text-align: left;">제목 : ${list['REC_NAME']}</h3></a>
 						
 						<p style="text-align: left;">조회수 : ${list['REC_READCOUNT']}</p></li>
 				</c:forEach>

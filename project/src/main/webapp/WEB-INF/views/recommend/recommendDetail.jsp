@@ -5,7 +5,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- /detail 에서 보낸것 : page,cafe_no, -->
 <style>
 .btn input[type="radio"] {
 	appearance: none;
@@ -24,8 +23,43 @@
 .table th:first-child {
 	width: 25%; /* 이름 칼럼의 너비를 25%로 조절 */
 }
-</style>
 
+.kakaobtn {
+	display: inline-block;
+	padding: 10px 20px;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	border: 2px solid #2196F3;
+	color: #2196F3;
+	background-color: #fff;
+	border-radius: 5px;
+	transition: background-color 0.3s, color 0.3s;
+}
+
+.kakaobtn:hover {
+	background-color: #2196F3;
+	color: #fff;
+}
+</style>
+<script>
+        // 댓글 버튼 클릭 시 호출되는 함수
+        function toggleTextInput() {
+            var textInputDiv = document.getElementById("textInputDiv");
+            var uploadButton = document.getElementById("uploadButton");
+
+            // 현재 상태에 따라 텍스트 입력 부분과 버튼을 토글
+            if (textInputDiv.style.display === "none") {
+                textInputDiv.style.display = "block";
+                uploadButton.innerText = "취소"; // "취소"로 변경
+            } else {
+                textInputDiv.style.display = "none";
+                uploadButton.innerText = "업로드"; // "업로드"로 변경
+            }
+        }
+    </script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,48 +71,119 @@
 <link rel="stylesheet" href="css/style.css">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
-<script type="text/javascript"></script>
-
+<script src="js/review.js"></script>
 </head>
+
 
 <body class="detail-body">
 	<%@ include file="/WEB-INF/views/include/header.jsp"%>
 
+
+	<script>
+
+function deleterecommend(rec_no) {
+    console.log("deleterecommend");
+    var confirmDelete = confirm("진짜 삭제하시겠습니까?");
+    console.log("confirmDelete : " + confirmDelete);
+    
+    if (confirmDelete) {
+        $.ajax({
+            type: "POST",
+            url: "/project/recommendDelete",
+            data: { "rec_no": rec_no },
+            success: function (response) {
+                if (response === "Y") {  
+                    alert("글 삭제가 되었습니다.");
+                    location.href = "/project/recommendList";
+                } else {
+                    alert("삭제에 실패했습니다.");
+                    location.href = "/project/recommendList";
+                }
+            },
+            error: function () {
+                alert("로그인 후 이용해주세요.");
+            }
+            
+           
+        });
+    }
+}
+
+</script>
+
+
 	<div class="container mt-4">
 		<div class="row">
-			<!-- 제목 -->
-			<div class="col-12 text-center map-title">스타벅스</div>
+
+
+			<div class="col-12 text-center map-title" style="font-weight: bold;">${recommend.rec_name}</div>
+
+
+			<div class="col-12 d-flex justify-content-end">
+
+				<c:if test="${id == recommend.member_id}">
+					<div style="display: inline-block; margin-right: 10px;">
+						<input type="button" class="btn btn-primary"
+							onclick="location.href='recommendUpdateForm?rec_no=${rec_no}&page=${page.currentPage}'"
+							value="글수정">
+					</div>
+				</c:if>
+
+				<c:if test="${id == recommend.member_id}">
+					<div style="display: inline-block;">
+						<input type="button" class="btn btn-primary"
+							onclick="deleterecommend(${rec_no})" value="글삭제">
+					</div>
+				</c:if>
+
+			</div>
+
 		</div>
 	</div>
 
 	<div class="container">
 		<div class="section-container">
 			<div class="section">
-				<h2 class="section-title">스타벅스</h2>
-				<p class="card-text">연락처 :</p>
-				<p class="card-text">영업시간: AM - PM</p>
-				<p class="card-text">위치:</p>
+				<input type="hidden" id="cafe_address"
+					value=" ${recommend.rec_address}">
+				<div class="d-flex ">
+					<h2 class="section-title">${recommend.rec_name}</h2>
+				</div>
+				<p class="card-text">연락처: ${recommend.rec_number}</p>
+				<p class="card-text">영업시간: ${recommend.rec_time1} AM -
+					${recommend.rec_time2} PM</p>
+				<p class="card-text">위치: ${recommend.rec_address}</p>
+
 				<h2 class="section-title">메뉴</h2>
-				<p class="card-text">추천메뉴 :</p>
-				<p class="card-text">추천메뉴 :</p>
-				<p class="card-text">추천메뉴 :</p>
+				<p class="card-text">${recommend.rec_menu1}</p>
+				<p class="card-text">${recommend.rec_menu2}</p>
+				<p class="card-text">${recommend.rec_menu3}</p>
 			</div>
 			<div class="section">
-				<!-- 영업 시간 -->
+				<div class="d-flex justify-content-center">
+					<h2 class="section-title">카페소개</h2>
+				</div>
+				<p class="card-text">${content}</p>
 			</div>
 		</div>
-
+	</div>
+	<div class="container">
 		<div class="section-container">
 			<div class="section image-section">
-				<!-- 사진 -->
-				<h2 class="section-title">사진</h2>
-				<img src="upload/" class="img-thumbnail" alt="..."
-					style="width: 100%; height: auto;">
+				<div class="d-flex justify-content-center">
+					<h2 class="section-title">사진</h2>
+				</div>
+				<img src="upload/${recommend.rec_image}" class="img-thumbnail"
+					alt="..." style="width: 100%; height: auto;">
 			</div>
 			<div class="section map-section">
-				<!-- 지도 -->
-				<h2 class="section-title">지도</h2>
+				<div class="d-flex justify-content-center">
+					<h2 class="section-title">지도</h2>
+				</div>
 				<div id="kakao-map"></div>
+				<br>
+				<button class="kakaobtn" id="kakaobtn" style="display: none;">길찾기
+					바로가기</button>
 			</div>
 		</div>
 
@@ -86,9 +191,11 @@
 			<!-- 리뷰 -->
 			<h2 class="section-title">댓글</h2>
 
+
 			<div class="d-flex justify-content-end mb-3">
 				<!-- "글 작성" 버튼을 리뷰 섹션 맨 오른쪽에 배치 -->
-				<button id="openModalButton" class="btn btn-primary" onClick="*">댓글 작성</button>
+				<button id="openModalButton" class="btn btn-primary" onClick="*">댓글
+					작성</button>
 			</div>
 
 			<!-- 리뷰 목록 -->
@@ -105,18 +212,17 @@
 					<tbody>
 						<c:forEach var="list" items="${list}">
 							<tr>
+								<td>${list['MEMBER_NICKNAME']}</td>
 								<td>
-								${list['MEMBER_NICKNAME']}
-								</td>
-								<td>
-									<div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span>${list['REPLY_CONTENT']}</span>
-                            <span>
-                                <c:if test="${id == list['MEMBER_ID']}"> 
-                                <button class="btn btn-primary" onclick="location.href='deleteReply?reply_no=${list['REPLY_NO']}&rec_no=${list['REC_NO'] }&member_id=${list['MEMBER_ID'] }'">삭제</button>
-                                </c:if>
-                            </span>
-                        </div>
+									<div
+										style="display: flex; justify-content: space-between; align-items: center;">
+										<span>${list['REPLY_CONTENT']}</span> <span> <c:if
+												test="${id eq list['MEMBER_ID']}">
+												<button class="btn btn-primary"
+													onclick="changeHrefAndNavigate()">삭제</button>
+											</c:if>
+										</span>
+									</div>
 								</td>
 							</tr>
 						</c:forEach>
@@ -160,8 +266,8 @@
 
 						<div class="modal-body">
 							<form action="recommendReplyWrite" method="post">
-								<input type="hidden" name="member_id" value="${id}"> 
-								<input type="hidden" name="rec_no" value="${rec_no}">
+								<input type="hidden" name="member_id" value="${id}"> <input
+									type="hidden" name="rec_no" value="${rec_no}">
 
 								<div class="mb-3">
 									<label for="reviewCity" class="form-label">내용</label>
@@ -179,17 +285,19 @@
 					</div>
 				</div>
 			</div>
-			
-			
-	
-			
-			
+
+
+			<!-- 대댓글 작성 모달창 -->
+
+
 		</div>
-		<!-- 글작성버튼 누르면 모달나오는 스크립트 코드 -->
-		<!-- 임시 아이디 -->
-		<!-- id값이 없으면 리뷰작성 불가 로그인해주세요 alert창 뜨게 함 -->
-		<c:set var="id" value="${id }"></c:set>
-		<script>
+	</div>
+
+	<!-- 글작성버튼 누르면 모달나오는 스크립트 코드 -->
+	<!-- 임시 아이디 -->
+	<!-- id값이 없으면 리뷰작성 불가 로그인해주세요 alert창 뜨게 함 -->
+	<c:set var="id" value="${id }"></c:set>
+	<script>
 	    var myModal; // 전역 변수로 myModal 선언
 
 	    $(function () {
@@ -221,26 +329,74 @@
 	            }
 	        });
 	    });
+
+	    function changeHrefAndNavigate() {
+            // URL 변경
+            window.location.href = 'deleteReply';
+        }
+           
           
          </script>
-	</div>
-	
+
+
 	<!-- </div> -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=37889ee25b1504a04dd9fe6a107f4654"></script>
-	<!-- 찜 하트 -->
 
 	<!-- 카카오 맵 -->
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=dc616f3f60dc0ec7cd19b89f1c6dc69a&libraries=services,clusterer,drawing"></script>
 	<script>
-      var container = document.getElementById('kakao-map');
-      var options = {
-         center : new kakao.maps.LatLng(37.5665, 126.9780),
-         level : 3
-      };
-      var map = new kakao.maps.Map(container, options);
-   </script>
+		var cafe_address = document.getElementById('cafe_address').value;
+		console.log(cafe_address);
+
+		var container = document.getElementById('kakao-map');
+		
+		// geocoder라이브러리 : 주소 정보에 해당하는 좌표값을 요청
+		var geocoder = new kakao.maps.services.Geocoder();
+		
+		var callback = function(result, status) {
+		    if (status === kakao.maps.services.Status.OK) {
+		        console.log(result);
+		        
+		    	var options = { // 지도를 생성할 때 필요한 기본 옵션
+		    			center : new kakao.maps.LatLng(result[0].y, result[0].x), // center -> 지도를 생성하는데 반드시 필요함
+		    			level : 3
+		    		};
+		    		
+		    	// 지도 생성
+		    	var map = new kakao.maps.Map(container, options);
+		        
+		     	// 마커가 표시될 위치 
+				var markerPosition  = new kakao.maps.LatLng(result[0].y, result[0].x); 
+				
+				// 마커 생성
+				var marker = new kakao.maps.Marker({
+				    position: markerPosition
+				});
+				
+				// 마커가 지도 위에 표시되도록 설정
+				marker.setMap(map);
+				
+				// 지도가 생성되면 길찾기 버튼 나타나게
+	            var kakaobtn = document.getElementById("kakaobtn");
+	            kakaobtn.style.display = "block";
+	            
+	            // 클릭 이벤트에 URL 이동 추가
+	               kakaobtn.addEventListener("click", function() {
+	                   // 클릭 시 카카오 지도 길찾기 링크로 이동
+	                   var linkUrl = "https://map.kakao.com/link/to/" + cafe_address + "," + result[0].y + "," + result[0].x;
+	                   window.open(linkUrl, '_blank');
+	               });
+		    }else{
+		    	console.log("카카오 API 호출 실패")
+		    }
+		};
+
+		geocoder.addressSearch(cafe_address, callback);
+		
+	</script>
+
 
 </body>
 

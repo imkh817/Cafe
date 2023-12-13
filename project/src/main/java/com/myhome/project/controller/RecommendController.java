@@ -305,6 +305,7 @@ public class RecommendController {
 		list = recService.getList(recommend);
 
 
+		model.addAttribute("id", session.getAttribute("id"));
 		model.addAttribute("list", list);
 		model.addAttribute("page", pp);
 

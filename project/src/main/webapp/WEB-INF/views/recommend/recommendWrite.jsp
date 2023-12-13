@@ -6,6 +6,20 @@
 <head>
 <meta charset="UTF-8">
 <title>장소 등록</title>
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+
+
+<script>
+	function openDaumPostcode() {
+		new daum.Postcode({
+			oncomplete : function(data) {
+				document.getElementById('rec_address').value = data.address;
+			}
+		}).open();
+	}
+</script>
+
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -15,72 +29,80 @@
 	style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-2">
-			</div>
+			<div class="col-md-2"></div>
 			<div class="col-md-10">
 				<div class="ask_container mt-5">
-				
+
 					<h2>장소 등록</h2>
-					<form enctype="multipart/form-data" action="${pageContext.request.contextPath}/fileupload" method="post">
+					<form enctype="multipart/form-data"
+						action="${pageContext.request.contextPath}/fileupload"
+						method="post" onSubmit="check()">
 						<input type="hidden" value="${board.member_id}" name="member_id">
-						
+
 						<div class="form-group">
 							<label for="placeName">장소명</label> <input type="text"
-								class="form-control" id="placeName" placeholder="장소명을 입력하세요" name="rec_name" >
+								class="form-control" id="placeName" placeholder="장소명을 입력하세요"
+								name="rec_name" required>
 						</div>
 						<div class="form-group">
 							<label for="placeAddress">전화번호</label> <input type="text"
 								class="form-control" id="phoneNumber" placeholder="전화번호를 입력하세요"
-								name="rec_number" pattern="[0-9]*" inputmode="numeric">
+								name="rec_number" pattern="[0-9]*" inputmode="numeric" required>
 						</div>
 						<div class="form-group">
-							<label for="placeAddress">주소</label> <input type="text"
-								class="form-control" id="placeAddress" placeholder="주소를 입력하세요" name="rec_address">
+							<label for="inputZip">주소 찾기</label>
+							<div class="input-group">
+								<input type="text" id="rec_address" class="form-control"
+									name="rec_address" readonly onclick="openDaumPostcode()">
+								<div class="input-group-append">
+									<button type="button" class="btn btn-secondary"
+										onclick="openDaumPostcode()">검색</button>
+								</div>
+							</div>
 						</div>
+						
+						
 						<div class="form-group">
 							<div class="form-group">
-								<label for="mondayOpeningTime">영업 시간</label> <select
-									class="form-control d-inline w-auto" id="OpeningTime" name="rec_time1"> 
-							<option>시작 시간</option>
-									<option value="09:00">09:00</option>
-									<option value="10:00">10:00</option>
-									<option value="11:00">11:00</option>
-									<option value="12:00">12:00</option>
-									<option value="13:00">13:00</option>
-									<option value="14:00">14:00</option>
-									<option value="15:00">15:00</option>
-									<option value="16:00">16:00</option>
-								</select> <span class="d-inline">부터</span> <select
+								<label for="mondayOpeningTime">영업 시간</label> <input type="text"
+									class="form-control d-inline w-auto" id="OpeningTime"
+									name="rec_time1" placeholder="시작 시간 (HH:MM)"> <span
+									class="d-inline" required>부터</span> <input type="text"
 									class="form-control d-inline w-auto" id="ClosingTime"
-									name="rec_time2">
-									<option>마감 시간</option>
-									<option value="17:00">17:00</option>
-									<option value="18:00">18:00</option>
-									<option value="19:00">19:00</option>
-									<option value="20:00">20:00</option>
-									<option value="21:00">21:00</option>
-									<option value="22:00">22:00</option>
-									<option value="23:00">23:00</option>
-									<option value="24:00">24:00</option>
-								</select> <span class="d-inline">까지</span>
+									name="rec_time2" placeholder="마감 시간 (HH:MM)"> <span
+									class="d-inline" required>까지</span>
 							</div>
 						</div>
-						<c:forEach var="i" begin="1" end="3">
-							<div class="form-group d-flex align-items-center">
-								<label for="recommendedMenu">추천 메뉴${i }</label> <input
-									type="text" class="form-control d-inline w-auto mx-2"
-									id="recommendedMenu" placeholder="메뉴명을 입력하세요" name="rec_menu${i}">
-							</div>
-						</c:forEach>
+
+						<div class="form-group d-flex align-items-center">추천 메뉴1 :
+							<input type="text" class="form-control d-inline w-auto mx-2"
+								id="rec_menu1" name="rec_menu1" value="${board.rec_menu1}"
+								required>
+						</div>
+
+						<div class="form-group d-flex align-items-center">추천 메뉴2 :
+							<input type="text" class="form-control d-inline w-auto mx-2"
+								id="rec_menu2" name="rec_menu2" value="${board.rec_menu2}"
+								required>
+						</div>
+
+						<div class="form-group d-flex align-items-center">추천 메뉴3 :
+							<input type="text" class="form-control d-inline w-auto mx-2"
+								id="rec_menu3" name="rec_menu3" value="${board.rec_menu3}"
+								required>
+						</div>
+
+
 
 						<div class="form-group">
 							<label for="placeDescription">설명</label>
 							<textarea class="form-control" id="placeDescription" rows="5"
-								placeholder="장소 설명을 입력하세요" name="rec_content"></textarea>
+								placeholder="장소 설명을 입력하세요" name="rec_content" required></textarea>
 						</div>
 						<div class="form-group">
 							<label for="placeImage">이미지 업로드</label> <input type="file"
-								class="form-control-file" id="placeImage" name="rec_image1">
+								class="form-control-file" id="placeImage" name="rec_image1"
+								required>
 						</div>
 						<button type="submit" class="btn btn-primary">등록</button>
 					</form>

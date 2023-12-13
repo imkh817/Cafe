@@ -5,15 +5,12 @@ import javax.servlet.http.HttpSession;
 import java.util.UUID;
 
 import org.apache.commons.mail.HtmlEmail;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.myhome.project.model.Member;
 import com.myhome.project.service.MemberService;
 
@@ -23,14 +20,17 @@ public class MemberController {
 	@Autowired
 	MemberService service;
 	
-	// 회원가입
-	@RequestMapping("joinMember")
-	public String join(@ModelAttribute Member member, Model model) {
-		System.out.println("member_id : " + member.getMember_id());
-		int result = service.insert(member);
-		model.addAttribute("result",result);
-		
-		return "login/join_result";
+
+	
+	  // 회원가입
+	   @RequestMapping("joinMember")
+	   public String join(@ModelAttribute Member member, Model model) {
+	      System.out.println("member_id : " + member.getMember_id());
+	      int result = service.insert(member);
+	      model.addAttribute("result",result);
+	      
+	      return "login/join_result";
+	   
 	}
 	// ID 중복검사
 	@RequestMapping("member_idCheck")
@@ -119,6 +119,23 @@ public class MemberController {
 		
 		return "login/updateResult";
 	}
+	   // 아이디 찾기
+	   @RequestMapping("/find_id")
+	   public String g14() {
+	      return "login/find_id";
+	   }
+	   
+	   // 비밀번호 찾기
+	   @RequestMapping("/find_pw")
+	   public String g15() {
+	      return "login/find_pw";
+	   }
+	   // 회원가입
+	   @RequestMapping("/join")
+	   public String gg6() {
+	      return "login/join";
+	   }
+
 	
 	// 아이디 찾기
 	@RequestMapping("find_id_ok")
@@ -133,8 +150,11 @@ public class MemberController {
 				      && db.getMember_domain().equals(member.getMember_domain())) {
 			result = 1;
 			model.addAttribute("id", db.getMember_id());
+			model.addAttribute("result", result);
+		}else {
+			model.addAttribute("result", result);
+		
 		}
-		model.addAttribute("result", result);
 		
 		return "login/findIdResult";
 		

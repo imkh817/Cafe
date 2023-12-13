@@ -92,12 +92,15 @@ body {
 	.review-section {
 		width: 100%;
 	}
+/* 	.wonjung-section {
+		width: 79.2%;
+		margin-left: 146.5px;
+	} */
 	.map-title {
 		font-size: 24px; /* 원하는 크기로 조정 */
 		font-family: 'Arial', sans-serif; /* 원하는 글꼴로 변경 */
 	}
 }
-
 
 /* 리뷰 */
 .coffee-btn {
