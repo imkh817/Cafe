@@ -386,20 +386,23 @@ public class RecommendController {
 	
 	// 추천 게시판 댓글 삭제
 	@RequestMapping("deleteReply")
-	public String deleteReply(Reply reply, Model model, HttpSession session) {
+	@ResponseBody
+	public int deleteReply(Reply reply, Model model, HttpSession session) {
 		
 		int result = 0;
-	    
+	    System.out.println("삭제컨트롤러 들어옴");
+	    System.out.println("rec_no : " + reply.getRec_no());
+	    System.out.println("member_id : " + reply.getMember_id());
 	    if(session.getAttribute("id").equals(reply.getMember_id())) {
 	    	System.out.println("아이디 일치");
 	    	result = replyService.deleteReply(reply.getReply_no());
 	    }
-	    System.out.println("result:" + result);
-	    System.out.println("reply_no:" + reply.getReply_no());
-	    
-	    model.addAttribute("result", result);
-	    model.addAttribute("rec_no", reply.getRec_no());	// result에서 디테일로 넘어갈 때 필요
-		return "recommend/deleteReplyResult";
+//	    System.out.println("result:" + result);
+//	    System.out.println("reply_no:" + reply.getReply_no());
+//	    
+//	    model.addAttribute("result", result);
+//	    model.addAttribute("rec_no", reply.getRec_no());	// result에서 디테일로 넘어갈 때 필요
+		return result;
 	}
 
 }
