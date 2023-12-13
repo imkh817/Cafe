@@ -172,8 +172,8 @@ $(document).ready(function(){
 			<div class="section image-section">
 				<!-- 사진 -->
 				<h2 class="section-title text-center">사진</h2>
-				<img src="upload/${cafe.cafe_image }" class="img-thumbnail" alt="카페 사진"
-					style="width: 100%; height: auto;">
+					<img src="upload/${cafe.cafe_image}" class="card-img-top" alt="..."
+                                style="object-fit: cover; height: 400px;">
 			</div>
 			<div class="section map-section text-center">
 				<!-- 지도 -->
