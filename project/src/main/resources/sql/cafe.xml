@@ -36,10 +36,12 @@
 	<select id="countCafeList" parameterType="cafe" resultType="int">
 		select count(*) from cafe
 		<where>
-			category_no=#{category_no}
+			category_no =#{category_no}
 			<!-- 검색 조건만 있을경우 -->
-			<if test="keyword != null">
-				and cafe_address like '%'||#{keyword}||'%'
+			<if test="keyword != null and nearByCafe == null">
+				and (cafe_comment like '%'||#{keyword}||'%'
+					or cafe_address like '%'||#{keyword}||'%'
+					or cafe_name like '%'||#{keyword}||'%')
 			</if>
 			<!-- 주소값만 있을경우 -->
 			<if test="keyword == null and nearByCafe != null">
@@ -47,8 +49,9 @@
 			</if>
 			<!-- 검색 조건 & 주소값이 있을경우 -->
 			<if test="keyword != null and nearByCafe != null">
-				and cafe_address like '%'||#{keyword}||'%'
 				and cafe_address like '%'||#{nearByCafe}||'%'
+				and (cafe_comment like '%'||#{keyword}||'%'
+					or cafe_name like '%'||#{keyword}||'%')
 			</if>
 		</where>
 	</select>
