@@ -96,8 +96,10 @@ public class InquiryController {
 		}
 
 //		문의 제출
-		String member_id = (String) session.getAttribute("member_id");
+		String member_id = (String) session.getAttribute("id");
 		String pageNum = (String) session.getAttribute("pageNum");
+		
+		inquiry.setMember_id(member_id);
 
 		System.out.println("문의 member_id : " + member_id);
 		System.out.println("문의 pageNum : " + pageNum);
@@ -105,6 +107,7 @@ public class InquiryController {
 		int result = inquiryService.submitInquiry(inquiry);
 
 		model.addAttribute("result", result);
+		model.addAttribute("inquiry", inquiry);
 
 		return "mypage/inquirySubmitCheck";
 
