@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.myhome.project.dao.InquiryDao;
 import com.myhome.project.model.Inquiry;
-import com.myhome.project.model.Response;
 
 @Service
 public class InquiryServiceImpl implements InquiryService {
@@ -22,7 +21,7 @@ public class InquiryServiceImpl implements InquiryService {
 		return dao.inquiryList(inquiry);
 	}
 
-//	문의글 수
+//	회원별 문의글 수
 	@Override
 	public int getTotal(String id) {
 		return dao.getTotal(id);
