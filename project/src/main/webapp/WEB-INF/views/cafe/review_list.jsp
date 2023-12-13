@@ -42,7 +42,6 @@
 		<!-- 리뷰가 있을 때 -->
 		<c:if test="${!empty reviewList }">
 		<tbody>
-			<%-- <c:set var="no1" value="${no }"></c:set> --%>
 			<c:forEach var="review" items="${reviewList}">
 				<tr>
 					<td>${review['MEMBER_ID'] }</td>
@@ -59,18 +58,18 @@
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
 		<c:if test="${rp.startPage > rp.pagePerBlk }">
-			<li class="page-item"><a class="page-link" href="Detail?pageNum=${rp.startPage-1 }"aria-label="Previous">
+			<li class="page-item"><a class="page-link" href="detail?cafe_no=${cafe_no}&pageNum=${rp.startPage-1 }"aria-label="Previous">
 			<span aria-hidden="true">&laquo;</span></a>
 			</li>
 		</c:if>
 		
 		<c:forEach var="i" begin="${rp.startPage }" end="${rp.endPage }">
 			<li <c:if test="${rp.currentPage == i }"> class="page-item active"</c:if> >
-			<a class="page-link" href="Detail?pageNum=${i }">${i }</a></li>
+			<a class="page-link" href="detail?cafe_no=${cafe_no}&pageNum=${i }">${i }</a></li>
 		</c:forEach>
 			
 		<c:if test="${rp.endPage < rp.totalPage }">	
-			<li class="page-item"><a class="page-link" href="Detail?pageNum=${rp.endPage+1}" aria-label="Next">
+			<li class="page-item"><a class="page-link" href="detail?cafe_no=${cafe_no}&pageNum=${rp.endPage+1}" aria-label="Next">
 			<span aria-hidden="true">&raquo;</span></a>
 			</li>
 		</c:if>

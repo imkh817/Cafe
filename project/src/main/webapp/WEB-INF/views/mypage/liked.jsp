@@ -42,7 +42,7 @@
 
 								</div>
 								<ul
-									class="list-group list-group                                                                                                                                                                                                                                                                                                                                                                                     -flush">
+									class="list-group list-group-flush">
 									<li class="list-group-item">${l['CAFE_TIME1'] }~
 										${l['CAFE_TIME2'] }</li>
 									<li class="list-group-item">${l['CAFE_ADDRESS'] }</li>

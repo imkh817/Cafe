@@ -5,14 +5,14 @@
 
 <c:if test="${result == 1}">
 	<script>
-		alert("이메일을 확인해주세요.");
+		alert("이메일로 임시 비밀번호가 전송되었습니다.");
 		location.href="main";
 	</script>
 </c:if>
 
 <c:if test="${result == 2}">
 	<script>
-		alert("회원정보를 확인해주세요.");
+		alert("올바른 회원정보를 입력해주세요.");
 		history.go(-1);
 	</script>
 </c:if>

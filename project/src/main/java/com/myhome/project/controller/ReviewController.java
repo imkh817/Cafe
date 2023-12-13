@@ -134,6 +134,7 @@ public class ReviewController {
 
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("rp", rp);
+		model.addAttribute("cafe_no", cafe_no);
 //		model.addAttribute("no", no);
 		
 		return "cafe/review_list";
