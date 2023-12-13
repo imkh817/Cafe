@@ -118,7 +118,7 @@ public class CafeController {
 		cafe.setCafe_image(newfilename);
 		cafeService.cafe_insert(cafe);
 
-		return "admin/newPlace";
+		return "admin/manage";
 
 	}
 

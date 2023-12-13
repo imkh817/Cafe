@@ -52,12 +52,12 @@
 						<h3>1:1문의 내용</h3>
 						<br> <br> <label for="inquiryTitle">제목</label> <input
 							type="text" class="form-control" id="inquiryTitle"
-							name="inquiry_title" value="${inquiry.inquiry_title }">
+							name="inquiry_title" value="${inquiry.inquiry_title }" readonly>
 					</div>
 					<div class="form-group">
 						<label for="inquiryContent">내용</label>
 						<textarea class="form-control" id="inquiryContent" rows="5"
-							name="inquiry_content" placeholder="회원이 쓴 문의 출력">${inquiry.inquiry_content }</textarea>
+							name="inquiry_content" placeholder="회원이 쓴 문의 출력" readonly>${inquiry.inquiry_content }</textarea>
 					</div>
 					<div class="form-group">
 					<div>
