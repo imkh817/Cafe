@@ -116,7 +116,8 @@
             <c:forEach var="cafe_list" items="${cafe_list }">
                 <div class="col-sm-4 mb-5">
                     <div class="card" style="width: 18rem;">
-                        <img src="upload/${cafe_list.cafe_image }" class="card-img-top" alt="...">
+                         <img src="upload/${cafe_list.cafe_image}" class="card-img-top" alt="..."
+                                style="object-fit: cover; height: 300px;">
                         <div class="card-body">
                             <h5 class="card-title">
                                 <b>${cafe_list.cafe_name }</b>

@@ -181,8 +181,8 @@ function deleteReply(rec_no, id, reply_no) {
 				<div class="d-flex justify-content-center">
 					<h2 class="section-title">사진</h2>
 				</div>
-				<img src="upload/${recommend.rec_image}" class="img-thumbnail"
-					alt="..." style="width: 100%; height: auto;">
+				<img src="upload/${recommend.rec_image}" class="card-img-top"
+					alt="..." style="object-fit: cover; height: 400px;">
 			</div>
 			<div class="section map-section">
 				<div class="d-flex justify-content-center">
