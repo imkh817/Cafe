@@ -263,7 +263,8 @@ public class RecommendController {
 	
 		Recommend db = service.getBoard(rec_no);
 		
-		if(id.equals(db.getMember_id())) { //아이디 일치시
+		if(id.equals(db.getMember_id()) || id.equals("master")) { //아이디 일치시
+			
 			deleteresult = service.delete(rec_no);
 		}		
 		
