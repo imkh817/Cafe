@@ -37,10 +37,8 @@ public class InquiryController {
 
 		List<Inquiry> inquiryList = inquiryService.inquiryList(inquiry);
 		model.addAttribute("inquiryList", inquiryList);
-		model.addAttribute("inquiry", inquiry);
 
 //		페이징
-
 		if (pageNum == null || pageNum == "") {
 			pageNum = "1";
 		}
@@ -97,14 +95,19 @@ public class InquiryController {
 			e.printStackTrace();
 		}
 
-		String member_id = (String) session.getAttribute("member_id");
+//		문의 제출
+		String member_id = (String) session.getAttribute("id");
 		String pageNum = (String) session.getAttribute("pageNum");
+		
+		inquiry.setMember_id(member_id);
 
+		System.out.println("문의 member_id : " + member_id);
 		System.out.println("문의 pageNum : " + pageNum);
 
 		int result = inquiryService.submitInquiry(inquiry);
 
 		model.addAttribute("result", result);
+		model.addAttribute("inquiry", inquiry);
 
 		return "mypage/inquirySubmitCheck";
 
@@ -117,6 +120,7 @@ public class InquiryController {
 		String member_id = (String) session.getAttribute("member_id");
 		String pageNum = (String) session.getAttribute("pageNum");
 
+//		문의 내용 가져오기
 		List<Map<Integer, Object>> inquiryDetailList = inquiryService.detailInquiry(inquiry);
 
 		model.addAttribute("inquiryDetailList", inquiryDetailList);
@@ -152,14 +156,12 @@ public class InquiryController {
 
 		if (filename != "") { // 첨부파일이 전송된 경우
 
-			// 파일 중복문제 해결
 			String extension = filename.substring(filename.lastIndexOf("."), filename.length());
-
 			System.out.println("확장자 :" + extension);
 
 			StringTokenizer st = new StringTokenizer(filename, ".");
-			file[0] = st.nextToken(); // 파일명 Koala
-			file[1] = st.nextToken(); // 확장자 jpg
+			file[0] = st.nextToken(); 
+			file[1] = st.nextToken(); 
 
 			newfilename = file[0] + extension;
 			System.out.println("문의수정 저장할 파일명: " + newfilename);
@@ -176,6 +178,7 @@ public class InquiryController {
 			}
 		}
 
+//		미리보기로 불러올 이미지 설정
 		if (size > 0) {
 			inquiry.setInquiry_image(newfilename);
 		} else {

@@ -74,7 +74,7 @@ function deleterecommend(rec_no) {
         $.ajax({
             type: "POST",
             url: "recommendDelete",
-            data: {"rec_no": rec_no },
+            data: { "rec_no": rec_no },
             success: function (response) {
                 if (response === "Y") {  
                     alert("글 삭제가 되었습니다.");
@@ -85,7 +85,7 @@ function deleterecommend(rec_no) {
                 }
             },
             error: function () {
-                alert("로그인 후 이용해주세요.");
+                alert("댓글이 있는 게시글은 관리자에게 문의해주세요.");
             }
             
            
@@ -129,7 +129,7 @@ function deleteReply(rec_no, id, reply_no) {
 
 			<div class="col-12 d-flex justify-content-end">
 
-				<c:if test="${id == recommend.member_id}">
+				<c:if test="${id == recommend.member_id || id == 'master'}">
 					<div style="display: inline-block; margin-right: 10px;">
 						<input type="button" class="btn btn-primary"
 							onclick="location.href='recommendUpdateForm?rec_no=${rec_no}&page=${page.currentPage}'"

@@ -14,7 +14,7 @@ public interface InquiryDao {
 //	문의목록 조회
 	public List<Inquiry> inquiryList(Inquiry inquiry);
 
-//	문의글 수
+//	회원별 문의글 수
 	public int getTotal(String id);
 
 //	문의 제출	

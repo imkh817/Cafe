@@ -13,6 +13,7 @@
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
 	rel="stylesheet">
+	
 <style>
 #preview {
 	max-width: 10rem;
@@ -78,24 +79,18 @@
 				<div class="ask_container mt-5">
 					<form action="inquiry_submit" method="post"
 						enctype="multipart/form-data">
-						<input type="hidden" name="inquiry_no"
-							value="${inquiry.inquiry_no }"> <input type="hidden"
-							name="member_id" value="${inquiry.member_id }"> <input
-							type="hidden" name="total" value="${pp.total }"> <input
-							type="hidden" name="rowPerPage" value="${pp.rowPerPage }">
-						<input type="hidden" name="pageNum" value="${pageNum }">
 						<div class="form-group">
-
+						
 							<!-- 문의폼 -->
 							<h1>1:1문의</h1>
 							<br> <br> <label for="inquiry_title">제목</label> <input
 								type="text" class="form-control" id="inquiry_title"
-								name="inquiry_title" placeholder="제목을 입력하세요" maxlength="30">
+								name="inquiry_title" placeholder="제목을 30자까지만 입력하세요" maxlength="30">
 						</div>
 						<div class="form-group">
 							<label for="inquiry_content">내용</label>
 							<textarea class="form-control" id="inquiry_content" rows="5"
-								name="inquiry_content" placeholder="내용을 입력하세요" maxlength="200"></textarea>
+								name="inquiry_content" placeholder="내용을 200자까지만 입력하세요" maxlength="200"></textarea>
 						</div>
 						<div class="form-group">
 							<label for="imageUpload">이미지 업로드</label> <input type="file"
@@ -123,6 +118,7 @@
 						<!-- 문의 데이터가 있을 경우 아래 행을 추가하여 데이터를 표시 -->
 						<c:forEach var="inquiry" items="${inquiryList }"
 							begin="${inquiry.startRow }" end="${inquiry.endRow }">
+							<input type="hidden" name="member_id" value="${inquiry.member_id}">
 							<tr>
 								<!-- **제목** 글자수 10 이상 자르고 ... 표시 -->
 								<c:choose>
@@ -164,7 +160,7 @@
 					</tbody>
 				</table>
 
-				<c:if test="${!empty likedResult}">
+				<c:if test="${!empty inquiryList}">
 					<!-- 페이징 버튼 -->
 					<nav aria-label="Page navigation example">
 						<ul class="pagination justify-content-center">
@@ -182,7 +178,8 @@
 						</ul>
 					</nav>
 				</c:if>
-				<c:if test="${empty likedResult}">
+				
+				<c:if test="${empty inquiryList}">
 					<h3>문의가 없어요!</h3>
 				</c:if>
 

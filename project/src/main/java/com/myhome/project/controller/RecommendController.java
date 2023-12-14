@@ -264,6 +264,10 @@ public class RecommendController {
 		Recommend db = service.getBoard(rec_no);
 		
 		if(id.equals(db.getMember_id()) || id.equals("master")) { //아이디 일치시
+<<<<<<< HEAD
+=======
+			
+>>>>>>> main
 			deleteresult = service.delete(rec_no);
 		}		
 		

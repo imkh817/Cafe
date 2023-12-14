@@ -4,14 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.myhome.project.model.Inquiry;
-import com.myhome.project.model.Response;
 
 public interface InquiryService {
 
 //	문의목록 조회
 	public List<Inquiry> inquiryList(Inquiry inquiry);
 
-//	문의글 수
+//	회원별 문의글 수
 	public int getTotal(String id);
 
 //	문의 제출
@@ -23,7 +22,7 @@ public interface InquiryService {
 //	문의 수정
 	public int updateInquiry(Inquiry inquiry);
 
-//	게시글 확인 (첨부파일 수정에 필요함)
+//	게시글 확인 (첨부파일 수정에 사용)
 	public Inquiry noCheck(int inquiry_no);
 
 //	문의 삭제

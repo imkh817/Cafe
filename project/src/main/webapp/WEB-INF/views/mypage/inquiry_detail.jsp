@@ -31,6 +31,32 @@
 		}
 	}
 
+	function doImgPop(img, width, height) {
+        img1 = new Image();
+        img1.src = img;
+        imgControll(img, width, height);
+    }
+
+    function imgControll(img, width, height) {
+        if ((img1.width != 0) && (img1.height != 0)) {
+            viewImage(img, width, height);
+        } else {
+            controller = "imgControll('upload/ + " + img + "', " + width + ", " + height + ")";
+            intervalID = setTimeout(controller, 20);
+        }
+    }
+
+    function viewImage(img, width, height) {
+        W = 1000;  // 이미지의 너비를 원하는 크기로 설정
+        H = 1000; // 이미지의 높이를 원하는 크기로 설정
+        O = "width=" + W + ",height=" + H + ",scrollbars=yes";
+        imgWin = window.open("", "", O);
+        imgWin.document.write("<!DOCTYPE html><html><head><title>:*:*:*: 이미지상세보기 :*:*:*:*:*:*:</title></head></html>");
+        imgWin.document.write("<body topmargin=0 leftmargin=0>");
+        imgWin.document.write("<img src=" + img + " onclick='self.close()' style='cursor:pointer;' title ='클릭하시면 창이 닫힙니다.' width=" + W + " height=" + H + ">");
+        imgWin.document.close();
+    }
+	
 </script>
 
 <!-- 사진 크기 조절 -->
@@ -56,8 +82,6 @@
 				</div>
 				<div class="col-md-10">
 					<div class="ask_container mt-5">
-
-						<input type="hidden" name="pageNum" value="${pp.pageNum }">
 
 						<c:forEach var="list" items="${inquiryDetailList}">
 
@@ -86,11 +110,13 @@
 
 										<img id="preview"
 											src="<%=request.getContextPath() %>/upload/${list['INQUIRY_IMAGE'] }"
-											height="100" width="100" alt="미리보기" />
+											width="295px" height="295px" title="클릭하시면 원본크기로 보실 수 있습니다."
+											style="cursor: pointer;"
+											onclick="doImgPop('upload/${list['INQUIRY_IMAGE']}','1000px','1000px')" />
 									</c:if>
 								</div>
 
-								<!-- 답변 -->
+								<!-- 관리자의 답변 -->
 								<div class="form-group">
 									<br>
 									<h3>1:1 문의 답변</h3>
@@ -116,13 +142,14 @@
 									<h3>1:1 문의 상세페이지</h3>
 									<br> <label for="inquiryTitle">제목 (30자 제한)</label> <input
 										type="text" class="form-control" id="inquiry_title"
-										name="inquiry_title" placeholder="회원이 쓴 문의 제목"  maxlength="30"
+										name="inquiry_title" placeholder="회원이 쓴 문의 제목" maxlength="30"
 										value="${list['INQUIRY_TITLE'] }">
 								</div>
 								<div class="form-group">
 									<label for="inquiryContent">내용 (200자 제한)</label>
 									<textarea class="form-control" id="inquiry_content" rows="5"
-										name="inquiry_content" placeholder="회원이 쓴 문의 내용" maxlength="200">${list['INQUIRY_CONTENT'] }</textarea>
+										name="inquiry_content" placeholder="회원이 쓴 문의 내용"
+										maxlength="200">${list['INQUIRY_CONTENT'] }</textarea>
 								</div>
 								<div class="form-group">
 
@@ -134,7 +161,9 @@
 											accept="image/*" style="margin-bottom: 5px">
 										<img id="preview"
 											src="<%=request.getContextPath() %>/upload/${list['INQUIRY_IMAGE'] }"
-											height="100" width="100" alt="미리보기" />
+											width="295px" height="295px" title="클릭하시면 원본크기로 보실 수 있습니다."
+											style="cursor: pointer;"
+											onclick="doImgPop('upload/${list['INQUIRY_IMAGE']}','1000px','1000px')" />
 									</c:if>
 									<c:if test="${empty list['INQUIRY_IMAGE'] }">
 										<div class="form-group">
