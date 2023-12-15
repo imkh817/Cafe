@@ -17,7 +17,7 @@
 						document.getElementById('member_address1').value = data.address;
 					}
 				}).open();
-	}
+	} 
 </script>
 </head>
 <%@ include file="../include/header.jsp"%>
