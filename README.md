@@ -12,7 +12,6 @@ Maven
 
 ## 👨🏻‍💻 사용 기술
 - Mybatis : DB CRUD 기능, SQL 문 사용 및 mapper 이용하여 DB 관리
-- Spring boot Security : PasswordEncoder 를 활용하여 암호를 BCrtypt방식으로 원본 비밀번호를 해싱하여 저장
 - REST API : 카카오맵, 카카오로그인, 네이버로그인, 다음 주소 API
 - Script API : Geolocation API, 길찾기 API
 - Bootstrap : 메인 배너 이미지란에 부트스트랩 프레임워크 사용
